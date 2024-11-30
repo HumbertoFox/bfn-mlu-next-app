@@ -3,8 +3,10 @@
 import { useEffect, useState } from 'react';
 import { Line } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
-import { BitcoinData, getBitcoinData } from '@/app/api/BitCoinData';
+import { getBitcoinData } from '@/app/api/BitCoinData';
 import Head from 'next/head';
+import { BitcoinData } from './components/Interfaces/Interfaces';
+import Link from 'next/link';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
@@ -42,7 +44,7 @@ export default function Home() {
   useEffect(() => {
     const fetchBitcoinData = async () => {
       setIsLoading(true);
-      const data = await getBitcoinData();
+      const data = await getBitcoinData(); // Suponha que esta função retorne uma matriz de BitcoinData
       setBitcoinData(data);
       setIsLoading(false);
     };
@@ -75,9 +77,18 @@ export default function Home() {
 
       <div className='w-full min-h-screen flex flex-col justify-between p-5'>
         <main className='flex flex-col gap-8 row-start-2 items-center'>
-          <h1 className='text-3xl font-bold'>Bitcoin Value in the Last 24 Hours</h1>
+          <header className='w-full'>
+            <Link
+              className='text-sm hover:text-blue-700 duration-500'
+              href={'/Login'}
+            >
+              Iniciar Sessão
+            </Link>
+          </header>
 
-          <div className='w-full h-[50vh] max-h-[500px] flex justify-center p-2'>
+          <div className='w-full h-[50vh] max-h-[500px] flex flex-col justify-center items-center p-2 gap-2'>
+
+            <h1 className='text-2xl font-bold'>Bitcoin Value in the Last 24 Hours</h1>
             {isLoading ? (
               <p>Loading data...</p>
             ) : (

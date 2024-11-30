@@ -1,13 +1,5 @@
-// Tipagem da função getBitcoinData
-export interface BitcoinData {
-    timestamp: number;
-    price: number;
-}
+import { ApiResponse, BitcoinData } from "../components/Interfaces/Interfaces";
 
-// Tipo dos dados retornados pela API
-interface ApiResponse {
-    prices: [number, number][]; // Array de tuplas [timestamp, price]
-}
 
 export const getBitcoinData = async (): Promise<BitcoinData[]> => {
     try {
@@ -27,5 +19,5 @@ export const getBitcoinData = async (): Promise<BitcoinData[]> => {
     } catch (error) {
         console.error('Erro ao buscar os dados do Bitcoin:', error);
         return []; // Retorna um array vazio em caso de erro
-    }
+    };
 };
