@@ -2,7 +2,16 @@
 
 import { useEffect, useState } from 'react';
 import { Line } from 'react-chartjs-2';
-import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+} from 'chart.js';
 import { getBitcoinData } from '@/app/api/BitCoinData';
 import Head from 'next/head';
 import { BitcoinData } from './components/Interfaces/Interfaces';
@@ -77,7 +86,7 @@ export default function Home() {
 
       <div className='w-full min-h-screen flex flex-col justify-between p-5'>
         <main className='flex flex-col gap-8 row-start-2 items-center'>
-          <header className='w-full'>
+          <header className='w-full max-w-7xl text-right'>
             <Link
               className='text-sm hover:text-blue-700 duration-500'
               href={'/Login'}
@@ -86,7 +95,7 @@ export default function Home() {
             </Link>
           </header>
 
-          <div className='w-full h-[50vh] max-h-[500px] flex flex-col justify-center items-center p-2 gap-2'>
+          <div className='w-full h-[50vh] flex flex-col justify-center items-center p-2 gap-2'>
 
             <h1 className='text-2xl font-bold'>Bitcoin Value in the Last 24 Hours</h1>
             {isLoading ? (

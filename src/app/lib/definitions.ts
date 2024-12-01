@@ -3,7 +3,7 @@ import { z } from 'zod';
 export const SignupFormSchema = z.object({
     name: z
         .string()
-        .min(2, { message: 'O nome deve ter pelo menos 2 caracteres.' })  // O nome deve ter pelo menos 2 caracteres
+        .min(5, { message: 'O nome deve ter pelo menos 5 caracteres.' })  // O nome deve ter pelo menos 5 caracteres
         .trim(), // Remover espaços à esquerda e à direita
     email: z.string().email({ message: 'Insira um e-mail válido.' })
     .trim(),  // O e-mail deve ser válido

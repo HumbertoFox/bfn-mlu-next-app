@@ -7,10 +7,29 @@ import { signup } from '@/app/actions/auth';
 import Icon from '../Icons/Icons';
 
 export default function SignupForm() {
-    const { pending } = useFormStatus()
+    const { pending } = useFormStatus();
+
     const [state, action] = useActionState(signup, undefined);
+
     const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
+
     const togglePasswordVisibility = () => setIsPasswordVisible(!isPasswordVisible);
+
+    // Estado para os valores dos campos
+    const [formData, setFormData] = useState({
+        name: '',
+        email: '',
+        password: '',
+    });
+
+    // Função para atualizar o valor dos campos
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { name, value } = e.target;
+        setFormData({
+            ...formData,
+            [name]: value,
+        });
+    };
 
     return (
         <form className='w-full flex flex-col gap-5' action={action}>
@@ -21,8 +40,14 @@ export default function SignupForm() {
                     id='name'
                     name='name'
                     placeholder='Nome'
+                    value={formData.name}  // Vinculando o valor ao estado
+                    onChange={handleChange}  // Atualizando o estado ao digitar
                 />
-                {state?.errors?.name && <p className='text-red-500 text-sm'>{state.errors.name}</p>}
+                {state?.errors?.name && (
+                    <p className='text-red-500 text-sm pl-2'>
+                        {state.errors.name}
+                    </p>
+                )}
             </div>
 
             <div className='min-w-full flex flex-col'>
@@ -32,8 +57,14 @@ export default function SignupForm() {
                     id='email'
                     name='email'
                     placeholder='E-mail'
+                    value={formData.email}  // Vinculando o valor ao estado
+                    onChange={handleChange}  // Atualizando o estado ao digitar
                 />
-                {state?.errors?.email && <p className='text-red-500 text-sm'>{state.errors.email}</p>}
+                {state?.errors?.email && (
+                    <p className='text-red-500 text-sm pl-2'>
+                        {state.errors.email}
+                    </p>
+                )}
             </div>
 
             <div className='min-w-full w-full flex flex-col'>
@@ -47,6 +78,8 @@ export default function SignupForm() {
                             ? 'text'
                             : 'password'
                         }
+                        value={formData.password}  // Vinculando o valor ao estado
+                        onChange={handleChange}  // Atualizando o estado ao digitar
                     />
                     <button
                         className='absolute right-1 text-blue-400'
@@ -66,13 +99,14 @@ export default function SignupForm() {
                 </div>
                 {state?.errors?.password && (
                     <div>
-                        <p className='text-red-500 text-sm'>A senha deve:</p>
+                        <p className='text-red-500 text-sm pl-2'>A senha deve:</p>
                         <ul>
-                            {state.errors.password.map((error) => (
+                            {state.errors.password.map(error => (
                                 <li
-                                    className='text-red-500 text-sm'
+                                    className='text-red-500 text-sm pl-2'
                                     key={error}
-                                >- {error}</li>
+                                >- {error}
+                                </li>
                             ))}
                         </ul>
                     </div>
