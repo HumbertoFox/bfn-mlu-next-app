@@ -17,6 +17,21 @@ export default function Login() {
                     />
                 </Link>
                 <SignupForm />
+                <div className='w-full flex justify-around'>
+                    <Link
+                        className='text-xs text-gray-400 hover:text-black duration-500'
+                        href={'/'}
+                    >
+                        Esqueci a Senha!
+                    </Link>
+
+                    <Link
+                        className='text-xs text-gray-400 hover:text-black duration-500'
+                        href={'/RegisterUser'}
+                    >
+                        Não tenho Cadastro!
+                    </Link>
+                </div>
             </div>
         </div>
     );

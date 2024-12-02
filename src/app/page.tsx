@@ -86,12 +86,19 @@ export default function Home() {
 
       <div className='w-full min-h-screen flex flex-col justify-between p-5'>
         <main className='flex flex-col gap-8 row-start-2 items-center'>
-          <header className='w-full max-w-7xl text-right'>
+          <header className='w-full max-w-7xl flex gap-5 justify-end'>
             <Link
               className='text-sm hover:text-blue-700 duration-500'
               href={'/Login'}
             >
               Iniciar Sessão
+            </Link>
+
+            <Link
+              className='text-sm hover:text-blue-700 duration-500'
+              href={'/RegisterUser'}
+            >
+              Cadastrar-se
             </Link>
           </header>
 
