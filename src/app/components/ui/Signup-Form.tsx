@@ -4,6 +4,7 @@ import SubmitButton from '@/app/components/Buttons/SubmitButton';
 import { useActionState, useState } from 'react';
 import { useFormStatus } from 'react-dom';
 import { signup } from '@/app/actions/auth';
+import Form from 'next/form';
 import Icon from '../Icons/Icons';
 
 export default function SignupForm() {
@@ -32,7 +33,7 @@ export default function SignupForm() {
     };
 
     return (
-        <form className='w-full flex flex-col gap-5' action={action}>
+        <Form className='w-full flex flex-col gap-5' action={action}>
             <div className='min-w-full flex flex-col'>
                 <label htmlFor='name'>Nome do Usuário</label>
                 <input
@@ -115,6 +116,6 @@ export default function SignupForm() {
             <SubmitButton disabled={pending}>
                 Entrar
             </SubmitButton>
-        </form>
+        </Form>
     );
 };

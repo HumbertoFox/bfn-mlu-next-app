@@ -27,7 +27,7 @@ export default function Login() {
 
                     <Link
                         className='text-xs text-gray-400 hover:text-black duration-500'
-                        href={'/RegisterUser'}
+                        href={'/Signup'}
                     >
                         Não tenho Cadastro!
                     </Link>

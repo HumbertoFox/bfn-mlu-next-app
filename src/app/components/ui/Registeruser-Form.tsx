@@ -3,6 +3,7 @@
 import SubmitButton from '@/app/components/Buttons/SubmitButton';
 import { useState } from 'react';
 import { useFormStatus } from 'react-dom';
+import Form from 'next/form';
 import Icon from '../Icons/Icons';
 
 export default function RegisterUserForm() {
@@ -36,7 +37,7 @@ export default function RegisterUserForm() {
     };
 
     return (
-        <form className='w-full flex flex-col gap-5'>
+        <Form className='w-full flex flex-col gap-5' action={async (data) => console.log(data)}>
             <div className='min-w-full flex flex-col'>
                 <label htmlFor='cpf'>CPF</label>
                 <input
@@ -201,6 +202,6 @@ export default function RegisterUserForm() {
             <SubmitButton disabled={pending}>
                 Cadastrar
             </SubmitButton>
-        </form>
+        </Form>
     );
 };

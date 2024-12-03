@@ -96,7 +96,7 @@ export default function Home() {
 
             <Link
               className='text-sm hover:text-blue-700 duration-500'
-              href={'/RegisterUser'}
+              href={'/Signup'}
             >
               Cadastrar-se
             </Link>
@@ -104,7 +104,7 @@ export default function Home() {
 
           <div className='w-full h-[50vh] flex flex-col justify-center items-center p-2 gap-2'>
 
-            <h1 className='text-2xl font-bold'>Bitcoin Value in the Last 24 Hours</h1>
+            <h1 className='text-2xl font-bold cursor-default'>Bitcoin Value in the Last 24 Hours</h1>
             {isLoading ? (
               <p>Loading data...</p>
             ) : (
@@ -116,8 +116,8 @@ export default function Home() {
           </div>
         </main>
 
-        <footer className='row-start-3 flex gap-6 flex-wrap items-center justify-center'>
-          <p>&copy; 2024 Bitcoin Data</p>
+        <footer className='row-start-3 flex gap-6 flex-wrap items-center justify-center cursor-default'>
+          <p>&copy; {new Date().getFullYear()} Bitcoin Data</p>
         </footer>
       </div>
     </>
