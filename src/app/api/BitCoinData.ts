@@ -3,7 +3,7 @@ import { ApiResponse, BitcoinData } from "../components/Interfaces/Interfaces";
 
 export const getBitcoinData = async (): Promise<BitcoinData[]> => {
     try {
-        const response = await fetch('https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=usd&days=1');
+        const response = await fetch('https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=usd&days=2');
         const data: ApiResponse = await response.json(); // Tipando a resposta da API
 
         // Verificar se 'data' contém a chave 'prices' e se ela é um array
