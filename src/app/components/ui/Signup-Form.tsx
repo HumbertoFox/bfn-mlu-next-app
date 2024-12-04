@@ -3,24 +3,32 @@
 import SubmitButton from '@/app/components/Buttons/SubmitButton';
 import { useActionState, useState } from 'react';
 import { useFormStatus } from 'react-dom';
-import { signup } from '@/app/actions/auth';
 import Form from 'next/form';
 import Icon from '../Icons/Icons';
+import { signup } from '@/app/actions/auth';
+import { FormErrors } from '../types/Types';
 
-export default function SignupForm() {
+export default function SignUpForm() {
     const { pending } = useFormStatus();
-
     const [state, action] = useActionState(signup, undefined);
 
     const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
+    const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] = useState<boolean>(false);
 
     const togglePasswordVisibility = () => setIsPasswordVisible(!isPasswordVisible);
+    const toggleConfirmPasswordVisibility = () => setIsConfirmPasswordVisible(!isConfirmPasswordVisible);
 
     // Estado para os valores dos campos
     const [formData, setFormData] = useState({
+        cpf: '',
+        dateofbirth: '',
         name: '',
+        username: '',
         email: '',
+        phone: '',
+        confirm_email: '',
         password: '',
+        confirm_password: '',
     });
 
     // Função para atualizar o valor dos campos
@@ -32,21 +40,118 @@ export default function SignupForm() {
         });
     };
 
+    // Função de validação
+    const validateForm = (): FormErrors => {
+        const errors: FormErrors = {};
+
+        // Verificação de email
+        if (formData.email !== formData.confirm_email) {
+            errors.email = 'Os e-mails não coincidem';
+        }
+
+        // Verificação de senha
+        if (formData.password !== formData.confirm_password) {
+            errors.password = 'As senhas não coincidem';
+        }
+
+        return errors;
+    };
+
+    const errors = validateForm();
+
     return (
         <Form className='w-full flex flex-col gap-5' action={action}>
             <div className='min-w-full flex flex-col'>
-                <label htmlFor='name'>Nome do Usuário</label>
+                <label htmlFor='cpf'>CPF</label>
+                <input
+                    className='w-full rounded py-0.5 px-2 border'
+                    id='cpf'
+                    name='cpf'
+                    placeholder='CPF'
+                    type='text'
+                    value={formData.cpf}  // Vinculando o valor ao estado
+                    onChange={handleChange}  // Atualizando o estado ao digitar
+                    required
+                />
+                {state?.errors?.cpf && (
+                    <p className='text-red-500 text-sm pl-2'>
+                        {state.errors.cpf}
+                    </p>
+                )}
+            </div>
+
+            <div className='min-w-full flex flex-col'>
+                <label htmlFor='dateofbirth'>Data de Nascimento</label>
+                <input
+                    className='w-full rounded py-0.5 px-2 border'
+                    id='dateofbirth'
+                    name='dateofbirth'
+                    placeholder='Data de Nascimento'
+                    type='date'
+                    value={formData.dateofbirth}  // Vinculando o valor ao estado
+                    onChange={handleChange}  // Atualizando o estado ao digitar
+                    required
+                />
+                {state?.errors?.dateofbirth && (
+                    <p className='text-red-500 text-sm pl-2'>
+                        {state.errors.dateofbirth}
+                    </p>
+                )}
+            </div>
+
+            <div className='min-w-full flex flex-col'>
+                <label htmlFor='name'>Nome do Completo</label>
                 <input
                     className='w-full rounded py-0.5 px-2 border'
                     id='name'
                     name='name'
-                    placeholder='Nome'
+                    placeholder='Nome Completo'
+                    type='text'
                     value={formData.name}  // Vinculando o valor ao estado
                     onChange={handleChange}  // Atualizando o estado ao digitar
+                    required
                 />
                 {state?.errors?.name && (
                     <p className='text-red-500 text-sm pl-2'>
                         {state.errors.name}
+                    </p>
+                )}
+            </div>
+
+            <div className='min-w-full flex flex-col'>
+                <label htmlFor='username'>Nome para Usuário</label>
+                <input
+                    className='w-full rounded py-0.5 px-2 border'
+                    id='username'
+                    name='username'
+                    placeholder='Nome para Usuário'
+                    type='text'
+                    value={formData.username}  // Vinculando o valor ao estado
+                    onChange={handleChange}  // Atualizando o estado ao digitar
+                    required
+                />
+                {state?.errors?.username && (
+                    <p className='text-red-500 text-sm pl-2'>
+                        {state.errors.username}
+                    </p>
+                )}
+            </div>
+
+            <div className='min-w-full flex flex-col'>
+                <label htmlFor='phone'>Telefone</label>
+                <input
+                    className='w-full rounded py-0.5 px-2 border'
+                    id='phone'
+                    name='phone'
+                    placeholder='Telefone para Contato'
+                    type='tel'
+                    value={formData.phone}  // Vinculando o valor ao estado
+                    onChange={handleChange}  // Atualizando o estado ao digitar
+                    required
+                />
+                {state?.errors?.phone && (
+                    <p className='text-red-500 text-sm pl-2'>
+                        {state.errors.phone}
                     </p>
                 )}
             </div>
@@ -58,13 +163,32 @@ export default function SignupForm() {
                     id='email'
                     name='email'
                     placeholder='E-mail'
+                    type='email'
                     value={formData.email}  // Vinculando o valor ao estado
                     onChange={handleChange}  // Atualizando o estado ao digitar
+                    required
                 />
                 {state?.errors?.email && (
                     <p className='text-red-500 text-sm pl-2'>
                         {state.errors.email}
                     </p>
+                )}
+            </div>
+
+            <div className='min-w-full flex flex-col'>
+                <label htmlFor='confirm_email'>Confirmar E-mail</label>
+                <input
+                    className='w-full rounded py-0.5 px-2 border'
+                    id='confirm_email'
+                    name='confirm_email'
+                    placeholder='Confirmar E-mail'
+                    type='email'
+                    value={formData.confirm_email}  // Vinculando o valor ao estado
+                    onChange={handleChange}  // Atualizando o estado ao digitar
+                    required
+                />
+                {errors.email && (
+                    <p className='text-red-500 text-sm pl-2'>{errors.email}</p>
                 )}
             </div>
 
@@ -81,6 +205,7 @@ export default function SignupForm() {
                         }
                         value={formData.password}  // Vinculando o valor ao estado
                         onChange={handleChange}  // Atualizando o estado ao digitar
+                        required
                     />
                     <button
                         className='absolute right-1 text-blue-400'
@@ -113,8 +238,44 @@ export default function SignupForm() {
                     </div>
                 )}
             </div>
-            <SubmitButton disabled={pending}>
-                Entrar
+
+            <div className='min-w-full w-full flex flex-col'>
+                <label htmlFor='confirm_password'>Confirmar Senha</label>
+                <div className='relative flex items-center'>
+                    <input
+                        className='w-full rounded py-0.5 px-2 border'
+                        id='confirm_password'
+                        name='confirm_password'
+                        type={isConfirmPasswordVisible
+                            ? 'text'
+                            : 'password'
+                        }
+                        value={formData.confirm_password}  // Vinculando o valor ao estado
+                        onChange={handleChange}  // Atualizando o estado ao digitar
+                        required
+                    />
+                    <button
+                        className='absolute right-1 text-blue-400'
+                        type='button'
+                        title={isConfirmPasswordVisible
+                            ? 'Não Mostrar Senha'
+                            : 'Mostrar Senha'
+                        }
+                        onClick={toggleConfirmPasswordVisibility}
+                    >
+                        <Icon icon={isConfirmPasswordVisible
+                            ? 'fa-solid fa-eye-slash'
+                            : 'fa-solid fa-eye'
+                        }
+                        />
+                    </button>
+                </div>
+                {errors.password && (
+                    <p className='text-red-500 text-sm pl-2'>{errors.password}</p>
+                )}
+            </div>
+            <SubmitButton disabled={pending || Object.keys(errors).length > 0}>
+                Cadastrar
             </SubmitButton>
         </Form>
     );

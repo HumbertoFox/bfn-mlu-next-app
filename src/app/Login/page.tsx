@@ -1,4 +1,4 @@
-import SignupForm from '@/app/components/ui/Signup-Form';
+import SignInForm from '@/app/components/ui/Signin-Form';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -16,7 +16,7 @@ export default function Login() {
                         priority
                     />
                 </Link>
-                <SignupForm />
+                <SignInForm />
                 <div className='w-full flex justify-around'>
                     <Link
                         className='text-xs text-gray-400 hover:text-black duration-500'

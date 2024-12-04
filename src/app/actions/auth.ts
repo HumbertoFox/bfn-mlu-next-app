@@ -4,7 +4,11 @@ import { FormState } from '../components/types/Types';
 export async function signup(state: FormState, formData: FormData) {
     // Validar campos de formulário
     const validatedFields = SignupFormSchema.safeParse({
+        cpf: formData.get('cpf'),
+        dateofbirth: formData.get('dateofbirth'),
         name: formData.get('name'),
+        username: formData.get('username'),
+        phone: formData.get('phone'),
         email: formData.get('email'),
         password: formData.get('password'),
     });
@@ -17,4 +21,5 @@ export async function signup(state: FormState, formData: FormData) {
     };
 
     // Chame o provedor ou banco de dados para criar um usuário...
+    
 };
