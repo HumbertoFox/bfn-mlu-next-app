@@ -1,4 +1,4 @@
-import { ApiResponse, BitcoinData } from "../components/Interfaces/Interfaces";
+import { ApiResponse, BitcoinData } from "../components/interfaces/interfaces";
 
 
 export const getBitcoinData = async (): Promise<BitcoinData[]> => {

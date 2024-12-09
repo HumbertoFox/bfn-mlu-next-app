@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactNode } from 'react';
 
 // Tipagem da função getBitcoinData
 export interface BitcoinData {
@@ -11,13 +11,24 @@ export interface ApiResponse {
     prices: Array<[number, number]>; // Array de tuplas [timestamp, price]
 };
 
-export interface SubmitButtonProps {
+export interface SubmitButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
     children: ReactNode;  // Tipando a prop 'children'
     disabled?: boolean;  // Definindo 'disabled' como opcional
     className?: string;   // Definindo 'className' como opcional
 };
 
-export interface IconProps {
+export interface TypeButtonProps extends SubmitButtonProps {
+    type?: 'button' | 'submit' | 'reset';  // Tipando corretamente o 'type'
+};
+
+export interface IconsProps {
     icon: string; // O nome da classe de ícones para um Font Awesome ou qualquer biblioteca de ícones (por exemplo, 'fa-solid fa-eye')
     className?: string; // Nome de classe opcional para adicionar estilo personalizado
 };
+
+export interface SessionPayload {
+    username: string;
+    email?: string;
+    user_id?: string;
+    [key: string]: unknown; // Caso precise de flexibilidade para adicionar mais propriedades no futuro
+}

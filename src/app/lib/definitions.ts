@@ -44,3 +44,14 @@ export const SignupFormSchema = z.object({
         .regex(/[^a-zA-Z0-9]/, { message: 'Conter pelo menos um caractere especial.' })  // Deve conter pelo menos um caractere especial
         .trim(),  // Remover espaços à esquerda e à direita
 });
+
+export const SigninFormSchema = z.object({
+    username: z
+        .string()
+        .min(1, { message: 'Campo Obrigatório.' }), // Preemchar o campo
+    email: z.string().email({ message: 'Insira um e-mail válido.' }) // Inserir E-mail válido
+        .min(1, { message: 'Campo Obrigatório.' }), // Preemchar o campo
+    password: z
+        .string()
+        .min(1, { message: 'Campo Obrigatório.' }), // Preemchar o campo
+});

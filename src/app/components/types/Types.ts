@@ -1,4 +1,4 @@
-export type FormState =
+export type FormStateUp =
     | {
         errors?: {
             cpf?: string[]; // Matriz de erros relacionados ao campo "cpf"
@@ -6,6 +6,17 @@ export type FormState =
             username?: string[]; // Matriz de erros relacionados ao campo "nome do usuário"
             email?: string[]; // Matriz de erros relacionados ao campo "e-mail"
             phone?: string[]; // Matriz de erros relacionados ao campo "telefone"
+            password?: string[]; // Matriz de erros relacionados ao campo "senha"
+        }
+        message?: string; // Mensagem geral opcional (por exemplo, mensagem de sucesso ou erro)
+    } | undefined;
+
+
+export type FormStateIn =
+    | {
+        errors?: {
+            username?: string[]; // Matriz de erros relacionados ao campo "nome do usuário"
+            email?: string[]; // Matriz de erros relacionados ao campo "e-mail"
             password?: string[]; // Matriz de erros relacionados ao campo "senha"
         }
         message?: string; // Mensagem geral opcional (por exemplo, mensagem de sucesso ou erro)

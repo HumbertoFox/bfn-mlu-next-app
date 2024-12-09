@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import SignUpForm from '../components/ui/Signup-Form';
+import SignUpForm from '../components/ui/signup-form';
 
 export default function RegisterUser() {
     return (
@@ -19,7 +19,7 @@ export default function RegisterUser() {
                 <SignUpForm />
                 <Link
                     className='text-xs text-gray-400 hover:text-black duration-500'
-                    href={'/Login'}
+                    href={'/login'}
                 >
                     Já tenho Cadastro!
                 </Link>

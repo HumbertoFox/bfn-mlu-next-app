@@ -1,15 +1,18 @@
 'use client';
 
-import SubmitButton from '@/app/components/Buttons/SubmitButton';
-import { useActionState, useState } from 'react';
+import SubmitButton from '@/app/components/buttons/submitbutton';
+import { useActionState, useEffect, useState } from 'react';
 import { useFormStatus } from 'react-dom';
 import Form from 'next/form';
-import Icon from '../Icons/Icons';
-import { signup } from '@/app/actions/auth';
-import { FormErrors } from '../types/Types';
+import Icons from '../icons/icons';
+import { signup } from '@/app/actions/authup';
+import { FormErrors } from '../types/types';
+import { Toast } from '../ts/sweetalert';
+import { useRouter } from 'next/navigation';
 
 export default function SignUpForm() {
     const { pending } = useFormStatus();
+    const router = useRouter();
     const [state, action] = useActionState(signup, undefined);
 
     const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
@@ -47,22 +50,60 @@ export default function SignUpForm() {
         // Verificação de email
         if (formData.email !== formData.confirm_email) {
             errors.email = 'Os e-mails não coincidem';
-        }
+        };
 
         // Verificação de senha
         if (formData.password !== formData.confirm_password) {
             errors.password = 'As senhas não coincidem';
-        }
+        };
 
         return errors;
     };
 
+    // Função para resetar o formulário
+    const resetForm = () => {
+        setFormData({
+            cpf: '',
+            dateofbirth: '',
+            name: '',
+            username: '',
+            email: '',
+            phone: '',
+            confirm_email: '',
+            password: '',
+            confirm_password: '',
+        });
+    };
+
     const errors = validateForm();
 
+    useEffect(() => {
+        if (state?.message) {
+            Toast.fire({
+                icon: 'success',
+                title: state.message,
+            });
+
+            resetForm(); // Resetando o formulário após sucesso
+            router.push('/login');
+        };
+
+        if (state?.info) {
+            Toast.fire({
+                icon: 'info',
+                title: state.info
+            });
+        }
+    }, [router, state]);
     return (
         <Form className='w-full flex flex-col gap-5' action={action}>
             <div className='min-w-full flex flex-col'>
-                <label htmlFor='cpf'>CPF</label>
+                <label
+                    className='text-sm'
+                    htmlFor='cpf'
+                >
+                    CPF
+                </label>
                 <input
                     className='w-full rounded py-0.5 px-2 border'
                     id='cpf'
@@ -81,7 +122,12 @@ export default function SignUpForm() {
             </div>
 
             <div className='min-w-full flex flex-col'>
-                <label htmlFor='dateofbirth'>Data de Nascimento</label>
+                <label
+                    className='text-sm'
+                    htmlFor='dateofbirth'
+                >
+                    Data de Nascimento
+                </label>
                 <input
                     className='w-full rounded py-0.5 px-2 border'
                     id='dateofbirth'
@@ -100,7 +146,12 @@ export default function SignUpForm() {
             </div>
 
             <div className='min-w-full flex flex-col'>
-                <label htmlFor='name'>Nome do Completo</label>
+                <label
+                    className='text-sm'
+                    htmlFor='name'
+                >
+                    Nome do Completo
+                </label>
                 <input
                     className='w-full rounded py-0.5 px-2 border'
                     id='name'
@@ -119,7 +170,12 @@ export default function SignUpForm() {
             </div>
 
             <div className='min-w-full flex flex-col'>
-                <label htmlFor='username'>Nome para Usuário</label>
+                <label
+                    className='text-sm'
+                    htmlFor='username'
+                >
+                    Nome para Usuário
+                </label>
                 <input
                     className='w-full rounded py-0.5 px-2 border'
                     id='username'
@@ -138,7 +194,12 @@ export default function SignUpForm() {
             </div>
 
             <div className='min-w-full flex flex-col'>
-                <label htmlFor='phone'>Telefone</label>
+                <label
+                    className='text-sm'
+                    htmlFor='phone'
+                >
+                    Telefone
+                </label>
                 <input
                     className='w-full rounded py-0.5 px-2 border'
                     id='phone'
@@ -157,7 +218,12 @@ export default function SignUpForm() {
             </div>
 
             <div className='min-w-full flex flex-col'>
-                <label htmlFor='email'>E-mail</label>
+                <label
+                    className='text-sm'
+                    htmlFor='email'
+                >
+                    E-mail
+                </label>
                 <input
                     className='w-full rounded py-0.5 px-2 border'
                     id='email'
@@ -176,7 +242,12 @@ export default function SignUpForm() {
             </div>
 
             <div className='min-w-full flex flex-col'>
-                <label htmlFor='confirm_email'>Confirmar E-mail</label>
+                <label
+                    className='text-sm'
+                    htmlFor='confirm_email'
+                >
+                    Confirmar E-mail
+                </label>
                 <input
                     className='w-full rounded py-0.5 px-2 border'
                     id='confirm_email'
@@ -193,12 +264,18 @@ export default function SignUpForm() {
             </div>
 
             <div className='min-w-full w-full flex flex-col'>
-                <label htmlFor='password'>Senha</label>
+                <label
+                    className='text-sm'
+                    htmlFor='password'
+                >
+                    Senha
+                </label>
                 <div className='relative flex items-center'>
                     <input
                         className='w-full rounded py-0.5 px-2 border'
                         id='password'
                         name='password'
+                        placeholder='Senha'
                         type={isPasswordVisible
                             ? 'text'
                             : 'password'
@@ -208,7 +285,7 @@ export default function SignUpForm() {
                         required
                     />
                     <button
-                        className='absolute right-1 text-blue-400'
+                        className='absolute right-1 text-blue-400 hover:text-blue-600 duration-500'
                         type='button'
                         title={isPasswordVisible
                             ? 'Não Mostrar Senha'
@@ -216,7 +293,7 @@ export default function SignUpForm() {
                         }
                         onClick={togglePasswordVisibility}
                     >
-                        <Icon icon={isPasswordVisible
+                        <Icons icon={isPasswordVisible
                             ? 'fa-solid fa-eye-slash'
                             : 'fa-solid fa-eye'
                         }
@@ -240,12 +317,18 @@ export default function SignUpForm() {
             </div>
 
             <div className='min-w-full w-full flex flex-col'>
-                <label htmlFor='confirm_password'>Confirmar Senha</label>
+                <label
+                    className='text-sm'
+                    htmlFor='confirm_password'
+                >
+                    Confirmar Senha
+                </label>
                 <div className='relative flex items-center'>
                     <input
                         className='w-full rounded py-0.5 px-2 border'
                         id='confirm_password'
                         name='confirm_password'
+                        placeholder='Confirmar Senha'
                         type={isConfirmPasswordVisible
                             ? 'text'
                             : 'password'
@@ -255,7 +338,7 @@ export default function SignUpForm() {
                         required
                     />
                     <button
-                        className='absolute right-1 text-blue-400'
+                        className='absolute right-1 text-blue-400 hover:text-blue-600 duration-500'
                         type='button'
                         title={isConfirmPasswordVisible
                             ? 'Não Mostrar Senha'
@@ -263,7 +346,7 @@ export default function SignUpForm() {
                         }
                         onClick={toggleConfirmPasswordVisibility}
                     >
-                        <Icon icon={isConfirmPasswordVisible
+                        <Icons icon={isConfirmPasswordVisible
                             ? 'fa-solid fa-eye-slash'
                             : 'fa-solid fa-eye'
                         }
@@ -271,7 +354,9 @@ export default function SignUpForm() {
                     </button>
                 </div>
                 {errors.password && (
-                    <p className='text-red-500 text-sm pl-2'>{errors.password}</p>
+                    <p className='text-red-500 text-sm pl-2'>
+                        {errors.password}
+                    </p>
                 )}
             </div>
             <SubmitButton disabled={pending || Object.keys(errors).length > 0}>

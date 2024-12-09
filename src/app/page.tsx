@@ -12,9 +12,9 @@ import {
   Tooltip,
   Legend
 } from 'chart.js';
-import { getBitcoinData } from '@/app/api/BitCoinData';
+import { getBitcoinData } from '@/app/api/bitCoindata';
 import Head from 'next/head';
-import { BitcoinData } from './components/Interfaces/Interfaces';
+import { BitcoinData } from './components/interfaces/interfaces';
 import Link from 'next/link';
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
@@ -75,15 +75,15 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Bitcoin Value in the Last 24 Hours - ${bitcoinData[bitcoinData.length - 1]?.price || 'Loading'}</title>
+        <title>Bitcoin Value in the Last 48 Hours - ${bitcoinData[bitcoinData.length - 1]?.price || 'Loading'}</title>
         <meta
           name='description'
-          content={`Current Bitcoin price is ${bitcoinData[bitcoinData.length - 1]?.price || 'loading'} USD`}
+          content={`Current Bitcoin price is ${bitcoinData[bitcoinData.length - 1]?.price || 'Loading'} USD`}
         />
       </Head>
 
       <div className='w-full min-h-svh flex flex-col items-center justify-between p-5'>
-        <main className='w-full h-full max-w-2xl flex flex-col gap-8 row-start-2 items-center lg:max-w-7xl'>
+        <main className='w-full h-full max-w-2xl flex flex-col gap-8 items-center lg:max-w-7xl'>
           <header className='w-full flex gap-5 justify-between'>
             <div className='flex lg:justify-between lg:col-start-2'>
               <svg width='67px' height='67px' viewBox='0.004 0 64 64' xmlns='http://www.w3.org/2000/svg'>
@@ -98,14 +98,14 @@ export default function Home() {
             <div className='flex gap-5'>
               <Link
                 className='text-sm hover:text-blue-700 duration-500'
-                href={'/Login'}
+                href={'/login'}
               >
                 Iniciar Sessão
               </Link>
 
               <Link
                 className='text-sm hover:text-blue-700 duration-500'
-                href={'/Signup'}
+                href={'/signup'}
               >
                 Cadastrar-se
               </Link>

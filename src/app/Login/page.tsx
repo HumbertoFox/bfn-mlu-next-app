@@ -1,4 +1,4 @@
-import SignInForm from '@/app/components/ui/Signin-Form';
+import SignInForm from '@/app/components/ui/signin-form';
 import Image from 'next/image';
 import Link from 'next/link';
 
@@ -27,7 +27,7 @@ export default function Login() {
 
                     <Link
                         className='text-xs text-gray-400 hover:text-black duration-500'
-                        href={'/Signup'}
+                        href={'/signup'}
                     >
                         Não tenho Cadastro!
                     </Link>

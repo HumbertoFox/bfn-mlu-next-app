@@ -1,13 +1,18 @@
 'use client';
 
-import SubmitButton from '@/app/components/Buttons/SubmitButton';
-import { useState } from 'react';
+import SubmitButton from '@/app/components/buttons/submitbutton';
+import { useActionState, useEffect, useState } from 'react';
 import { useFormStatus } from 'react-dom';
 import Form from 'next/form';
-import Icon from '../Icons/Icons';
+import { signin } from '@/app/actions/authin';
+import Icons from '../icons/icons';
+import { Toast } from '../ts/sweetalert';
+import { useRouter } from 'next/navigation';
 
 export default function SignInForm() {
-    const { pending } = useFormStatus();
+    const { pending } = useFormStatus(); // Obter status pendente
+    const router = useRouter();
+    const [state, action] = useActionState(signin, undefined);
 
     const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
 
@@ -15,7 +20,7 @@ export default function SignInForm() {
 
     // Estado para os valores dos campos
     const [formData, setFormData] = useState({
-        name: '',
+        username: '',
         email: '',
         password: '',
     });
@@ -29,48 +34,106 @@ export default function SignInForm() {
         });
     };
 
+    // Função para resetar o formulário
+    const resetForm = () => {
+        setFormData({
+            username: '',
+            email: '',
+            password: '',
+        });
+    };
+
+    useEffect(() => {
+        if (state?.message) {
+            Toast.fire({
+                icon: 'success',
+                title: state.message,
+            });
+
+            resetForm(); // Resetando o formulário após sucesso
+            router.push('/dashboard');
+        };
+
+        if (state?.info) {
+            Toast.fire({
+                icon: 'info',
+                title: state.info
+            });
+        }
+    }, [router, state]);
     return (
-        <Form className='w-full flex flex-col gap-5' action={async (data) => console.log(data)}>
+        <Form className='w-full flex flex-col gap-5' action={action}>
             <div className='min-w-full flex flex-col'>
-                <label htmlFor='name'>Nome do Usuário</label>
+                <label
+                    className='text-sm'
+                    htmlFor='username'
+                >
+                    Nome do Usuário
+                </label>
                 <input
                     className='w-full rounded py-0.5 px-2 border'
-                    id='name'
-                    name='name'
-                    placeholder='Nome'
-                    value={formData.name}  // Vinculando o valor ao estado
+                    id='username'
+                    name='username'
+                    placeholder='Nome do Usuário'
+                    type='text'
+                    required
+                    value={formData.username}  // Vinculando o valor ao estado
                     onChange={handleChange}  // Atualizando o estado ao digitar
                 />
+                {state?.errors?.username && (
+                    <p className='text-red-500 text-sm pl-2'>
+                        {state.errors.username}
+                    </p>
+                )}
             </div>
 
             <div className='min-w-full flex flex-col'>
-                <label htmlFor='email'>E-mail</label>
+                <label
+                    className='text-sm'
+                    htmlFor='email'
+                >
+                    E-mail
+                </label>
                 <input
                     className='w-full rounded py-0.5 px-2 border'
                     id='email'
                     name='email'
                     placeholder='E-mail'
+                    type='email'
+                    required
                     value={formData.email}  // Vinculando o valor ao estado
                     onChange={handleChange}  // Atualizando o estado ao digitar
                 />
+                {state?.errors?.email && (
+                    <p className='text-red-500 text-sm pl-2'>
+                        {state.errors.email}
+                    </p>
+                )}
             </div>
 
             <div className='min-w-full w-full flex flex-col'>
-                <label htmlFor='password'>Senha</label>
+                <label
+                    className='text-sm'
+                    htmlFor='password'
+                >
+                    Senha
+                </label>
                 <div className='relative flex items-center'>
                     <input
                         className='w-full rounded py-0.5 px-2 border'
                         id='password'
                         name='password'
+                        placeholder='Senha'
                         type={isPasswordVisible
                             ? 'text'
                             : 'password'
                         }
+                        required
                         value={formData.password}  // Vinculando o valor ao estado
                         onChange={handleChange}  // Atualizando o estado ao digitar
                     />
                     <button
-                        className='absolute right-1 text-blue-400'
+                        className='absolute right-1 text-blue-400 hover:text-blue-600 duration-500'
                         type='button'
                         title={isPasswordVisible
                             ? 'Não Mostrar Senha'
@@ -78,16 +141,21 @@ export default function SignInForm() {
                         }
                         onClick={togglePasswordVisibility}
                     >
-                        <Icon icon={isPasswordVisible
+                        <Icons icon={isPasswordVisible
                             ? 'fa-solid fa-eye-slash'
                             : 'fa-solid fa-eye'
                         }
                         />
                     </button>
                 </div>
+                {state?.errors?.password && (
+                    <p className='text-red-500 text-sm pl-2'>
+                        {state.errors.password}
+                    </p>
+                )}
             </div>
             <SubmitButton disabled={pending}>
-                Entrar
+                { pending ? 'Entrando...' : 'Entrar'}
             </SubmitButton>
         </Form>
     );
