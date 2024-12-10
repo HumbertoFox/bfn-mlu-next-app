@@ -2,6 +2,7 @@ import Image from 'next/image';
 import UpdatePasswordUserForm from '../components/ui/update-password-form';
 import UpdateEmailUserForm from '../components/ui/update-email-form';
 import UserDataForm from '../components/ui/info-user-form';
+import UpdatePhoneUserForm from '../components/ui/update-phone-form';
 
 export default function UpdateUser() {
     return (
@@ -18,9 +19,11 @@ export default function UpdateUser() {
 
                 <UserDataForm />
 
-                <UpdatePasswordUserForm />
+                <UpdatePhoneUserForm />
 
                 <UpdateEmailUserForm />
+
+                <UpdatePasswordUserForm />
             </div>
         </div>
     );

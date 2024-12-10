@@ -30,11 +30,13 @@ export const SignupFormSchema = z.object({
         .string()
         .min(5, { message: 'O nome do usuário deve ter pelo menos 5 caracteres.' })  // O nome deve ter pelo menos 5 caracteres
         .trim(), // Remover espaços à esquerda e à direita
-    email: z.string().email({ message: 'Insira um e-mail válido.' })
-        .trim(),  // O e-mail deve ser válido
+    email: z.string()
+        .email({ message: 'Insira um e-mail válido.' })  // O e-mail deve ser válido
+        .trim(),
     phone: z
         .string()
         .min(8, { message: 'O telefone deve ter pelo menos 8 números.' })  // O nome deve ter pelo menos 8 números
+        .regex(/^\d+$/, { message: 'O telefone deve conter apenas números.' })  // Deve conter apenas números
         .trim(), // Remover espaços à esquerda e à direita
     password: z
         .string()
@@ -48,18 +50,22 @@ export const SignupFormSchema = z.object({
 export const SigninFormSchema = z.object({
     username: z
         .string()
-        .min(1, { message: 'Campo Obrigatório.' }), // Preemchar o campo
+        .min(1, { message: 'Campo Obrigatório.' }) // Preemchar o campo
+        .trim(),  // Remover espaços à esquerda e à direita
     email: z.string().email({ message: 'Insira um e-mail válido.' }) // Inserir E-mail válido
-        .min(1, { message: 'Campo Obrigatório.' }), // Preemchar o campo
+        .min(1, { message: 'Campo Obrigatório.' }) // Preemchar o campo
+        .trim(),  // Remover espaços à esquerda e à direita
     password: z
         .string()
-        .min(1, { message: 'Campo Obrigatório.' }), // Preemchar o campo
+        .min(1, { message: 'Campo Obrigatório.' }) // Preemchar o campo
+        .trim(),  // Remover espaços à esquerda e à direita
 });
 
 export const UpdatePasswordFormSchema = z.object({
     old_password: z
         .string()
-        .min(1, { message: 'Campo Obrigatório' }),  // Campo Obrigatório
+        .min(1, { message: 'Campo Obrigatório' })  // Campo Obrigatório
+        .trim(),  // Remover espaços à esquerda e à direita
     password: z
         .string()
         .min(8, { message: 'Ter pelo menos 8 caracteres' })  // A senha deve ter pelo menos 8 caracteres
@@ -72,7 +78,22 @@ export const UpdatePasswordFormSchema = z.object({
 export const UpdateEmailFormSchema = z.object({
     old_email: z
         .string()
-        .min(1, { message: 'Campo Obrigatório' }),  // Campo Obrigatório
-    email: z.string().email({ message: 'Insira um e-mail válido.' })
-        .trim(),  // O e-mail deve ser válido
+        .min(1, { message: 'Campo Obrigatório' })  // Campo Obrigatório
+        .trim(),  // Remover espaços à esquerda e à direita
+    email: z.string()
+        .email({ message: 'Insira um e-mail válido.' })  // O e-mail deve ser válido
+        .trim(),
+});
+
+export const UpdatePhoneFormSchema = z.object({
+    old_phone: z
+        .string()
+        .min(8, { message: 'O telefone deve ter pelo menos 8 números.' })  // O telefone deve ter pelo menos 8 números
+        .regex(/^\d+$/, { message: 'O telefone deve conter apenas números.' })  // Deve conter apenas números
+        .trim(), // Remover espaços à esquerda e à direita
+    phone: z
+        .string()
+        .min(8, { message: 'O telefone deve ter pelo menos 8 números.' })  // O telefone deve ter pelo menos 8 números
+        .regex(/^\d+$/, { message: 'O telefone deve conter apenas números.' })  // Deve conter apenas números
+        .trim(), // Remover espaços à esquerda e à direita
 });

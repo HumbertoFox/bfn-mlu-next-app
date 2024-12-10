@@ -230,7 +230,7 @@ export default function UpdatePasswordUserForm() {
             </div>
             
             <SubmitButton disabled={pending || Object.keys(errors).length > 0}>
-                Atualizar
+                Atualizar Senha
             </SubmitButton>
         </Form>
     );
