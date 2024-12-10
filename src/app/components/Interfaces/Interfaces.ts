@@ -31,4 +31,4 @@ export interface SessionPayload {
     email?: string;
     user_id?: string;
     [key: string]: unknown; // Caso precise de flexibilidade para adicionar mais propriedades no futuro
-}
+};

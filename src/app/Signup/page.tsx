@@ -4,7 +4,7 @@ import SignUpForm from '../components/ui/signup-form';
 
 export default function RegisterUser() {
     return (
-        <div className='w-full min-h-svh flex items-center justify-center p-3'>
+        <div className='w-full min-h-[calc(100svh - 73px)] flex items-center justify-center p-3'>
             <div className='w-96 flex flex-col items-center justify-center gap-5 rounded-lg shadow shadow-blue-400 p-3'>
                 <Link href={'/'}>
                     <Image

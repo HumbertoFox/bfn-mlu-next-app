@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 export default function Login() {
     return (
-        <div className='w-full h-svh flex items-center justify-center'>
+        <div className='w-full h-[90svh] flex items-center justify-center'>
             <div className='w-96 flex flex-col items-center justify-center gap-5 rounded-lg shadow shadow-blue-400 p-3'>
                 <Link href={'/'}>
                     <Image

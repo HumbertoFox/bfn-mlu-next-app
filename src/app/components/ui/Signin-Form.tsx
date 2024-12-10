@@ -51,7 +51,12 @@ export default function SignInForm() {
             });
 
             resetForm(); // Resetando o formulário após sucesso
-            router.push('/dashboard');
+            router.push('/dashboard'); // Redireciona para o dashboard
+            
+            // Usa setTimeout para garantir que o reload aconteça após o redirecionamento
+            setTimeout(() => {
+                window.location.reload(); // Recarrega a página após um curto intervalo
+            }, 3000); // O tempo de 100ms é suficiente, mas pode ajustar conforme necessário
         };
 
         if (state?.info) {
@@ -155,7 +160,7 @@ export default function SignInForm() {
                 )}
             </div>
             <SubmitButton disabled={pending}>
-                { pending ? 'Entrando...' : 'Entrar'}
+                {pending ? 'Entrando...' : 'Entrar'}
             </SubmitButton>
         </Form>
     );
