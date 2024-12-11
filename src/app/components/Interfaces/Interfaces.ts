@@ -32,3 +32,16 @@ export interface SessionPayload {
     user_id?: string;
     [key: string]: unknown; // Caso precise de flexibilidade para adicionar mais propriedades no futuro
 };
+
+export interface CryptoData {
+    valueBRL: number;
+    valueUSD: number;
+    bids: number;
+    date: string;
+};
+
+export interface CriptosPrices {
+    bitcoin: { brl: number, usd: number };
+    ethereum: { brl: number, usd: number };
+    binancecoin: { brl: number, usd: number };
+};

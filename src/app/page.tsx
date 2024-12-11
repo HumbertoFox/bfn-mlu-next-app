@@ -70,7 +70,6 @@ export default function Home() {
       updateChartData(labels, data);
     }
   }, [bitcoinData]);
-
   return (
     <>
       <Head>
