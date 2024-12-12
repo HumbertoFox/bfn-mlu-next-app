@@ -1,12 +1,13 @@
 'use client';
 
-import Image from "next/image";
-import TypetButton from "../components/buttons/typebutton";
-import { useEffect, useState } from "react";
-import { CryptoData } from "../components/interfaces/interfaces";
-import { getCriptosPrice } from "../api/bitCoindata";
-import { CriptosData } from "../actions/criptosdata";
-import CriptoUpForm from "../components/ui/criptoup-form";
+import Image from 'next/image';
+import TypetButton from '../components/buttons/typebutton';
+import { useEffect, useRef, useState } from 'react';
+import { CryptoData } from '../components/interfaces/interfaces';
+import { getCriptosPrice } from '../api/bitCoindata';
+import { CriptosData } from '../actions/criptosdata';
+import CriptoUpForm from '../components/ui/criptoup-form';
+import gsap from 'gsap';
 
 export default function Dashboard() {
     const [isFormVisible, setIsFormVisible] = useState(false);
@@ -14,6 +15,10 @@ export default function Dashboard() {
     const [bitcoin, setBitcoin] = useState<CryptoData | null>(null);
     const [ethereum, setEthereum] = useState<CryptoData | null>(null);
     const [bnb, setBnb] = useState<CryptoData | null>(null);
+    const leftRef = useRef(null);
+    const centerRef = useRef(null);
+    const rightRef = useRef(null);
+    const mainRef = useRef<HTMLDivElement | null>(null); // Ref para o formulário
 
     const handleParticiparClick = (cryptocurrency: string) => {
         setSelectedCryptocurrency(cryptocurrency);
@@ -61,13 +66,81 @@ export default function Dashboard() {
         }
     };
 
+    // Função para fechar o formulário ao clicar fora dele
+    const handleOutsideClick = (event: MouseEvent) => {
+        if (mainRef.current && !mainRef.current.contains(event.target as Node)) {
+            setIsFormVisible(false);  // Fecha o formulário se clicar fora
+        };
+    };
+
     // Buscar dados ao montar o componente
     useEffect(() => {
         fetchCryptoData();
     }, []);
+
+    // Efeitos do gsap
+    useEffect(() => {
+        const divLeft = leftRef.current;
+        const divCenter = centerRef.current;
+        const divRight = rightRef.current;
+
+        gsap.fromTo(
+            divLeft,
+            {
+                opacity: 0,
+                x: -500,
+            },
+            {
+                opacity: 1,
+                x: 0,
+                duration: 1,
+            },
+        );
+
+        gsap.fromTo(
+            divCenter,
+            {
+                opacity: 0,
+                y: 500,
+            },
+            {
+                opacity: 1,
+                y: 0,
+                duration: 1,
+                delay: 0.5,
+            },
+        );
+
+        gsap.fromTo(
+            divRight,
+            {
+                opacity: 0,
+                y: -500,
+            },
+            {
+                opacity: 1,
+                y: 0,
+                duration: 1,
+                delay: 1,
+            },
+        );
+    }, []);
+
+    // Fechar o formulário ao clicar fora dele
+    useEffect(() => {
+        if (isFormVisible) {
+            document.addEventListener('mousedown', handleOutsideClick); // Listen for the click event
+        } else {
+            document.removeEventListener('click', handleOutsideClick); // Remove the event listener
+        };
+
+        return () => {
+            document.removeEventListener('mousedown', handleOutsideClick); // Clean up the event listener
+        };
+    }, [isFormVisible]);
     return (
-        <main className='w-full min-h-full flex flex-wrap gap-20 items-center justify-evenly max-w-2xl lg:max-w-7xl'>
-            <div className='w-72 h-96 flex flex-col items-center justify-between border border-orange-500 rounded-lg p-1 pb-5 shadow-orange-500 shadow-md'>
+        <main className='w-full min-h-full flex flex-wrap gap-20 items-center justify-evenly max-w-2xl lg:max-w-7xl' ref={mainRef}>
+            <div className='w-72 h-96 flex flex-col items-center justify-between border border-orange-500 rounded-lg p-1 pb-5 shadow-orange-500 shadow-md opacity-0' ref={leftRef}>
                 <Image
                     className='w-36 h-36 rounded-md'
                     src={'/images/bitcoin.webp'}
@@ -119,7 +192,7 @@ export default function Dashboard() {
                 </TypetButton>
             </div>
 
-            <div className='w-72 h-96 flex flex-col items-center justify-between border border-orange-500 rounded-lg p-1 pb-5 shadow-orange-500 shadow-md'>
+            <div className='w-72 h-96 flex flex-col items-center justify-between border border-orange-500 rounded-lg p-1 pb-5 shadow-orange-500 shadow-md opacity-0' ref={centerRef}>
                 <Image
                     className='w-36 h-36 rounded-md'
                     src={'/images/ethereum.webp'}
@@ -171,7 +244,7 @@ export default function Dashboard() {
                 </TypetButton>
             </div>
 
-            <div className='w-72 h-96 flex flex-col items-center justify-between border border-orange-500 rounded-lg p-1 pb-5 shadow-orange-500 shadow-md'>
+            <div className='w-72 h-96 flex flex-col items-center justify-between border border-orange-500 rounded-lg p-1 pb-5 shadow-orange-500 shadow-md opacity-0' ref={rightRef}>
                 <Image
                     className='w-36 h-36 rounded-md'
                     src={'/images/binancecoin.webp'}

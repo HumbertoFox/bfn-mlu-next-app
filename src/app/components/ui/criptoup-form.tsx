@@ -1,7 +1,7 @@
 'use client';
 
 import SubmitButton from '@/app/components/buttons/submitbutton';
-import { useActionState, useEffect, useState } from 'react';
+import { useActionState, useEffect, useRef, useState } from 'react';
 import { useFormStatus } from 'react-dom';
 import Form from 'next/form';
 import { Toast } from '../ts/sweetalert';
@@ -9,6 +9,7 @@ import { CreateBid } from '@/app/actions/createbid';
 import { CriptoUpFormProps } from '../interfaces/interfaces';
 import Image from 'next/image';
 import DangerButton from '../buttons/dangerbutton';
+import gsap from 'gsap';
 
 export default function CriptoUpForm({ cryptocurrency, onClose }: CriptoUpFormProps) {
     const { pending } = useFormStatus();
@@ -18,6 +19,7 @@ export default function CriptoUpForm({ cryptocurrency, onClose }: CriptoUpFormPr
         amount: '',
         cryptocurrency: '', // Set the cryptocurrency from props
     });
+    const formRef = useRef(null);
 
     // Função para atualizar o valor dos campos
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -36,6 +38,19 @@ export default function CriptoUpForm({ cryptocurrency, onClose }: CriptoUpFormPr
         });
     };
 
+    // Função para animar e fechar o formulário
+    const handleClose = () => {
+        gsap.to(formRef.current, {
+            opacity: 0,
+            y: -500,
+            scale: 0.5,
+            duration: 1,
+            onComplete: () => {
+                onClose(); // Chama o onClose para realizar qualquer outro efeito externo
+            },
+        });
+    };
+
     // Atualizar o estado quando a prop cryptocurrency mudar
     useEffect(() => {
         if (cryptocurrency) {
@@ -46,6 +61,7 @@ export default function CriptoUpForm({ cryptocurrency, onClose }: CriptoUpFormPr
         }
     }, [cryptocurrency]);
 
+    // Messagem resposta do backend
     useEffect(() => {
         if (state?.message) {
             Toast.fire({
@@ -68,11 +84,31 @@ export default function CriptoUpForm({ cryptocurrency, onClose }: CriptoUpFormPr
             });
         };
     }, [state]);
+
+    useEffect(() => {
+        const formDown = formRef.current;
+
+        gsap.fromTo(
+            formDown,
+            {
+                opacity: 0,
+                y: -500,
+                scale: 0.5
+            },
+            {
+                opacity: 1,
+                y: 0,
+                duration: 1,
+                scale: 1
+            },
+        );
+    }, []);
     return (
         <Form
             className='absolute w-full max-w-96 lg:top-12 flex flex-col gap-5 bg-white p-5 border border-blue-500 rounded-lg shadow-md shadow-blue-500'
             id='crypto-form'
             action={action}
+            ref={formRef}
         >
             <Image
                 className='rounded-xl'
@@ -137,7 +173,7 @@ export default function CriptoUpForm({ cryptocurrency, onClose }: CriptoUpFormPr
                 </SubmitButton>
 
 
-                <DangerButton onClick={onClose}>
+                <DangerButton onClick={handleClose}>
                     Cancelar
                 </DangerButton>
             </div>
