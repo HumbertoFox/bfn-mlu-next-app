@@ -54,7 +54,6 @@ export default function UserDataForm() {
     if (loading) {
         return <div>Carregando...</div>;
     };
-
     return (
         <form className='w-full flex flex-col gap-5'>
             <div className='min-w-full flex flex-col'>

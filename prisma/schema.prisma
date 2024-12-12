@@ -14,17 +14,31 @@ datasource db {
 }
 
 model User {
-  user_id     Int    @id @default(autoincrement())
+  id          Int      @id @default(autoincrement())
   name        String
-  cpf         String @unique @db.VarChar(11)
+  cpf         String   @unique @db.VarChar(11)
   dateofbirth String
-  username    String @unique
-  phone       String @unique
-  email       String @unique
-  password    String @db.VarChar(200)
-  role        Role   @default(USER)
+  username    String   @unique
+  phone       String   @unique
+  email       String   @unique
+  password    String   @db.VarChar(200)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt()
+  role        Role     @default(USER)
+  bids        Bid[]
 
   @@map("users")
+}
+
+model Bid {
+  id             Int      @id @default(autoincrement())
+  amount         String   @db.VarChar(255)
+  cryptocurrency String
+  createdAt      DateTime @default(now())
+  user           User     @relation(fields: [userId], references: [id])
+  userId         Int
+
+  @@map("bids")
 }
 
 enum Role {

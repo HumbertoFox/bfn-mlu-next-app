@@ -45,3 +45,8 @@ export interface CriptosPrices {
     ethereum: { brl: number, usd: number };
     binancecoin: { brl: number, usd: number };
 };
+
+export interface CriptoUpFormProps {
+    cryptocurrency: string;
+    onClose: () => void;  // Função para fechar o formulário
+};

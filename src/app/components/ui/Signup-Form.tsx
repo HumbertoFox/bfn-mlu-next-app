@@ -93,7 +93,7 @@ export default function SignUpForm() {
                 icon: 'info',
                 title: state.info
             });
-        }
+        };
     }, [router, state]);
     return (
         <Form className='w-full flex flex-col gap-5' action={action}>

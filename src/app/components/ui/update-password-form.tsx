@@ -75,7 +75,7 @@ export default function UpdatePasswordUserForm() {
                 icon: 'info',
                 title: state.info
             });
-        }
+        };
     }, [state]);
     return (
         <Form className='w-full flex flex-col gap-5' action={action}>

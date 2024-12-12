@@ -73,7 +73,7 @@ export async function UpdatePhone(state: FormStateUp, formData: FormData) {
         // Atualizando Telefone no banco
         await db.user.update({
             where: {
-                user_id: existingUser.user_id,
+                id: existingUser.id,
             },
             data: {
                 phone,

@@ -26,3 +26,12 @@ export type FormStateIn =
 export type FormErrors = {
     [key: string]: string;  // Erros serão um objeto com chave string e valor string
 };
+
+export type FormStateCriptoUp =
+    | {
+        errors?: {
+            amount?: string[]; // Matriz de erros relacionados ao campo "amount"
+            cryptocurrency?: string[]; // Matriz de erros relacionados ao campo "cryptocurrency"
+        }
+        message?: string; // Mensagem geral opcional (por exemplo, mensagem de sucesso ou erro)
+    } | undefined;

@@ -73,7 +73,7 @@ export async function UpdateEmail(state: FormStateIn, formData: FormData) {
         // Atualizando E-mail no banco
         await db.user.update({
             where: {
-                user_id: existingUser.user_id,
+                id: existingUser.id,
             },
             data: {
                 email,

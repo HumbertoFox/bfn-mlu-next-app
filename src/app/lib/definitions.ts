@@ -8,6 +8,7 @@ export const SignupFormSchema = z.object({
         .trim(), // Remover espaços à esquerda e à direita
     dateofbirth: z
         .string()
+        .min(1, { message: 'Campo Obrigatório.' }) // Preemchar o campo
         .regex(
             /^\d{4}-\d{2}-\d{2}$/,
             { message: 'Formato esperado: YYYY-MM-DD.' }
@@ -31,6 +32,7 @@ export const SignupFormSchema = z.object({
         .min(5, { message: 'O nome do usuário deve ter pelo menos 5 caracteres.' })  // O nome deve ter pelo menos 5 caracteres
         .trim(), // Remover espaços à esquerda e à direita
     email: z.string()
+        .min(1, { message: 'Campo Obrigatório.' }) // Preemchar o campo
         .email({ message: 'Insira um e-mail válido.' })  // O e-mail deve ser válido
         .trim(),
     phone: z
@@ -96,4 +98,21 @@ export const UpdatePhoneFormSchema = z.object({
         .min(8, { message: 'O telefone deve ter pelo menos 8 números.' })  // O telefone deve ter pelo menos 8 números
         .regex(/^\d+$/, { message: 'O telefone deve conter apenas números.' })  // Deve conter apenas números
         .trim(), // Remover espaços à esquerda e à direita
+});
+
+export const CreateBidFormSchema = z.object({
+    amount: z
+        .string()  // Mantém como string
+        .min(4, { message: 'O valor do lance deve ter pelo menos 4 dígitos. ' })  // Garantir que o número tenha pelo menos 4 caracteres (dígitos)
+        .max(999999999, { message: 'O valor do lance não pode ser maior que 999.999.999. ' })  // Limitar a um valor máximo
+        .regex(/^\d{1,3}(\.\d{3})*(,\d{1,2})?$/, { message: 'O valor deve ser um número válido, como 0,00 ou 1.000,00. ' })  // Aceita números com até 2 casas decimais
+        .refine((value) => {
+            const parsedValue = value.replace(',', '.');  // Ajusta o valor para facilitar a comparação
+            const isValidNumber = !isNaN(parseFloat(parsedValue)) && parseFloat(parsedValue) >= 0;
+            return isValidNumber;
+        }, { message: 'O valor deve ser um número válido e não pode ser negativo.' }),
+    cryptocurrency: z
+        .string()
+        .min(1, { message: 'Campo Obrigatório.' })  // Campo obrigatório
+        .trim(),  // Remover espaços à esquerda e à direita
 });

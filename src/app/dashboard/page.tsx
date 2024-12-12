@@ -5,11 +5,20 @@ import TypetButton from "../components/buttons/typebutton";
 import { useEffect, useState } from "react";
 import { CryptoData } from "../components/interfaces/interfaces";
 import { getCriptosPrice } from "../api/bitCoindata";
+import { CriptosData } from "../actions/criptosdata";
+import CriptoUpForm from "../components/ui/criptoup-form";
 
 export default function Dashboard() {
+    const [isFormVisible, setIsFormVisible] = useState(false);
+    const [selectedCryptocurrency, setSelectedCryptocurrency] = useState<string | null>(null);
     const [bitcoin, setBitcoin] = useState<CryptoData | null>(null);
     const [ethereum, setEthereum] = useState<CryptoData | null>(null);
     const [bnb, setBnb] = useState<CryptoData | null>(null);
+
+    const handleParticiparClick = (cryptocurrency: string) => {
+        setSelectedCryptocurrency(cryptocurrency);
+        setIsFormVisible(true);  // Torna o formulário visível
+    };
 
     // Função para formatar valores de moeda
     const formatCurrency = (value: number, locale: string, currency: string) => {
@@ -24,25 +33,27 @@ export default function Dashboard() {
         try {
             const data = await getCriptosPrice(); // Usando a função importada
 
+            const { bitcoinBidsCount, ethereumBidsCount, bnbBidsCount } = await CriptosData(); // Obtendo dados de lances
+
             // Definindo os dados para cada criptomoeda
             setBitcoin({
-                valueBRL: data.bitcoin.brl,
-                valueUSD: data.bitcoin.usd,
-                bids: 200,  // Exemplo estático, você pode usar outra fonte para isso
+                valueBRL: data?.bitcoin?.brl,
+                valueUSD: data?.bitcoin?.usd,
+                bids: bitcoinBidsCount,  // Usando dados de lances
                 date: new Date().toLocaleDateString(),
             });
 
             setEthereum({
-                valueBRL: data.ethereum.brl,
-                valueUSD: data.ethereum.usd,
-                bids: 200,  // Exemplo estático
+                valueBRL: data?.ethereum?.brl,
+                valueUSD: data?.ethereum?.usd,
+                bids: ethereumBidsCount,  // Usando dados de lances
                 date: new Date().toLocaleDateString(),
             });
 
             setBnb({
-                valueBRL: data.binancecoin.brl,
-                valueUSD: data.binancecoin.usd,
-                bids: 200,  // Exemplo estático
+                valueBRL: data?.binancecoin?.brl,
+                valueUSD: data?.binancecoin?.usd,
+                bids: bnbBidsCount,  // Usando dados de lances
                 date: new Date().toLocaleDateString(),
             });
         } catch (error) {
@@ -59,7 +70,7 @@ export default function Dashboard() {
             <div className='w-72 h-96 flex flex-col items-center justify-between border border-orange-500 rounded-lg p-1 pb-5 shadow-orange-500 shadow-md'>
                 <Image
                     className='w-36 h-36 rounded-md'
-                    src={'/images/BITCOIN.webp'}
+                    src={'/images/bitcoin.webp'}
                     alt='Imagem cripto'
                     width={512}
                     height={512}
@@ -76,7 +87,7 @@ export default function Dashboard() {
                                     <h1 className=''>Valor Atual</h1>
                                 </div>
                                 <div className='w-full p-1 border-l-[1px]'>
-                                    <p>{formatCurrency(bitcoin.valueBRL, 'pt-BR', 'BRL')}</p>
+                                    <p>{formatCurrency(bitcoin?.valueBRL, 'pt-BR', 'BRL')}</p>
                                 </div>
                             </div>
 
@@ -85,16 +96,16 @@ export default function Dashboard() {
                                     <h2>Valor Atual</h2>
                                 </div>
                                 <div className='w-full p-1 border-l-[1px]'>
-                                    <p>{formatCurrency(bitcoin.valueUSD, 'en-US', 'USD')}</p>
+                                    <p>{formatCurrency(bitcoin?.valueUSD, 'en-US', 'USD')}</p>
                                 </div>
                             </div>
 
                             <div className='w-full flex font-semibold text-xs text-green-600 py-2 border-t-[1px]'>
                                 <div className='w-full p-1 border-r-[1px]'>
-                                    <span>{bitcoin.date}</span>
+                                    <span>{bitcoin?.date}</span>
                                 </div>
                                 <div className='w-full p-1 border-l-[1px]'>
-                                    <span>{bitcoin.bids} Lances</span>
+                                    <span>{bitcoin?.bids} {bitcoin?.bids > 1 ? 'Lances' : 'Lance'}</span>
                                 </div>
                             </div>
                         </>
@@ -103,7 +114,7 @@ export default function Dashboard() {
                     )}
                 </div>
 
-                <TypetButton>
+                <TypetButton onClick={() => handleParticiparClick('bitcoin')}>
                     Participar
                 </TypetButton>
             </div>
@@ -111,7 +122,7 @@ export default function Dashboard() {
             <div className='w-72 h-96 flex flex-col items-center justify-between border border-orange-500 rounded-lg p-1 pb-5 shadow-orange-500 shadow-md'>
                 <Image
                     className='w-36 h-36 rounded-md'
-                    src={'/images/ETHEREUM.webp'}
+                    src={'/images/ethereum.webp'}
                     alt='Imagem cripto'
                     width={512}
                     height={512}
@@ -128,7 +139,7 @@ export default function Dashboard() {
                                     <h1 className=''>Valor Atual</h1>
                                 </div>
                                 <div className='w-full p-1 border-l-[1px]'>
-                                    <p>{formatCurrency(ethereum.valueBRL, 'pt-BR', 'BRL')}</p>
+                                    <p>{formatCurrency(ethereum?.valueBRL, 'pt-BR', 'BRL')}</p>
                                 </div>
                             </div>
 
@@ -137,16 +148,16 @@ export default function Dashboard() {
                                     <h2>Valor Atual</h2>
                                 </div>
                                 <div className='w-full p-1 border-l-[1px]'>
-                                    <p>{formatCurrency(ethereum.valueUSD, 'en-US', 'USD')}</p>
+                                    <p>{formatCurrency(ethereum?.valueUSD, 'en-US', 'USD')}</p>
                                 </div>
                             </div>
 
                             <div className='w-full flex font-semibold text-xs text-green-600 py-2 border-t-[1px]'>
                                 <div className='w-full p-1 border-r-[1px]'>
-                                    <span>{ethereum.date}</span>
+                                    <span>{ethereum?.date}</span>
                                 </div>
                                 <div className='w-full p-1 border-l-[1px]'>
-                                    <span>{ethereum.bids} Lances</span>
+                                    <span>{ethereum?.bids} {ethereum?.bids > 1 ? 'Lances' : 'Lance'}</span>
                                 </div>
                             </div>
                         </>
@@ -155,7 +166,7 @@ export default function Dashboard() {
                     )}
                 </div>
 
-                <TypetButton>
+                <TypetButton onClick={() => handleParticiparClick('ethereum')}>
                     Participar
                 </TypetButton>
             </div>
@@ -163,7 +174,7 @@ export default function Dashboard() {
             <div className='w-72 h-96 flex flex-col items-center justify-between border border-orange-500 rounded-lg p-1 pb-5 shadow-orange-500 shadow-md'>
                 <Image
                     className='w-36 h-36 rounded-md'
-                    src={'/images/BNB.webp'}
+                    src={'/images/binancecoin.webp'}
                     alt='Imagem cripto'
                     width={512}
                     height={512}
@@ -180,7 +191,7 @@ export default function Dashboard() {
                                     <h1 className=''>Valor Atual</h1>
                                 </div>
                                 <div className='w-full p-1 border-l-[1px]'>
-                                    <p>{formatCurrency(bnb.valueBRL, 'pt-BR', 'BRL')}</p>
+                                    <p>{formatCurrency(bnb?.valueBRL, 'pt-BR', 'BRL')}</p>
                                 </div>
                             </div>
 
@@ -189,16 +200,16 @@ export default function Dashboard() {
                                     <h2>Valor Atual</h2>
                                 </div>
                                 <div className='w-full p-1 border-l-[1px]'>
-                                    <p>{formatCurrency(bnb.valueUSD, 'en-US', 'USD')}</p>
+                                    <p>{formatCurrency(bnb?.valueUSD, 'en-US', 'USD')}</p>
                                 </div>
                             </div>
 
                             <div className='w-full flex font-semibold text-xs text-green-600 py-2 border-t-[1px]'>
                                 <div className='w-full p-1 border-r-[1px]'>
-                                    <span>{bnb.date}</span>
+                                    <span>{bnb?.date}</span>
                                 </div>
                                 <div className='w-full p-1 border-l-[1px]'>
-                                    <span>{bnb.bids} Lances</span>
+                                    <span>{bnb?.bids} {bnb?.bids > 1 ? 'Lances' : 'Lance'}</span>
                                 </div>
                             </div>
                         </>
@@ -207,10 +218,17 @@ export default function Dashboard() {
                     )}
                 </div>
 
-                <TypetButton>
+                <TypetButton onClick={() => handleParticiparClick('binancecoin')}>
                     Participar
                 </TypetButton>
             </div>
+
+            {isFormVisible && selectedCryptocurrency && (
+                <CriptoUpForm
+                    cryptocurrency={selectedCryptocurrency}
+                    onClose={() => setIsFormVisible(false)}
+                />
+            )}
         </main>
     );
 }
