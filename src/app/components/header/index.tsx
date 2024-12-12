@@ -91,7 +91,7 @@ export default function HeaserComponents() {
 
                 {username ? (
                     <div
-                        className='relative inline-block text-center'
+                        className='relative inline-block text-center bg-white'
                         ref={dropdownRef}
                     >
                         <Image
@@ -108,15 +108,14 @@ export default function HeaserComponents() {
                             ref={buttonRef}
                         >
                             Olá, {username}
-                            <Icons icon={isOpen
-                                ? 'fa-solid fa-angle-up'
-                                : 'fa-solid fa-angle-down'
-                            }
+                            <Icons
+                                className={`${isOpen ? '-rotate-180' : ''} duration-500`}
+                                icon='fa-solid fa-angle-down'
                             />
                         </button>
 
                         {isOpen && (
-                            <div className='origin-top-right absolute right-0 mt-2 w-24 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5'>
+                            <div className='origin-top-right absolute right-0 mt-2 w-24 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-10'>
                                 <div>
                                     {pathname === '/edituser' && (
                                         <div className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-orange-400 duration-500'>
@@ -131,7 +130,7 @@ export default function HeaserComponents() {
                                             </Link>
                                         </div>
                                     )}
-                                    <div className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-orange-400 duration-500'>
+                                    <div className='block px-4 py-2 text-sm text-gray-700 rounded-t-lg hover:bg-gray-100 hover:text-orange-400 duration-500'>
                                         <Link
                                             href='/edituser'
                                             className='w-full flex items-center justify-center gap-2'
@@ -142,7 +141,7 @@ export default function HeaserComponents() {
                                             Perfil
                                         </Link>
                                     </div>
-                                    <div className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-red-600 duration-500'>
+                                    <div className='block px-4 py-2 text-sm text-gray-700 rounded-b-lg hover:bg-gray-100 hover:text-red-600 duration-500 bg-white'>
                                         <button
                                             className='w-full flex items-center justify-center gap-2'
                                             type='button'
