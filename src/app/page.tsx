@@ -81,10 +81,10 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Bitcoin Value in the Last 48 Hours - ${bitcoinData[bitcoinData.length - 1]?.price || 'Loading'}</title>
+        <title>Bitcoin Value in the Last 48 Hours - ${bitcoinData[bitcoinData.length - 1]?.price || 'Loading...'}</title>
         <meta
           name='description'
-          content={`Current Bitcoin price is ${bitcoinData[bitcoinData.length - 1]?.price || 'Loading'} USD`}
+          content={`Current Bitcoin price is ${bitcoinData[bitcoinData.length - 1]?.price || 'Loading...'} USD`}
         />
       </Head>
 

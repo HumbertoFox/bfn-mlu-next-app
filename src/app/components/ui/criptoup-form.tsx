@@ -25,9 +25,9 @@ export default function CriptoUpForm({
     // Estado para os valores dos campos
     const [formData, setFormData] = useState({
         amount: '',
-        cryptocurrency: '', // Set the cryptocurrency from props
+        cryptocurrency: '', // Defina a criptomoeda a partir de adereços
     });
-    const formRef = useRef(null);
+    const formRef = useRef(null); // Ref para o formulário
 
     // Função para atualizar o valor dos campos
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -107,77 +107,82 @@ export default function CriptoUpForm({
         );
     }, []);
     return (
-        <Form
-            className='absolute w-full max-w-96 lg:top-12 flex flex-col gap-5 bg-white p-5 border border-blue-500 rounded-lg shadow-md shadow-blue-500'
-            id='crypto-form'
-            action={action}
+        <div
+            className='absolute w-full min-h-screen top-0 flex justify-center items-center backdrop-blur-sm'
             ref={formRef}
         >
-            <Image
-                className='rounded-xl'
-                src={`/images/${cryptocurrency}.webp`}
-                alt={`Image cripto ${cryptocurrency}`}
-                width={512}
-                height={512}
-            />
-
-            <div className='min-w-full flex flex-col'>
-                <label
-                    className='text-sm'
-                    htmlFor='amount'
-                >
-                    Lance
-                </label>
-                <input
-                    className='w-full rounded p-2 border'
-                    id='amount'
-                    name='amount'
-                    placeholder='Seu lance'
-                    type='text'
-                    value={formData.amount}  // Vinculando o valor ao estado
-                    onChange={handleChange}  // Atualizando o estado ao digitar
-                    required
+            <Form
+                className='absolute w-full max-w-96 lg:top-12 flex flex-col gap-5 bg-white p-5 border border-blue-500 rounded-lg shadow-md shadow-blue-500'
+                id='crypto-form'
+                action={action}
+            >
+                <Image
+                    className='rounded-xl'
+                    src={`/images/${cryptocurrency}.webp`}
+                    alt={`Image cripto ${cryptocurrency}`}
+                    width={512}
+                    height={512}
                 />
-                {state?.errors?.amount && (
-                    <p className='text-red-500 text-sm pl-2'>
-                        {state.errors.amount}
-                    </p>
-                )}
-            </div>
 
-            <div className='min-w-full flex flex-col'>
-                <label
-                    className='text-sm'
-                    htmlFor='cryptocurrency'
-                >
-                    Nome da Cripto
-                </label>
-                <input
-                    className='w-full rounded p-2 border cursor-not-allowed'
-                    id='cryptocurrency'
-                    name='cryptocurrency'
-                    placeholder='Nome da Cripto'
-                    type='text'
-                    value={formData.cryptocurrency}  // Vinculando o valor ao estado
-                    onChange={handleChange}  // Atualizando o estado ao digitar
-                    required
-                    readOnly
-                />
-                {state?.errors?.cryptocurrency && (
-                    <p className='text-red-500 text-sm pl-2'>
-                        {state.errors.cryptocurrency}
-                    </p>
-                )}
-            </div>
+                <div className='min-w-full flex flex-col'>
+                    <label
+                        className='text-sm'
+                        htmlFor='amount'
+                    >
+                        Lance
+                    </label>
+                    <input
+                        className='w-full rounded p-2 border'
+                        id='amount'
+                        name='amount'
+                        placeholder='Seu lance'
+                        type='text'
+                        value={formData.amount}  // Vinculando o valor ao estado
+                        onChange={handleChange}  // Atualizando o estado ao digitar
+                        required
+                    />
+                    {state?.errors?.amount && (
+                        <p className='text-red-500 text-sm pl-2'>
+                            {state.errors.amount}
+                        </p>
+                    )}
+                </div>
 
-            <div className='flex justify-between my-auto'>
-                <SubmitButton disabled={pending}>
-                    Cadastrar Lance
-                </SubmitButton>
-                <DangerButton onClick={handleClose}>
-                    Cancelar
-                </DangerButton>
-            </div>
-        </Form>
+                <div className='min-w-full flex flex-col'>
+                    <label
+                        className='text-sm'
+                        htmlFor='cryptocurrency'
+                    >
+                        Nome da Cripto
+                    </label>
+                    <input
+                        className='w-full rounded p-2 border cursor-not-allowed'
+                        id='cryptocurrency'
+                        name='cryptocurrency'
+                        placeholder='Nome da Cripto'
+                        type='text'
+                        value={formData.cryptocurrency}  // Vinculando o valor ao estado
+                        onChange={handleChange}  // Atualizando o estado ao digitar
+                        required
+                        readOnly
+                    />
+                    {state?.errors?.cryptocurrency && (
+                        <p className='text-red-500 text-sm pl-2'>
+                            {state.errors.cryptocurrency}
+                        </p>
+                    )}
+                </div>
+
+                <div className='flex justify-between my-auto'>
+                    <SubmitButton disabled={pending}>
+                        Cadastrar Lance
+                    </SubmitButton>
+
+                    <DangerButton onClick={handleClose}>
+                        Cancelar
+                    </DangerButton>
+                </div>
+            </Form>
+        </div>
     );
 };

@@ -2,7 +2,11 @@
 
 import Image from 'next/image';
 import TypetButton from '../components/buttons/typebutton';
-import { useEffect, useRef, useState } from 'react';
+import {
+    useEffect,
+    useRef,
+    useState
+} from 'react';
 import { CryptoData } from '../components/interfaces/interfaces';
 import { getCriptosPrice } from '../api/bitCoindata';
 import { CriptosData } from '../actions/criptosdata';
@@ -18,7 +22,6 @@ export default function Dashboard() {
     const leftRef = useRef(null);
     const centerRef = useRef(null);
     const rightRef = useRef(null);
-    const mainRef = useRef<HTMLDivElement | null>(null); // Ref para o formulário
 
     const handleParticiparClick = (cryptocurrency: string) => {
         setSelectedCryptocurrency(cryptocurrency);
@@ -38,7 +41,11 @@ export default function Dashboard() {
         try {
             const data = await getCriptosPrice(); // Usando a função importada
 
-            const { bitcoinBidsCount, ethereumBidsCount, bnbBidsCount } = await CriptosData(); // Obtendo dados de lances
+            const {
+                bitcoinBidsCount,
+                ethereumBidsCount,
+                bnbBidsCount
+            } = await CriptosData(); // Obtendo dados de lances
 
             // Definindo os dados para cada criptomoeda
             setBitcoin({
@@ -64,13 +71,6 @@ export default function Dashboard() {
         } catch (error) {
             console.error('Erro ao buscar os dados:', error);
         }
-    };
-
-    // Função para fechar o formulário ao clicar fora dele
-    const handleOutsideClick = (event: MouseEvent) => {
-        if (mainRef.current && !mainRef.current.contains(event.target as Node)) {
-            setIsFormVisible(false);  // Fecha o formulário se clicar fora
-        };
     };
 
     // Buscar dados ao montar o componente
@@ -125,22 +125,14 @@ export default function Dashboard() {
             },
         );
     }, []);
-
-    // Fechar o formulário ao clicar fora dele
-    useEffect(() => {
-        if (isFormVisible) {
-            document.addEventListener('mousedown', handleOutsideClick); // Listen for the click event
-        } else {
-            document.removeEventListener('click', handleOutsideClick); // Remove the event listener
-        };
-
-        return () => {
-            document.removeEventListener('mousedown', handleOutsideClick); // Clean up the event listener
-        };
-    }, [isFormVisible]);
     return (
-        <main className='w-full min-h-full flex flex-wrap gap-20 items-center justify-evenly max-w-2xl lg:max-w-7xl' ref={mainRef}>
-            <div className='w-72 h-96 flex flex-col items-center justify-between border border-orange-500 rounded-lg p-1 pb-5 shadow-orange-500 shadow-md opacity-0' ref={leftRef}>
+        <main
+            className='w-full min-h-full flex flex-wrap gap-20 items-center justify-evenly max-w-2xl lg:max-w-7xl'
+        >
+            <div
+                className='w-72 h-96 flex flex-col items-center justify-between border border-orange-500 rounded-lg p-1 pb-5 shadow-orange-500 shadow-md opacity-0'
+                ref={leftRef}
+            >
                 <Image
                     className='w-36 h-36 rounded-md'
                     src={'/images/bitcoin.webp'}
@@ -192,7 +184,10 @@ export default function Dashboard() {
                 </TypetButton>
             </div>
 
-            <div className='w-72 h-96 flex flex-col items-center justify-between border border-orange-500 rounded-lg p-1 pb-5 shadow-orange-500 shadow-md opacity-0' ref={centerRef}>
+            <div
+                className='w-72 h-96 flex flex-col items-center justify-between border border-orange-500 rounded-lg p-1 pb-5 shadow-orange-500 shadow-md opacity-0'
+                ref={centerRef}
+            >
                 <Image
                     className='w-36 h-36 rounded-md'
                     src={'/images/ethereum.webp'}
@@ -244,7 +239,10 @@ export default function Dashboard() {
                 </TypetButton>
             </div>
 
-            <div className='w-72 h-96 flex flex-col items-center justify-between border border-orange-500 rounded-lg p-1 pb-5 shadow-orange-500 shadow-md opacity-0' ref={rightRef}>
+            <div
+                className='w-72 h-96 flex flex-col items-center justify-between border border-orange-500 rounded-lg p-1 pb-5 shadow-orange-500 shadow-md opacity-0'
+                ref={rightRef}
+            >
                 <Image
                     className='w-36 h-36 rounded-md'
                     src={'/images/binancecoin.webp'}
