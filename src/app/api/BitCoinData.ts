@@ -1,7 +1,7 @@
 import {
     ApiResponse,
     BitcoinData,
-    CriptosPrices
+    CryptosPrices
 } from "../components/interfaces/interfaces";
 
 export const getBitcoinData = async (): Promise<BitcoinData[]> => {
@@ -25,9 +25,9 @@ export const getBitcoinData = async (): Promise<BitcoinData[]> => {
     };
 };
 
-export const getCriptosPrice = async (): Promise<CriptosPrices> => {
+export const getCriptosPrice = async (): Promise<CryptosPrices> => {
     const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,binancecoin&vs_currencies=brl,usd');
-    const data: CriptosPrices = await response.json(); // Tipando a resposta da API
+    const data: CryptosPrices = await response.json(); // Tipando a resposta da API
 
     return data;
 };

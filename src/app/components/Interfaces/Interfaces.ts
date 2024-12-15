@@ -41,7 +41,7 @@ export interface CryptoData {
     date: string;
 };
 
-export interface CriptosPrices {
+export interface CryptosPrices {
     bitcoin: { brl: number, usd: number };
     ethereum: { brl: number, usd: number };
     binancecoin: { brl: number, usd: number };

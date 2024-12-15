@@ -52,31 +52,34 @@ export default function Dashboard() {
             const data = await getCriptosPrice(); // Usando a função importada
 
             const {
-                bitcoinBidsCount,
-                ethereumBidsCount,
-                bnbBidsCount
+                bitcoinBidCountData,
+                ethereumBidCountData,
+                bnbBidCountData,
+                bitcoinLastBidDate,
+                ethereumLastBidDate,
+                bnbLastBidDate
             } = await CriptosData(); // Obtendo dados de lances
 
             // Definindo os dados para cada criptomoeda
             setBitcoin({
                 valueBRL: data?.bitcoin?.brl,
                 valueUSD: data?.bitcoin?.usd,
-                bids: bitcoinBidsCount,  // Usando dados de lances
-                date: new Date().toLocaleDateString(),
+                bids: bitcoinBidCountData ? bitcoinBidCountData : 0,  // Usando dados de lances
+                date: bitcoinLastBidDate ? new Date(bitcoinLastBidDate).toLocaleDateString() : 'Sem Lance',
             });
 
             setEthereum({
                 valueBRL: data?.ethereum?.brl,
                 valueUSD: data?.ethereum?.usd,
-                bids: ethereumBidsCount,  // Usando dados de lances
-                date: new Date().toLocaleDateString(),
+                bids: ethereumBidCountData ? ethereumBidCountData : 0,  // Usando dados de lances
+                date: ethereumLastBidDate ? new Date(ethereumLastBidDate).toLocaleDateString() : 'Sem Lance',
             });
 
             setBnb({
                 valueBRL: data?.binancecoin?.brl,
                 valueUSD: data?.binancecoin?.usd,
-                bids: bnbBidsCount,  // Usando dados de lances
-                date: new Date().toLocaleDateString(),
+                bids: bnbBidCountData ? bnbBidCountData : 0,  // Usando dados de lances
+                date: bnbLastBidDate ? new Date(bnbLastBidDate).toLocaleDateString() : 'Sem Lance',
             });
         } catch (error) {
             console.error('Erro ao buscar os dados:', error);

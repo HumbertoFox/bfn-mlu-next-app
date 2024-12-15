@@ -4,9 +4,10 @@ import { SignupFormSchema } from '@/app/lib/definitions';
 import { FormStateUp } from '../components/types/types';
 import * as bcrypt from 'bcryptjs';
 import db from '../lib/db';
+import { getCheckedCpf } from '../lib/CheckedCpf';
 
 export async function signup(state: FormStateUp, formData: FormData) {
-    // Validar campos de formulário
+    // 1. Validar campos de formulário
     const validatedFields = SignupFormSchema.safeParse({
         cpf: formData.get('cpf') as string,
         dateofbirth: formData.get('dateofbirth') as string,
@@ -27,16 +28,28 @@ export async function signup(state: FormStateUp, formData: FormData) {
     // 2. Preparar dados para inserção no banco de dados
     const { cpf, dateofbirth, name, username, phone, email, password } = validatedFields.data
 
-    // por exemplo, faça o hash da senha do usuário antes de armazená-la
+    // Checando sequencia de npumeros é válido
+    const checkedCpf = getCheckedCpf(cpf);
+
+    // Messagem caso cpf inválido
+    if (!checkedCpf) {
+        return {
+            info: 'Números do CPF inválido!'
+        };
+    };
+
+    // faça o hash da senha do usuário antes de armazená-la
     const hashedPassword = await bcrypt.hash(password, 12);
 
     // Verificando existencia de Dados no Banco
     const existingUser = await db.user.findFirst({
         where: {
-            cpf,
-            username,
-            phone,
-            email,
+            OR: [
+                { cpf },
+                { username },
+                { phone },
+                { email },
+            ],
         },
     });
 
