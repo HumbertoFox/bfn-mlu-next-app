@@ -1,7 +1,12 @@
 'use client';
 
 import SubmitButton from '@/app/components/buttons/submitbutton';
-import { useActionState, useEffect, useRef, useState } from 'react';
+import {
+    useActionState,
+    useEffect,
+    useRef,
+    useState
+} from 'react';
 import { useFormStatus } from 'react-dom';
 import Form from 'next/form';
 import { Toast } from '../ts/sweetalert';
@@ -11,7 +16,10 @@ import Image from 'next/image';
 import DangerButton from '../buttons/dangerbutton';
 import gsap from 'gsap';
 
-export default function CriptoUpForm({ cryptocurrency, onClose }: CriptoUpFormProps) {
+export default function CriptoUpForm({
+    cryptocurrency,
+    onClose
+}: CriptoUpFormProps) {
     const { pending } = useFormStatus();
     const [state, action] = useActionState(CreateBid, undefined);
     // Estado para os valores dos campos
@@ -70,11 +78,6 @@ export default function CriptoUpForm({ cryptocurrency, onClose }: CriptoUpFormPr
             });
 
             resetForm(); // Resetando o formulário após sucesso
-
-            // Usa setTimeout para garantir que o reload aconteça após o redirecionamento
-            setTimeout(() => {
-                window.location.reload(); // Recarrega a página após um curto intervalo
-            }, 3000); // O tempo de 100ms é suficiente, mas pode ajustar conforme necessário
         };
 
         if (state?.info) {
@@ -171,8 +174,6 @@ export default function CriptoUpForm({ cryptocurrency, onClose }: CriptoUpFormPr
                 <SubmitButton disabled={pending}>
                     Cadastrar Lance
                 </SubmitButton>
-
-
                 <DangerButton onClick={handleClose}>
                     Cancelar
                 </DangerButton>

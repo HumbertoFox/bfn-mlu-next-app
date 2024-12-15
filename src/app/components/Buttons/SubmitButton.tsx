@@ -1,3 +1,5 @@
+'use client';
+
 import { SubmitButtonProps } from '../interfaces/interfaces';
 
 export default function SubmitButton({

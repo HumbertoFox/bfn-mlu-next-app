@@ -16,7 +16,15 @@ import { getBitcoinData } from '@/app/api/bitCoindata';
 import Head from 'next/head';
 import { BitcoinData } from './components/interfaces/interfaces';
 
-ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 export default function Home() {
   const [bitcoinData, setBitcoinData] = useState<BitcoinData[]>([]);
@@ -64,8 +72,8 @@ export default function Home() {
   // Efeito para atualizar o gráfico quando os dados do Bitcoin são recebidos
   useEffect(() => {
     if (bitcoinData.length > 0) {
-      const labels = bitcoinData.map((data) => new Date(data.timestamp).toLocaleTimeString());
-      const data = bitcoinData.map((data) => data.price);
+      const labels = bitcoinData.map(data => new Date(data.timestamp).toLocaleTimeString());
+      const data = bitcoinData.map(data => data.price);
 
       updateChartData(labels, data);
     }

@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import './globals.css';
-import HeaserComponents from './components/header';
+import { cookies } from 'next/headers';
+import HeaderComponents from './components/header';
 
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
@@ -19,17 +20,21 @@ export const metadata: Metadata = {
   description: 'Criptos Coins Agents',
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // Acessa os cookies para pegar as informações do usuário
+  const userCookie = (await cookies()).get('username'); // Verificando username no cookies
+  const user = userCookie ? userCookie.value : null; // Se user estiver no cookies envia o nome para a contante "user" se não envia "null"
+
   return (
     <html lang='pt-BR'>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <HeaserComponents />
+        <HeaderComponents user={user} />
         {children}
       </body>
     </html>

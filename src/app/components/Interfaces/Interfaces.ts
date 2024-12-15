@@ -24,6 +24,7 @@ export interface TypeButtonProps extends SubmitButtonProps {
 export interface IconsProps {
     icon: string; // O nome da classe de ícones para um Font Awesome ou qualquer biblioteca de ícones (por exemplo, 'fa-solid fa-eye')
     className?: string; // Nome de classe opcional para adicionar estilo personalizado
+    title?: string; // Torna title opcional
 };
 
 export interface SessionPayload {
@@ -49,4 +50,8 @@ export interface CriptosPrices {
 export interface CriptoUpFormProps {
     cryptocurrency: string;
     onClose: () => void;  // Função para fechar o formulário
+};
+
+export interface UsernameProps {
+    user: string | null;
 };

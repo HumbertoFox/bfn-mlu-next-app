@@ -5,13 +5,17 @@ import {
     useRef,
     useState
 } from 'react';
-import { usePathname, useRouter } from 'next/navigation';
+import {
+    usePathname,
+    useRouter
+} from 'next/navigation';
 import Image from 'next/image';
 import { destroySession } from '@/app/lib/removecookies';
 import Icons from '../icons/icons';
 import Link from 'next/link';
+import { UsernameProps } from '../interfaces/interfaces';
 
-export default function HeaserComponents() {
+export default function HeaderComponents({ user }: UsernameProps) {
     const router = useRouter();
     const pathname = usePathname();
     const [username, setUsername] = useState<string | null>(null);
@@ -33,9 +37,6 @@ export default function HeaserComponents() {
                 // Fechar dropdown
                 setIsOpen(false);
 
-                // Atualizando estado do Usuário
-                setUsername(null);
-
                 // Redirecionar o usuário para um login ou página inicial
                 router.push('/'); // Ou onde você gostaria que o usuário fosse após o logout
             } else {
@@ -52,11 +53,6 @@ export default function HeaserComponents() {
     const closeDropdown = () => setIsOpen(false);
 
     useEffect(() => {
-        // Como os cookies só podem ser acessados no cliente, você pode obtê-los aqui
-        const user = document.cookie.replace(
-            /(?:(?:^|.*;\s*)username\s*\=\s*([^;]*).*$)|^.*$/,
-            '$1',
-        );
 
         // Atualizando estado do Usuário
         setUsername(user || null);
@@ -74,7 +70,7 @@ export default function HeaserComponents() {
 
         // Limpeza do evento ao desmontar
         return () => document.removeEventListener('mousedown', handleClickOutside);
-    }, []);
+    }, [user]);
     return (
         <header className='w-full flex justify-center p-2'>
             <div className='w-full flex justify-between items-center lg:max-w-7xl'>
@@ -171,12 +167,13 @@ export default function HeaserComponents() {
                             </Link>
                         )}
 
-                        {(pathname === '/login' || pathname === '/') && (<Link
-                            className='text-sm hover:text-blue-700 duration-500'
-                            href={'/signup'}
-                        >
-                            Cadastrar-se
-                        </Link>
+                        {(pathname === '/login' || pathname === '/') && (
+                            <Link
+                                className='text-sm hover:text-blue-700 duration-500'
+                                href={'/signup'}
+                            >
+                                Cadastrar-se
+                            </Link>
                         )}
                     </div>
                 )}
