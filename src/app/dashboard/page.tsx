@@ -28,12 +28,22 @@ export default function Dashboard() {
         setIsFormVisible(true);  // Torna o formulário visível
     };
 
+    const handleCloseCrypto = () => {
+        setIsFormVisible(false); // Enviar fechar form
+        fetchCryptoData(); // Atualiza os lances criptos
+    };
+
     // Função para formatar valores de moeda
-    const formatCurrency = (value: number, locale: string, currency: string) => {
+    const formatCurrency = (
+        value: number,
+        locale: string,
+        currency: string
+    ) => {
         return new Intl.NumberFormat(locale, {
             style: 'currency',
             currency: currency,
-        }).format(value);
+        })
+            .format(value);
     };
 
     // Função para buscar os valores
@@ -70,7 +80,7 @@ export default function Dashboard() {
             });
         } catch (error) {
             console.error('Erro ao buscar os dados:', error);
-        }
+        };
     };
 
     // Buscar dados ao montar o componente
@@ -297,9 +307,9 @@ export default function Dashboard() {
             {isFormVisible && selectedCryptocurrency && (
                 <CriptoUpForm
                     cryptocurrency={selectedCryptocurrency}
-                    onClose={() => setIsFormVisible(false)}
+                    onClose={() => handleCloseCrypto()}
                 />
             )}
         </main>
     );
-}
+};

@@ -25,7 +25,7 @@ export default function CriptoUpForm({
     // Estado para os valores dos campos
     const [formData, setFormData] = useState({
         amount: '',
-        cryptocurrency: '', // Defina a criptomoeda a partir de adereços
+        cryptocurrency: cryptocurrency, // Defina a criptomoeda a partir de adereços
     });
     const formRef = useRef(null); // Ref para o formulário
 
@@ -35,14 +35,6 @@ export default function CriptoUpForm({
         setFormData({
             ...formData,
             [name]: value,
-        });
-    };
-
-    // Função para resetar o formulário
-    const resetForm = () => {
-        setFormData({
-            amount: '',
-            cryptocurrency: '',
         });
     };
 
@@ -59,25 +51,26 @@ export default function CriptoUpForm({
         });
     };
 
-    // Atualizar o estado quando a prop cryptocurrency mudar
+    // Messagem resposta do backend ou Atualizar o estado quando a prop cryptocurrency mudar
     useEffect(() => {
         if (cryptocurrency) {
-            setFormData((prevState) => ({
+            setFormData(prevState => ({
                 ...prevState,
                 cryptocurrency: cryptocurrency, // Atualiza apenas o campo cryptocurrency
             }));
-        }
-    }, [cryptocurrency]);
+        };
 
-    // Messagem resposta do backend
-    useEffect(() => {
         if (state?.message) {
             Toast.fire({
                 icon: 'success',
                 title: state.message,
             });
 
-            resetForm(); // Resetando o formulário após sucesso
+            // Função para resetar o formulário
+            setFormData(prevState => ({
+                ...prevState,
+                amount: '',
+            }));
         };
 
         if (state?.info) {
@@ -86,7 +79,7 @@ export default function CriptoUpForm({
                 title: state.info
             });
         };
-    }, [state]);
+    }, [cryptocurrency, state]);
 
     useEffect(() => {
         const formDown = formRef.current;
