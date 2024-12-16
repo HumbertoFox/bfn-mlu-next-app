@@ -1,13 +1,12 @@
 'use client';
 
-import SubmitButton from '@/app/components/buttons/submitbutton';
+
 import {
     useActionState,
     useEffect,
     useRef,
     useState
 } from 'react';
-import { useFormStatus } from 'react-dom';
 import Form from 'next/form';
 import { Toast } from '../ts/sweetalert';
 import { CreateBid } from '@/app/actions/createbid';
@@ -15,12 +14,12 @@ import { CriptoUpFormProps } from '../interfaces/interfaces';
 import Image from 'next/image';
 import DangerButton from '../buttons/dangerbutton';
 import gsap from 'gsap';
+import { PayPalButtons, PayPalScriptProvider } from '@paypal/react-paypal-js';
 
 export default function CriptoUpForm({
     cryptocurrency,
     onClose
 }: CriptoUpFormProps) {
-    const { pending } = useFormStatus();
     const [state, action] = useActionState(CreateBid, undefined);
     // Estado para os valores dos campos
     const [formData, setFormData] = useState({
@@ -49,6 +48,12 @@ export default function CriptoUpForm({
                 onClose(); // Chama o onClose para realizar qualquer outro efeito externo
             },
         });
+    };
+
+    const initialOptions = {
+        clientId: process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID ?? '',
+        currency: 'BRL',
+        intent: 'capture',
     };
 
     // Messagem resposta do backend ou Atualizar o estado quando a prop cryptocurrency mudar
@@ -104,78 +109,78 @@ export default function CriptoUpForm({
             className='absolute w-full min-h-screen top-0 flex justify-center items-center backdrop-blur-sm'
             ref={formRef}
         >
-            <Form
-                className='absolute w-full max-w-96 lg:top-12 flex flex-col gap-5 bg-white p-5 border border-blue-500 rounded-lg shadow-md shadow-blue-500'
-                id='crypto-form'
-                action={action}
-            >
-                <Image
-                    className='rounded-xl'
-                    src={`/images/${cryptocurrency}.webp`}
-                    alt={`Image cripto ${cryptocurrency}`}
-                    width={512}
-                    height={512}
-                />
-
-                <div className='min-w-full flex flex-col'>
-                    <label
-                        className='text-sm'
-                        htmlFor='amount'
-                    >
-                        Lance
-                    </label>
-                    <input
-                        className='w-full rounded p-2 border'
-                        id='amount'
-                        name='amount'
-                        placeholder='Seu lance'
-                        type='text'
-                        value={formData.amount}  // Vinculando o valor ao estado
-                        onChange={handleChange}  // Atualizando o estado ao digitar
-                        required
+            <PayPalScriptProvider options={initialOptions}>
+                <Form
+                    className='absolute w-full max-w-96 lg:top-12 flex flex-col gap-5 bg-white p-5 border border-blue-500 rounded-lg shadow-md shadow-blue-500'
+                    id='crypto-form'
+                    action={action}
+                >
+                    <Image
+                        className='rounded-xl'
+                        src={`/images/${cryptocurrency}.webp`}
+                        alt={`Image cripto ${cryptocurrency}`}
+                        width={512}
+                        height={512}
                     />
-                    {state?.errors?.amount && (
-                        <p className='text-red-500 text-sm pl-2'>
-                            {state.errors.amount}
-                        </p>
-                    )}
-                </div>
 
-                <div className='min-w-full flex flex-col'>
-                    <label
-                        className='text-sm'
-                        htmlFor='cryptocurrency'
-                    >
-                        Nome da Cripto
-                    </label>
-                    <input
-                        className='w-full rounded p-2 border cursor-not-allowed'
-                        id='cryptocurrency'
-                        name='cryptocurrency'
-                        placeholder='Nome da Cripto'
-                        type='text'
-                        value={formData.cryptocurrency}  // Vinculando o valor ao estado
-                        onChange={handleChange}  // Atualizando o estado ao digitar
-                        required
-                        readOnly
-                    />
-                    {state?.errors?.cryptocurrency && (
-                        <p className='text-red-500 text-sm pl-2'>
-                            {state.errors.cryptocurrency}
-                        </p>
-                    )}
-                </div>
+                    <div className='min-w-full flex flex-col'>
+                        <label
+                            className='text-sm'
+                            htmlFor='amount'
+                        >
+                            Lance
+                        </label>
+                        <input
+                            className='w-full rounded p-2 border'
+                            id='amount'
+                            name='amount'
+                            placeholder='Seu lance'
+                            type='text'
+                            value={formData.amount}  // Vinculando o valor ao estado
+                            onChange={handleChange}  // Atualizando o estado ao digitar
+                            required
+                        />
+                        {state?.errors?.amount && (
+                            <p className='text-red-500 text-sm pl-2'>
+                                {state.errors.amount}
+                            </p>
+                        )}
+                    </div>
 
-                <div className='flex justify-between my-auto'>
-                    <SubmitButton disabled={pending}>
-                        Cadastrar Lance
-                    </SubmitButton>
+                    <div className='min-w-full flex flex-col'>
+                        <label
+                            className='text-sm'
+                            htmlFor='cryptocurrency'
+                        >
+                            Nome da Cripto
+                        </label>
+                        <input
+                            className='w-full rounded p-2 border cursor-not-allowed'
+                            id='cryptocurrency'
+                            name='cryptocurrency'
+                            placeholder='Nome da Cripto'
+                            type='text'
+                            value={formData.cryptocurrency}  // Vinculando o valor ao estado
+                            onChange={handleChange}  // Atualizando o estado ao digitar
+                            required
+                            readOnly
+                        />
+                        {state?.errors?.cryptocurrency && (
+                            <p className='text-red-500 text-sm pl-2'>
+                                {state.errors.cryptocurrency}
+                            </p>
+                        )}
+                    </div>
 
-                    <DangerButton onClick={handleClose}>
-                        Cancelar
-                    </DangerButton>
-                </div>
-            </Form>
-        </div>
+                    <div className='flex flex-col justify-between my-auto'>
+                        <PayPalButtons />
+
+                        <DangerButton onClick={handleClose}>
+                            Cancelar
+                        </DangerButton>
+                    </div>
+                </Form>
+            </PayPalScriptProvider>
+        </div >
     );
 };
