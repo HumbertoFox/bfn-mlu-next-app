@@ -55,3 +55,12 @@ export interface CriptoUpFormProps {
 export interface UsernameProps {
     user: string | null;
 };
+
+export interface OrderData {
+    id: string;
+    details?: Array<{
+        issue: string;
+        description: string;
+    }>;
+    debug_id?: string;
+};

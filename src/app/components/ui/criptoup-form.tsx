@@ -1,6 +1,5 @@
 'use client';
 
-
 import {
     useActionState,
     useEffect,
@@ -14,7 +13,11 @@ import { CriptoUpFormProps } from '../interfaces/interfaces';
 import Image from 'next/image';
 import DangerButton from '../buttons/dangerbutton';
 import gsap from 'gsap';
-import { PayPalButtons, PayPalScriptProvider } from '@paypal/react-paypal-js';
+import {
+    PayPalButtons,
+    PayPalScriptProvider,
+    ReactPayPalScriptOptions
+} from '@paypal/react-paypal-js';
 
 export default function CriptoUpForm({
     cryptocurrency,
@@ -50,7 +53,7 @@ export default function CriptoUpForm({
         });
     };
 
-    const initialOptions = {
+    const initialOptions: ReactPayPalScriptOptions = {
         clientId: process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID ?? '',
         currency: 'BRL',
         intent: 'capture',
