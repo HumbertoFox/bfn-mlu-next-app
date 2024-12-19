@@ -1,11 +1,15 @@
 'use client';
 
-import SubmitButton from '@/app/components/buttons/submitbutton';
-import { useActionState, useEffect, useState } from 'react';
+import SubmitButton from '@/components/buttons/submitbutton';
+import {
+    useActionState,
+    useEffect,
+    useState
+} from 'react';
 import { useFormStatus } from 'react-dom';
 import Form from 'next/form';
-import { FormErrors } from '../types/types';
-import { Toast } from '../ts/sweetalert';
+import { FormErrors } from '@/components/types/types';
+import { Toast } from '@/components/ts/sweetalert';
 import { UpdateEmail } from '@/app/actions/updateemail';
 
 export default function UpdateEmailUserForm() {

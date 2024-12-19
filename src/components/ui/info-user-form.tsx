@@ -1,7 +1,10 @@
 'use client';
 
 import { UserData } from '@/app/actions/userdata';
-import { useEffect, useState } from 'react';
+import {
+    useEffect,
+    useState
+} from 'react';
 
 // Função para formatar o CPF
 function formatCPF(cpf: string): string {

@@ -2,8 +2,8 @@
 
 import { cookies } from 'next/headers'; // Para acessar os cookies
 import { CreateBidFormSchema } from '@/app/lib/definitions';
-import { FormStateCriptoUp } from '../components/types/types';
-import db from '../lib/db';
+import { FormStateCriptoUp } from '@/components/types/types';
+import db from '@/app/lib/db';
 
 export async function CreateBid(state: FormStateCriptoUp, formData: FormData) {
     // 1. Obter o username do cookie

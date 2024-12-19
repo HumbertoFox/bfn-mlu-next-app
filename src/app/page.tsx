@@ -1,6 +1,9 @@
 'use client'
 
-import { useEffect, useState } from 'react';
+import {
+  useEffect,
+  useState
+} from 'react';
 import { Line } from 'react-chartjs-2';
 import {
   Chart as ChartJS,
@@ -12,9 +15,9 @@ import {
   Tooltip,
   Legend
 } from 'chart.js';
-import { getBitcoinData } from '@/app/api/bitCoindata';
+import { getBitcoinData } from '@/app/api/bitCoinData';
 import Head from 'next/head';
-import { BitcoinData } from './components/interfaces/interfaces';
+import { BitcoinData } from '@/components/interfaces/interfaces';
 
 ChartJS.register(
   CategoryScale,
@@ -58,7 +61,7 @@ export default function Home() {
   useEffect(() => {
     const fetchBitcoinData = async () => {
       setIsLoading(true);
-      const data = await getBitcoinData(); // Suponha que esta função retorne uma matriz de BitcoinData
+      const data = await getBitcoinData(); // Retorne uma matriz de BitcoinData
       setBitcoinData(data);
       setIsLoading(false);
     };

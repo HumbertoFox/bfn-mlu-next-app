@@ -2,8 +2,8 @@
 
 import { cookies } from 'next/headers'; // Para acessar os cookies
 import { UpdateEmailFormSchema } from '@/app/lib/definitions';
-import { FormStateIn } from '../components/types/types';
-import db from '../lib/db';
+import { FormStateIn } from '@/components/types/types';
+import db from '@/app/lib/db';
 
 export async function UpdateEmail(state: FormStateIn, formData: FormData) {
     // 1. Obter o username do cookie

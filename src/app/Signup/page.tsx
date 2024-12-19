@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
-import SignUpForm from '../components/ui/signup-form';
+import SignUpForm from '@/components/ui/signup-form';
 
 export default function RegisterUser() {
     return (

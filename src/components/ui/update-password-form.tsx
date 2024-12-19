@@ -1,12 +1,16 @@
 'use client';
 
-import SubmitButton from '@/app/components/buttons/submitbutton';
-import { useActionState, useEffect, useState } from 'react';
+import SubmitButton from '@/components/buttons/submitbutton';
+import {
+    useActionState,
+    useEffect,
+    useState
+} from 'react';
 import { useFormStatus } from 'react-dom';
 import Form from 'next/form';
-import Icons from '../icons/icons';
-import { FormErrors } from '../types/types';
-import { Toast } from '../ts/sweetalert';
+import Icons from '@/components/icons/icons';
+import { FormErrors } from '@/components/types/types';
+import { Toast } from '@/components/ts/sweetalert';
 import { UpdatePassword } from '@/app/actions/updatepassword';
 
 export default function UpdatePasswordUserForm() {
@@ -228,7 +232,7 @@ export default function UpdatePasswordUserForm() {
                     </p>
                 )}
             </div>
-            
+
             <SubmitButton disabled={pending || Object.keys(errors).length > 0}>
                 Atualizar Senha
             </SubmitButton>

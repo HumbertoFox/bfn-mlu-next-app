@@ -2,8 +2,8 @@
 
 import { cookies } from 'next/headers'; // Para acessar os cookies
 import { UpdatePhoneFormSchema } from '@/app/lib/definitions';
-import { FormStateUp } from '../components/types/types';
-import db from '../lib/db';
+import { FormStateUp } from '@/components/types/types';
+import db from '@/app/lib/db';
 
 export async function UpdatePhone(state: FormStateUp, formData: FormData) {
     // 1. Obter o username do cookie

@@ -11,9 +11,9 @@ import {
 } from 'next/navigation';
 import Image from 'next/image';
 import { destroySession } from '@/app/lib/removecookies';
-import Icons from '../icons/icons';
+import Icons from '@/components/icons/icons';
 import Link from 'next/link';
-import { UsernameProps } from '../interfaces/interfaces';
+import { UsernameProps } from '@/components/interfaces/interfaces';
 
 export default function HeaderComponents({ user }: UsernameProps) {
     const router = useRouter();

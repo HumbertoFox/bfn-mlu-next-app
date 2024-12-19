@@ -1,11 +1,15 @@
 'use client';
 
-import SubmitButton from '@/app/components/buttons/submitbutton';
-import { useActionState, useEffect, useState } from 'react';
+import SubmitButton from '@/components/buttons/submitbutton';
+import {
+    useActionState,
+    useEffect,
+    useState
+} from 'react';
 import { useFormStatus } from 'react-dom';
 import Form from 'next/form';
-import { FormErrors } from '../types/types';
-import { Toast } from '../ts/sweetalert';
+import { FormErrors } from '@/components/types/types';
+import { Toast } from '@/components/ts/sweetalert';
 import { UpdatePhone } from '@/app/actions/updatephone';
 
 export default function UpdatePhoneUserForm() {

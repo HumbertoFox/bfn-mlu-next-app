@@ -2,7 +2,7 @@ import {
     ApiResponse,
     BitcoinData,
     CryptosPrices
-} from "../components/interfaces/interfaces";
+} from '@/components/interfaces/interfaces';
 
 export const getBitcoinData = async (): Promise<BitcoinData[]> => {
     try {

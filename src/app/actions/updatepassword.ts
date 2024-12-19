@@ -2,9 +2,9 @@
 
 import { cookies } from 'next/headers'; // Para acessar os cookies
 import { UpdatePasswordFormSchema } from '@/app/lib/definitions';
-import { FormStateIn } from '../components/types/types';
+import { FormStateIn } from '@/components/types/types';
 import * as bcrypt from 'bcryptjs';
-import db from '../lib/db';
+import db from '@/app/lib/db';
 
 export async function UpdatePassword(state: FormStateIn, formData: FormData) {
     // 1. Obter o username do cookie

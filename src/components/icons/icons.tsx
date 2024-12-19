@@ -3,7 +3,7 @@ import { fas } from '@fortawesome/free-solid-svg-icons';
 import { fab } from '@fortawesome/free-brands-svg-icons';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { IconsProps } from '../interfaces/interfaces';
+import { IconsProps } from '@/components/interfaces/interfaces';
 
 library.add(fas, far, fab);
 

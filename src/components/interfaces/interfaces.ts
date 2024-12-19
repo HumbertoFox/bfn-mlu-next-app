@@ -22,7 +22,8 @@ export interface TypeButtonProps extends SubmitButtonProps {
 };
 
 export interface IconsProps {
-    icon: string; // O nome da classe de ícones para um Font Awesome ou qualquer biblioteca de ícones (por exemplo, 'fa-solid fa-eye')
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    icon: string | any; // O nome da classe de ícones para um Font Awesome ou qualquer biblioteca de ícones (por exemplo, 'fa-solid fa-eye')
     className?: string; // Nome de classe opcional para adicionar estilo personalizado
     title?: string; // Torna title opcional
 };

@@ -1,10 +1,10 @@
 'use server';
 
 import { SignupFormSchema } from '@/app/lib/definitions';
-import { FormStateUp } from '../components/types/types';
+import { FormStateUp } from '@/components/types/types';
 import * as bcrypt from 'bcryptjs';
-import db from '../lib/db';
-import { getCheckedCpf } from '../lib/CheckedCpf';
+import db from '@/app/lib/db';
+import { getCheckedCpf } from '@/app/lib/checkedcpf';
 
 export async function signup(state: FormStateUp, formData: FormData) {
     // 1. Validar campos de formulário

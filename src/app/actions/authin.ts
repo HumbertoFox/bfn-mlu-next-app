@@ -1,10 +1,10 @@
 'use server';
 
 import { SigninFormSchema } from '@/app/lib/definitions';
-import { FormStateIn } from '../components/types/types';
+import { FormStateIn } from '@/components/types/types';
 import * as bcrypt from 'bcryptjs';
-import db from '../lib/db';
-import { createSessionToken } from '../lib/createtoken';
+import db from '@/app/lib/db';
+import { createSessionToken } from '@/app/lib/createtoken';
 
 export async function signin(state: FormStateIn, formData: FormData) {
     // Validar campos de formulário

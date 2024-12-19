@@ -2,7 +2,7 @@ import 'server-only';
 import * as jose from 'jose';
 import { cookies } from 'next/headers';
 import { openSessionToken } from '@/app/lib/opentoken';
-import { SessionPayload } from '../components/interfaces/interfaces';
+import { SessionPayload } from '@/components/interfaces/interfaces';
 
 export async function createSessionToken(payload: SessionPayload) {
     try {

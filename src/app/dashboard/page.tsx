@@ -1,16 +1,16 @@
 'use client';
 
 import Image from 'next/image';
-import TypetButton from '../components/buttons/typebutton';
+import TypetButton from '@/components/buttons/typebutton';
 import {
     useEffect,
     useRef,
     useState
 } from 'react';
-import { CryptoData } from '../components/interfaces/interfaces';
-import { getCriptosPrice } from '../api/bitCoindata';
-import { CriptosData } from '../actions/criptosdata';
-import CriptoUpForm from '../components/ui/criptoup-form';
+import { CryptoData } from '@/components/interfaces/interfaces';
+import { getCriptosPrice } from '@/app/api/bitCoinData';
+import { CriptosData } from '@/app/actions/criptosdata';
+import CriptoUpForm from '@/components/ui/criptoup-form';
 import gsap from 'gsap';
 
 export default function Dashboard() {

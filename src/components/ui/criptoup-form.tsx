@@ -7,11 +7,11 @@ import {
     useState
 } from 'react';
 import Form from 'next/form';
-import { Toast } from '../ts/sweetalert';
+import { Toast } from '@/components/ts/sweetalert';
 import { CreateBid } from '@/app/actions/createbid';
-import { CriptoUpFormProps } from '../interfaces/interfaces';
+import { CriptoUpFormProps } from '@/components/interfaces/interfaces';
 import Image from 'next/image';
-import DangerButton from '../buttons/dangerbutton';
+import DangerButton from '@/components/buttons/dangerbutton';
 import gsap from 'gsap';
 import {
     PayPalButtons,

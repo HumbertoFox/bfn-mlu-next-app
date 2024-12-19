@@ -1,6 +1,6 @@
 'use server';
 
-import db from '../lib/db';
+import db from '@/app/lib/db';
 
 export async function CriptosData() {
     // 1. Consultando o número de lances para cada criptomoeda no banco de dados
