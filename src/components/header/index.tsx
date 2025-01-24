@@ -126,17 +126,19 @@ export default function HeaderComponents({ user }: UsernameProps) {
                                             </Link>
                                         </div>
                                     )}
-                                    <div className='block px-4 py-2 text-sm text-gray-700 rounded-t-lg hover:bg-gray-100 hover:text-orange-400 duration-500'>
-                                        <Link
-                                            href='/edituser'
-                                            className='w-full flex items-center justify-center gap-2'
-                                            title='Perfil'
-                                            onClick={closeDropdown}
-                                        >
-                                            <Icons icon='fa-solid fa-user-gear' />
-                                            Perfil
-                                        </Link>
-                                    </div>
+                                    {pathname !== '/edituser' && (
+                                        <div className='block px-4 py-2 text-sm text-gray-700 rounded-t-lg hover:bg-gray-100 hover:text-orange-400 duration-500'>
+                                            <Link
+                                                href='/edituser'
+                                                className='w-full flex items-center justify-center gap-2'
+                                                title='Perfil'
+                                                onClick={closeDropdown}
+                                            >
+                                                <Icons icon='fa-solid fa-user-gear' />
+                                                Perfil
+                                            </Link>
+                                        </div>
+                                    )}
                                     <div className='block px-4 py-2 text-sm text-gray-700 rounded-b-lg hover:bg-gray-100 hover:text-red-600 duration-500 bg-white'>
                                         <button
                                             className='w-full flex items-center justify-center gap-2'
