@@ -31,6 +31,7 @@ export type FormStateCriptoUp =
     | {
         errors?: {
             amount?: string[]; // Matriz de erros relacionados ao campo "amount"
+            paymentID?: string[]; // Matriz de erros relacionados ao campo "paymentID"
             cryptocurrency?: string[]; // Matriz de erros relacionados ao campo "cryptocurrency"
         }
         message?: string; // Mensagem geral opcional (por exemplo, mensagem de sucesso ou erro)

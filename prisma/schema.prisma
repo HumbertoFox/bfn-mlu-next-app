@@ -32,6 +32,7 @@ model User {
 
 model Bid {
   id             Int      @id @default(autoincrement())
+  paymentID      String   @unique
   amount         String   @db.VarChar(255)
   cryptocurrency String
   createdAt      DateTime @default(now())

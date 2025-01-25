@@ -23,6 +23,7 @@ export async function CreateBid(state: FormStateCriptoUp, formData: FormData) {
     const validatedFields = CreateBidFormSchema.safeParse({
         amount: formData.get('amount') as string,  // Garantir que o valor de 'amount' seja tratado como string
         cryptocurrency: formData.get('cryptocurrency') as string,
+        paymentID: formData.get('paymentID') as string, // Adicionar paymentID
     });
 
     // 4. Se algum campo de formulário for inválido, retorne antecipadamente
@@ -33,7 +34,7 @@ export async function CreateBid(state: FormStateCriptoUp, formData: FormData) {
     };
 
     // 5. Preparar dados para inserção no banco de dados
-    const { amount, cryptocurrency } = validatedFields.data
+    const { amount, paymentID , cryptocurrency } = validatedFields.data
 
     // Verificando existencia do usuário logado no Banco
     const existingUser = await db.user.findFirst({
@@ -57,6 +58,7 @@ export async function CreateBid(state: FormStateCriptoUp, formData: FormData) {
         await db.bid.create({
             data: {
                 amount,
+                paymentID,
                 cryptocurrency,
                 userId: existingUser.id,
             },

@@ -31,6 +31,14 @@ export default function CriptoUpForm({
     });
     const formRef = useRef(null); // Ref para o formulário
 
+    // Função de validação do campo de lance
+    const isValidateAmount = (value: string) => {
+        const regex = /^\d{1,3}(\.\d{3})*(,\d{1,2})?$/; // Formato de número aceito (ex: 1.000,00 ou 1000.00)
+        const parsedValue = value.replace(',', '.');
+        const isValidNumber = !isNaN(parseFloat(parsedValue)) && parseFloat(parsedValue) >= 0;
+        return regex.test(value) && isValidNumber;
+    };
+
     // Função para atualizar o valor dos campos
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
@@ -176,7 +184,39 @@ export default function CriptoUpForm({
                     </div>
 
                     <div className='flex flex-col justify-between my-auto'>
-                        <PayPalButtons />
+                        <PayPalButtons
+                            createOrder={(_, actions) => {
+                                return actions.order.create({
+                                    purchase_units: [
+                                        {
+                                            amount: {
+                                                value: '10.00', // Valor do pagamento fixo de R$10,00
+                                                currency_code: 'BRL' // Moeda em reais
+                                            }
+                                        }
+                                    ],
+                                    intent: 'CAPTURE'
+                                });
+                            }}
+                            onApprove={(_, actions) => {
+                                return actions.order.capture().then(function (details) {
+                                    // Após a confirmação do pagamento
+                                    Toast.fire({
+                                        icon: 'success',
+                                        title: details.id,
+                                    });
+                                });
+                            }}
+                            onError={(err) => {
+                                console.error('Erro no pagamento:', err);
+                                Toast.fire({
+                                    icon: 'error',
+                                    title: 'Ocorreu um erro no pagamento.',
+                                });
+                            }}
+
+                            disabled={!isValidateAmount(formData.amount)}
+                        />
 
                         <DangerButton onClick={handleClose}>
                             Cancelar

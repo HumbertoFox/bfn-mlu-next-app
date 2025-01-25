@@ -111,6 +111,10 @@ export const CreateBidFormSchema = z.object({
             const isValidNumber = !isNaN(parseFloat(parsedValue)) && parseFloat(parsedValue) >= 0;
             return isValidNumber;
         }, { message: 'O valor deve ser um número válido e não pode ser negativo.' }),
+    paymentID: z
+        .string()
+        .min(1, { message: 'Campo Obrigatório.' })  // Campo obrigatório
+        .trim(),  // Remover espaços à esquerda e à direita
     cryptocurrency: z
         .string()
         .min(1, { message: 'Campo Obrigatório.' })  // Campo obrigatório

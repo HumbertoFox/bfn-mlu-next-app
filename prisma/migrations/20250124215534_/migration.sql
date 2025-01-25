@@ -21,6 +21,7 @@ CREATE TABLE "users" (
 -- CreateTable
 CREATE TABLE "bids" (
     "id" SERIAL NOT NULL,
+    "paymentID" TEXT NOT NULL,
     "amount" VARCHAR(255) NOT NULL,
     "cryptocurrency" TEXT NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -40,6 +41,9 @@ CREATE UNIQUE INDEX "users_phone_key" ON "users"("phone");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "users_email_key" ON "users"("email");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "bids_paymentID_key" ON "bids"("paymentID");
 
 -- AddForeignKey
 ALTER TABLE "bids" ADD CONSTRAINT "bids_userId_fkey" FOREIGN KEY ("userId") REFERENCES "users"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
