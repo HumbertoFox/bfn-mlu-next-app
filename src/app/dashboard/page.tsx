@@ -140,7 +140,7 @@ export default function Dashboard() {
     }, []);
     return (
         <main
-            className='w-full min-h-full flex flex-wrap gap-20 items-center justify-evenly max-w-2xl lg:max-w-7xl'
+            className='w-full min-h-full flex flex-wrap gap-20 items-center justify-evenly max-w-2xl lg:max-w-7xl pb-5'
         >
             <div
                 className='w-72 h-96 flex flex-col items-center justify-between border border-orange-500 rounded-lg p-1 pb-5 shadow-orange-500 shadow-md opacity-0'
