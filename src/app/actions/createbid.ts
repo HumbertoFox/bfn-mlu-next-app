@@ -10,7 +10,6 @@ export async function CreateBid(state: FormStateCriptoUp, formData: FormData) {
     const cookieStore = cookies();
     const usernameCookie = (await cookieStore).get('username'); // Obtém o username do cookie
 
-    // 2. Verificar se o cookie existe e é uma string
     if (!usernameCookie || typeof usernameCookie.value !== 'string') {
         return {
             info: 'Usuário não autenticado!',
@@ -19,24 +18,24 @@ export async function CreateBid(state: FormStateCriptoUp, formData: FormData) {
 
     const username = usernameCookie.value; // Agora temos a string do username
 
-    // 3. Validar campos de formulário
+    // 2. Validar campos de formulário
     const validatedFields = CreateBidFormSchema.safeParse({
         amount: formData.get('amount') as string,  // Garantir que o valor de 'amount' seja tratado como string
+        paymentID: formData.get('paymentID') as string, // Pega o paymentID (orderID)
         cryptocurrency: formData.get('cryptocurrency') as string,
-        paymentID: formData.get('paymentID') as string, // Adicionar paymentID
     });
 
-    // 4. Se algum campo de formulário for inválido, retorne antecipadamente
+    // 3. Se algum campo de formulário for inválido, retorne antecipadamente
     if (!validatedFields.success) {
         return {
             errors: validatedFields.error.flatten().fieldErrors,
         };
     };
 
-    // 5. Preparar dados para inserção no banco de dados
-    const { amount, paymentID , cryptocurrency } = validatedFields.data
+    // 4. Preparar dados para inserção no banco de dados
+    const { amount, paymentID, cryptocurrency } = validatedFields.data
 
-    // Verificando existencia do usuário logado no Banco
+    // Verificar existência do usuário no banco
     const existingUser = await db.user.findFirst({
         where: {
             username,
@@ -46,7 +45,7 @@ export async function CreateBid(state: FormStateCriptoUp, formData: FormData) {
     // Definir criptomoedas permitidas
     const allowedCryptos = ['bitcoin', 'ethereum', 'binancecoin'];
 
-    // 6. Verificar se a criptomoeda é válida
+    // 5. Verificar se a criptomoeda é válida
     if (!allowedCryptos.includes(cryptocurrency.toLowerCase())) {
         return {
             info: 'Criptomoeda não permitida. Apenas bitcoin, ethereum e binancecoin são aceitas.',
@@ -54,7 +53,7 @@ export async function CreateBid(state: FormStateCriptoUp, formData: FormData) {
     };
 
     if (existingUser) {
-        // Cadastrando lance no banco
+        // Inserir o lance no banco, incluindo o paymentID
         await db.bid.create({
             data: {
                 amount,

@@ -1,6 +1,7 @@
 'use client';
 
 import {
+    startTransition,
     useActionState,
     useEffect,
     useRef,
@@ -15,6 +16,7 @@ import DangerButton from '@/components/buttons/dangerbutton';
 import gsap from 'gsap';
 import {
     PayPalButtons,
+    PayPalButtonsComponentProps,
     PayPalScriptProvider,
     ReactPayPalScriptOptions
 } from '@paypal/react-paypal-js';
@@ -27,16 +29,28 @@ export default function CriptoUpForm({
     // Estado para os valores dos campos
     const [formData, setFormData] = useState({
         amount: '',
+        paymentID: '',
         cryptocurrency: cryptocurrency, // Defina a criptomoeda a partir de adereços
     });
     const formRef = useRef(null); // Ref para o formulário
 
     // Função de validação do campo de lance
     const isValidateAmount = (value: string) => {
-        const regex = /^\d{1,3}(\.\d{3})*(,\d{1,2})?$/; // Formato de número aceito (ex: 1.000,00 ou 1000.00)
-        const parsedValue = value.replace(',', '.');
-        const isValidNumber = !isNaN(parseFloat(parsedValue)) && parseFloat(parsedValue) >= 0;
-        return regex.test(value) && isValidNumber;
+        const regex = (/^\d{1,3}(\.\d{3})*(,\d{2})?$/); // Formato de número aceito (ex: 1.000,00 ou 1000.00)
+        const parsedValue = value.replace(',', '.');  // Substitui a vírgula por ponto para facilitar a conversão
+
+        // Verifica se o valor está no formato correto
+        const isValidFormat = regex.test(value);
+
+        // Converte para número e verifica se é válido e não negativo
+        const numericValue = parseFloat(parsedValue);
+        const isValidNumber = !isNaN(numericValue) && numericValue >= 0;
+
+        // Verifica o comprimento mínimo (4 dígitos) e o máximo (999.999.999)
+        const isValidLength = value.length >= 4;
+        const isWithinMaxValue = numericValue <= 999999999;
+
+        return isValidFormat && isValidNumber && isValidLength && isWithinMaxValue;
     };
 
     // Função para atualizar o valor dos campos
@@ -65,6 +79,41 @@ export default function CriptoUpForm({
         clientId: process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID ?? '',
         currency: 'BRL',
         intent: 'capture',
+    };
+
+    const createOrder: PayPalButtonsComponentProps['createOrder'] = async (_, actions) => {
+        return actions.order.create({
+            purchase_units: [
+                {
+                    amount: {
+                        value: '10.00', // Valor do pagamento fixo de R$10,00
+                        currency_code: 'BRL' // Moeda em reais
+                    }
+                }
+            ],
+            intent: 'CAPTURE'
+        });
+    }
+
+    const onApprove: PayPalButtonsComponentProps['onApprove'] = async (actions) => {
+        // Obtenha o orderID da resposta do PayPal
+        const orderID = actions.orderID;
+
+        // Criar um objeto FormData com os dados do formulário
+        const formDataToSubmit = new FormData();
+        formDataToSubmit.append('amount', formData.amount);
+        formDataToSubmit.append('paymentID', orderID);
+        formDataToSubmit.append('cryptocurrency', formData.cryptocurrency);
+
+        startTransition(() => action(formDataToSubmit));
+
+        // Mostre a notificação de sucesso
+        Toast.fire({
+            icon: 'success',
+            title: state?.message
+        });
+
+        handleClose();
     };
 
     // Messagem resposta do backend ou Atualizar o estado quando a prop cryptocurrency mudar
@@ -185,28 +234,8 @@ export default function CriptoUpForm({
 
                     <div className='flex flex-col justify-between my-auto'>
                         <PayPalButtons
-                            createOrder={(_, actions) => {
-                                return actions.order.create({
-                                    purchase_units: [
-                                        {
-                                            amount: {
-                                                value: '10.00', // Valor do pagamento fixo de R$10,00
-                                                currency_code: 'BRL' // Moeda em reais
-                                            }
-                                        }
-                                    ],
-                                    intent: 'CAPTURE'
-                                });
-                            }}
-                            onApprove={(_, actions) => {
-                                return actions.order.capture().then(function (details) {
-                                    // Após a confirmação do pagamento
-                                    Toast.fire({
-                                        icon: 'success',
-                                        title: details.id,
-                                    });
-                                });
-                            }}
+                            createOrder={createOrder}
+                            onApprove={onApprove}
                             onError={(err) => {
                                 console.error('Erro no pagamento:', err);
                                 Toast.fire({

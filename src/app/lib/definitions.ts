@@ -105,7 +105,7 @@ export const CreateBidFormSchema = z.object({
         .string()  // Mantém como string
         .min(4, { message: 'O valor do lance deve ter pelo menos 4 dígitos. ' })  // Garantir que o número tenha pelo menos 4 caracteres (dígitos)
         .max(999999999, { message: 'O valor do lance não pode ser maior que 999.999.999. ' })  // Limitar a um valor máximo
-        .regex(/^\d{1,3}(\.\d{3})*(,\d{1,2})?$/, { message: 'O valor deve ser um número válido, como 0,00 ou 1.000,00. ' })  // Aceita números com até 2 casas decimais
+        .regex(/^\d{1,3}(\.\d{3})*(,\d{2})?$/, { message: 'O valor deve ser um número válido, como 0,00 ou 1.000,00. ' })  // Aceita números com até 2 casas decimais
         .refine((value) => {
             const parsedValue = value.replace(',', '.');  // Ajusta o valor para facilitar a comparação
             const isValidNumber = !isNaN(parseFloat(parsedValue)) && parseFloat(parsedValue) >= 0;
