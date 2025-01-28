@@ -56,3 +56,9 @@ export interface CriptoUpFormProps {
 export interface UsernameProps {
     user: string | null;
 };
+
+export interface TermComponentProps {
+    checked: boolean;
+    handleTerm: () => void;
+    handleChecked: () => void;
+}

@@ -20,10 +20,11 @@ import {
     PayPalScriptProvider,
     ReactPayPalScriptOptions
 } from '@paypal/react-paypal-js';
+import TermComponent from '@/components/term';
 
 export default function CriptoUpForm({
     cryptocurrency,
-    onClose
+    onClose,
 }: CriptoUpFormProps) {
     const [state, action] = useActionState(CreateBid, undefined);
     // Estado para os valores dos campos
@@ -32,6 +33,8 @@ export default function CriptoUpForm({
         paymentID: '',
         cryptocurrency: cryptocurrency, // Defina a criptomoeda a partir de adereços
     });
+    const [isTerm, setIsTerm] = useState<boolean>(false);
+    const [isChecked, setIsChecked] = useState<boolean>(false);
     const formRef = useRef(null); // Ref para o formulário
 
     // Função de validação do campo de lance
@@ -74,6 +77,10 @@ export default function CriptoUpForm({
             },
         });
     };
+
+    const handleTerm = () => setIsTerm(!isTerm);
+
+    const handleChecked = () => setIsChecked(!isChecked);
 
     const initialOptions: ReactPayPalScriptOptions = {
         clientId: process.env.NEXT_PUBLIC_PAYPAL_CLIENT_ID ?? '',
@@ -199,6 +206,7 @@ export default function CriptoUpForm({
                             value={formData.amount}  // Vinculando o valor ao estado
                             onChange={handleChange}  // Atualizando o estado ao digitar
                             required
+                            disabled={!isChecked}
                         />
                         {state?.errors?.amount && (
                             <p className='text-red-500 text-sm pl-2'>
@@ -232,6 +240,35 @@ export default function CriptoUpForm({
                         )}
                     </div>
 
+                    <div className='min-w-full flex items-center gap-2'>
+                        <label
+                            className='text-sm text-nowrap hover:text-slate-500 duration-300'
+                            htmlFor='donation'
+                        >
+                            <button
+                                className='underline decoration-solid'
+                                type='button'
+                                title='Termo de Doação'
+                                onClick={handleTerm}
+                            >
+                                {
+                                    isChecked
+                                        ? 'Termo de Doação Assinado'
+                                        : 'Leia o termo de doação para liberar o Lance'
+                                }
+                            </button>
+                        </label>
+                        <input
+                            className='cursor-not-allowed'
+                            id='donation'
+                            name='donation'
+                            type='checkbox'
+                            checked={isChecked}
+                            readOnly
+                            required
+                        />
+                    </div>
+
                     <div className='flex flex-col justify-between my-auto'>
                         <PayPalButtons
                             createOrder={createOrder}
@@ -253,6 +290,13 @@ export default function CriptoUpForm({
                     </div>
                 </Form>
             </PayPalScriptProvider>
+            {isTerm && (
+                <TermComponent
+                    handleChecked={handleChecked}
+                    checked={isChecked}
+                    handleTerm={handleTerm}
+                />
+            )}
         </div >
     );
 };
