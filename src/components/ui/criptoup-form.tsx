@@ -156,20 +156,16 @@ export default function CriptoUpForm({
     useEffect(() => {
         const formDown = formRef.current;
 
-        gsap.fromTo(
-            formDown,
-            {
-                opacity: 0,
-                y: -500,
-                scale: 0.5
-            },
-            {
-                opacity: 1,
-                y: 0,
-                duration: 1,
-                scale: 1
-            },
-        );
+        gsap.fromTo(formDown, {
+            opacity: 0,
+            y: -500,
+            scale: 0.5
+        }, {
+            opacity: 1,
+            y: 0,
+            duration: 1,
+            scale: 1
+        });
     }, []);
     return (
         <div
@@ -198,7 +194,7 @@ export default function CriptoUpForm({
                             Lance
                         </label>
                         <input
-                            className='w-full rounded p-2 border'
+                            className={`w-full rounded p-2 border ${isChecked ? 'cursor-default' : 'cursor-not-allowed'}`}
                             id='amount'
                             name='amount'
                             placeholder='Seu lance'
