@@ -4,22 +4,25 @@
 
 # BetoFoxNet_Info
 
-</div>
 
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nextjs/nextjs-original.svg" width="130px" alt="Icon NextJs" /></a></p>
-
-<p align="center">
-<!-- <a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a> -->
-</p>
+<a href="https://nextjs.org/"><img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nextjs/nextjs-original.svg" width="130px" alt="Icon NextJs" /></a>
 
 ## About NextJS
-
-## Auth
-
 Altenticação!
+## Auth NextJS
+
+</div>
+
+
+<div align="center">
+
+<p><a href="https://nextjs.org/" target="_blank"><img src="public/images/bitcoin.webp" width="130px" alt="Icon NextJs" /></a></p>
+
+<p><a href="https://nextjs.org/" target="_blank"><img src="public/images/ethereum.webp" width="130px" alt="Icon NextJs" /></a></p>
+
+<p><a href="https://nextjs.org/" target="_blank"><img src="public/images/binancecoin.webp" width="130px" alt="Icon NextJs" /></a></p>
+
+</div>
 
 ## Desenvolvido em:
 
