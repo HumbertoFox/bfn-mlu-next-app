@@ -1,25 +1,48 @@
 'use client';
 
+import { UserData } from '@/app/actions/userdata';
 import DangerButton from '@/components/buttons/dangerbutton'
 import { TermComponentProps } from '@/components/interfaces/interfaces';
 import gsap from 'gsap';
 import {
     useEffect,
-    useRef
+    useRef,
+    useState
 } from 'react';
+import { formatCPF } from '@/components/ts/formatcpf';
 
 const date = new Date();
 const day = date.toLocaleString('default', { day: 'numeric', month: 'long', year: 'numeric' });
 
 export default function TermComponent({ checked, handleTerm, handleChecked }: TermComponentProps) {
     const termRef = useRef(null);
+    const [isUserData, setIsUserData] = useState({
+        cpf: '',
+        name: ''
+    });
 
     useEffect(() => {
         const term = termRef.current;
 
+        const fetchUserData = async () => {
+            const userData = await UserData();
+
+            // Verificando se existe dados de usuário
+            if (userData?.existingUser) {
+                const { cpf, name } = userData.existingUser;
+                setIsUserData({
+                    cpf: formatCPF(cpf),  // Aplica a formatação no CPF
+                    name,
+                });
+            };
+            return
+        };
+
+        fetchUserData();
+
         gsap.fromTo(term, {
             opacity: 0,
-            y: -500
+            y: '-100%'
         }, {
             opacity: 1,
             y: 0,
@@ -131,9 +154,8 @@ export default function TermComponent({ checked, handleTerm, handleChecked }: Te
 
                         <div>
                             <p className='font-bold text-left py-2'>Participante:</p>
-                            <p>[Nome do Participante]</p>
-                            <p>[Endereço]</p>
-                            <p>[CPF]</p>
+                            <p className='uppercase'>{isUserData.name}</p>
+                            <p>{isUserData.cpf}</p>
                         </div>
                     </div>
 

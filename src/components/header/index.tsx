@@ -55,11 +55,12 @@ export default function HeaderComponents({ user }: UsernameProps) {
     useEffect(() => {
         // Atualizando estado do Usuário
         setUsername(user || null);
-        const dropDown = dropdownRef.current;
-        const buttonIs = buttonRef.current;
 
         // Função para fechar o dropdown se o clique fora do dropdown ou botão
         const handleClickOutside = (event: MouseEvent) => {
+            const dropDown = dropdownRef.current;
+            const buttonIs = buttonRef.current;
+            
             if (dropDown && !dropDown.contains(event.target as Node) &&
                 buttonIs && !buttonIs.contains(event.target as Node)) {
                 setIsOpen(false);
