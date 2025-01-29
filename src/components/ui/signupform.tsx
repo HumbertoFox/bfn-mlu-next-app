@@ -12,6 +12,7 @@ import { signup } from '@/app/actions/authup';
 import { FormErrors } from '@/components/types/types';
 import { Toast } from '@/components/ts/sweetalert';
 import { useRouter } from 'next/navigation';
+import { signin } from '@/app/actions/authin';
 
 export default function SignUpForm() {
     const router = useRouter();
@@ -86,8 +87,15 @@ export default function SignUpForm() {
                 title: state.message,
             });
 
+            // Cria um novo objeto FormData e anexe os dados do formulário
+            const formDataInstance = new FormData();
+            for (const [key, value] of Object.entries(formData)) {
+                formDataInstance.append(key, value);
+            };
+
+            signin(state, formDataInstance); // Passa a instância FormData para signin
             resetForm(); // Resetando o formulário após sucesso
-            router.push('/login');
+            router.push('/dashboard'); // Direciona para o Painel "Dashboard"
         };
 
         if (state?.info) {

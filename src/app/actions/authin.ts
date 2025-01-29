@@ -43,7 +43,11 @@ export async function signin(state: FormStateIn, formData: FormData) {
         };
 
         // Se o nome de usuário, e-mail e senha forem válidos, ele gera um token de sessão com user_id e email
-        await createSessionToken({ sub: existingUser.id, username: existingUser.username, email: existingUser.email });
+        await createSessionToken({
+            sub: existingUser.id,
+            username: existingUser.username,
+            email: existingUser.email
+        });
 
         return {
             message: 'Autenticado com Sucesso!',
