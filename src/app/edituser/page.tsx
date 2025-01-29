@@ -1,10 +1,8 @@
-'use client';
-
 import Image from 'next/image';
-import UpdatePasswordUserForm from '@/components/ui/update-password-form';
-import UpdateEmailUserForm from '@/components/ui/update-email-form';
-import UserDataForm from '@/components/ui/info-user-form';
-import UpdatePhoneUserForm from '@/components/ui/update-phone-form';
+import UpdatePasswordUserForm from '@/components/ui/updatepasswordform';
+import UpdateEmailUserForm from '@/components/ui/updateemailform';
+import UserDataForm from '@/components/ui/infouserform';
+import UpdatePhoneUserForm from '@/components/ui/updatephoneform';
 
 export default function UpdateUser() {
     return (

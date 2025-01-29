@@ -1,6 +1,4 @@
-'use client';
-
-import SignInForm from '@/components/ui/signin-form';
+import SignInForm from '@/components/ui/signinform';
 import Image from 'next/image';
 import Link from 'next/link';
 

@@ -10,7 +10,7 @@ import {
 import { CryptoData } from '@/components/interfaces/interfaces';
 import { getCryptosPrice } from '@/app/api/bitcoindatas';
 import { CryptosData } from '@/app/actions/cryptosdata';
-import CriptoUpForm from '@/components/ui/criptoup-form';
+import CriptoUpForm from '@/components/ui/criptoupform';
 import gsap from 'gsap';
 
 export default function Dashboard() {
