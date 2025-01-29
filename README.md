@@ -16,11 +16,11 @@ Altenticação!
 
 <div align="center">
 
-<p><a href="https://nextjs.org/" target="_blank"><img src="public/images/bitcoin.webp" width="130px" alt="Icon NextJs" /></a></p>
+<p><a href="https://nextjs.org/"><img src="./public/images/bitcoin.webp" width="130px" alt="Icon Bitcoin" /></a></p>
 
-<p><a href="https://nextjs.org/" target="_blank"><img src="public/images/ethereum.webp" width="130px" alt="Icon NextJs" /></a></p>
+<p><a href="https://nextjs.org/"><img src="./public/images/ethereum.webp" width="130px" alt="Icon Ethereum" /></a></p>
 
-<p><a href="https://nextjs.org/" target="_blank"><img src="public/images/binancecoin.webp" width="130px" alt="Icon NextJs" /></a></p>
+<p><a href="https://nextjs.org/"><img src="./public/images/binancecoin.webp" width="130px" alt="Icon Binancecoin" /></a></p>
 
 </div>
 
