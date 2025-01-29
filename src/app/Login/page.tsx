@@ -1,4 +1,4 @@
-import SignInForm from '@/components/ui/signinform';
+import SignInForm from '@/components/forms/signinform';
 import Image from 'next/image';
 import Link from 'next/link';
 

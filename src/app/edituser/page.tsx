@@ -1,8 +1,8 @@
 import Image from 'next/image';
-import UpdatePasswordUserForm from '@/components/ui/updatepasswordform';
-import UpdateEmailUserForm from '@/components/ui/updateemailform';
-import UserDataForm from '@/components/ui/infouserform';
-import UpdatePhoneUserForm from '@/components/ui/updatephoneform';
+import UpdatePasswordUserForm from '@/components/forms/updatepasswordform';
+import UpdateEmailUserForm from '@/components/forms/updateemailform';
+import UserDataForm from '@/components/forms/infouserform';
+import UpdatePhoneUserForm from '@/components/forms/updatephoneform';
 
 export default function UpdateUser() {
     return (
