@@ -1,13 +1,13 @@
 import { ReactNode } from 'react';
 
 // Tipagem da função getBitcoinData
-export interface BitcoinData {
+export interface BitcoinDataProps {
     timestamp: number; // O carimbo de data/hora do ponto de dados do Bitcoin (geralmente em milissegundos)
     price: number; // O preço do Bitcoin nesse carimbo de data/hora (em USD)
 };
 
 // Tipo dos dados retornados pela API
-export interface ApiResponse {
+export interface ApiResponseProps {
     prices: Array<[number, number]>; // Array de tuplas [timestamp, price]
 };
 
@@ -42,7 +42,7 @@ export interface CryptoData {
     date: string;
 };
 
-export interface CryptosPrices {
+export interface CryptosPricesProps {
     bitcoin: { brl: number, usd: number };
     ethereum: { brl: number, usd: number };
     binancecoin: { brl: number, usd: number };

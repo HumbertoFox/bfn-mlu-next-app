@@ -17,7 +17,7 @@ import {
 } from 'chart.js';
 import { getBitcoinData } from '@/app/api/bitCoinData';
 import Head from 'next/head';
-import { BitcoinData } from '@/components/interfaces/interfaces';
+import { BitcoinDataProps } from '@/components/interfaces/interfaces';
 
 ChartJS.register(
   CategoryScale,
@@ -30,7 +30,7 @@ ChartJS.register(
 );
 
 export default function Home() {
-  const [bitcoinData, setBitcoinData] = useState<BitcoinData[]>([]);
+  const [bitcoinData, setBitcoinData] = useState<BitcoinDataProps[]>([]);
   const [chartData, setChartData] = useState({
     labels: [] as string[],
     datasets: [{
