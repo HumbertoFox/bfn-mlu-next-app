@@ -170,7 +170,7 @@ export default function TermComponent({ checked, handleTerm, handleChecked }: Te
                         Li e concordo com o Termo de Doação!
                     </label>
                     <input
-                        className=''
+                        className='cursor-pointer'
                         id='donation'
                         name='donation'
                         type='checkbox'
