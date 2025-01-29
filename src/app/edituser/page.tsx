@@ -1,3 +1,5 @@
+'use client';
+
 import Image from 'next/image';
 import UpdatePasswordUserForm from '@/components/ui/update-password-form';
 import UpdateEmailUserForm from '@/components/ui/update-email-form';

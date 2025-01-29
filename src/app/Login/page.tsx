@@ -1,3 +1,5 @@
+'use client';
+
 import SignInForm from '@/components/ui/signin-form';
 import Image from 'next/image';
 import Link from 'next/link';
