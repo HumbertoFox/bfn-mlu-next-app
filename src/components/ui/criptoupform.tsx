@@ -180,7 +180,7 @@ export default function CriptoUpForm({
                 >
                     <Image
                         className='rounded-xl'
-                        src={`/images/${cryptocurrency}.webp`}
+                        src={`/images/${cryptocurrency}.png`}
                         alt={`Image cripto ${cryptocurrency}`}
                         width={512}
                         height={512}

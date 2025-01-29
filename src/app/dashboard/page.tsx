@@ -148,7 +148,7 @@ export default function Dashboard() {
             >
                 <Image
                     className='w-36 h-36 rounded-md'
-                    src={'/images/bitcoin.webp'}
+                    src={'/images/bitcoin.png'}
                     alt='Imagem cripto'
                     width={512}
                     height={512}
@@ -203,7 +203,7 @@ export default function Dashboard() {
             >
                 <Image
                     className='w-36 h-36 rounded-md'
-                    src={'/images/ethereum.webp'}
+                    src={'/images/ethereum.png'}
                     alt='Imagem cripto'
                     width={512}
                     height={512}
@@ -258,7 +258,7 @@ export default function Dashboard() {
             >
                 <Image
                     className='w-36 h-36 rounded-md'
-                    src={'/images/binancecoin.webp'}
+                    src={'/images/binancecoin.png'}
                     alt='Imagem cripto'
                     width={512}
                     height={512}
