@@ -2,7 +2,7 @@
 
 import db from '@/app/lib/db';
 
-export async function CriptosData() {
+export async function CryptosData() {
     // 1. Consultando o número de lances para cada criptomoeda no banco de dados
     const bitcoinBidCount = await db.bid.count({
         where: {

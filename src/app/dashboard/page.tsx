@@ -8,8 +8,8 @@ import {
     useState
 } from 'react';
 import { CryptoData } from '@/components/interfaces/interfaces';
-import { getCriptosPrice } from '@/app/api/bitCoinData';
-import { CriptosData } from '@/app/actions/criptosdata';
+import { getCryptosPrice } from '@/app/api/bitcoindatas';
+import { CryptosData } from '@/app/actions/cryptosdata';
 import CriptoUpForm from '@/components/ui/criptoup-form';
 import gsap from 'gsap';
 
@@ -49,7 +49,7 @@ export default function Dashboard() {
     // Função para buscar os valores
     const fetchCryptoData = async () => {
         try {
-            const data = await getCriptosPrice(); // Usando a função importada
+            const data = await getCryptosPrice(); // Usando a função importada
 
             const {
                 bitcoinBidCountData,
@@ -58,7 +58,7 @@ export default function Dashboard() {
                 bitcoinLastBidDate,
                 ethereumLastBidDate,
                 bnbLastBidDate
-            } = await CriptosData(); // Obtendo dados de lances
+            } = await CryptosData(); // Obtendo dados de lances
 
             // Definindo os dados para cada criptomoeda
             setBitcoin({

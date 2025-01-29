@@ -25,7 +25,7 @@ export const getBitcoinData = async (): Promise<BitcoinDataProps[]> => {
     };
 };
 
-export const getCriptosPrice = async (): Promise<CryptosPricesProps> => {
+export const getCryptosPrice = async (): Promise<CryptosPricesProps> => {
     const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,binancecoin&vs_currencies=brl,usd');
     const data: CryptosPricesProps = await response.json(); // Tipando a resposta da API
 

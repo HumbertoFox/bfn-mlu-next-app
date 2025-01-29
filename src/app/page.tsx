@@ -15,7 +15,7 @@ import {
   Tooltip,
   Legend
 } from 'chart.js';
-import { getBitcoinData } from '@/app/api/bitCoinData';
+import { getBitcoinData } from '@/app/api/bitcoindatas';
 import Head from 'next/head';
 import { BitcoinDataProps } from '@/components/interfaces/interfaces';
 
