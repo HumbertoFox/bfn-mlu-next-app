@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import TypetButton from '@/components/buttons/typebutton';
+import TypeButton from '@/components/buttons/typebutton';
 import {
     useEffect,
     useRef,
@@ -192,9 +192,9 @@ export default function Dashboard() {
                     )}
                 </div>
 
-                <TypetButton onClick={() => handleParticiparClick('bitcoin')}>
+                <TypeButton onClick={() => handleParticiparClick('bitcoin')}>
                     Participar
-                </TypetButton>
+                </TypeButton>
             </div>
 
             <div
@@ -247,9 +247,9 @@ export default function Dashboard() {
                     )}
                 </div>
 
-                <TypetButton onClick={() => handleParticiparClick('ethereum')}>
+                <TypeButton onClick={() => handleParticiparClick('ethereum')}>
                     Participar
-                </TypetButton>
+                </TypeButton>
             </div>
 
             <div
@@ -302,9 +302,9 @@ export default function Dashboard() {
                     )}
                 </div>
 
-                <TypetButton onClick={() => handleParticiparClick('binancecoin')}>
+                <TypeButton onClick={() => handleParticiparClick('binancecoin')}>
                     Participar
-                </TypetButton>
+                </TypeButton>
             </div>
 
             {isFormVisible && selectedCryptocurrency && (

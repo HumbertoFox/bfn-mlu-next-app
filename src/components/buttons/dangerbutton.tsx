@@ -1,6 +1,4 @@
-'use client';
-
-import { TypeButtonProps } from '../interfaces/interfaces';
+import { TypeButtonProps } from '@/components/interfaces/interfaces';
 
 export default function DangerButton({
     type = 'button',

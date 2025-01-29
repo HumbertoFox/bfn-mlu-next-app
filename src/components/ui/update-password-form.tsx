@@ -6,7 +6,6 @@ import {
     useEffect,
     useState
 } from 'react';
-import { useFormStatus } from 'react-dom';
 import Form from 'next/form';
 import Icons from '@/components/icons/icons';
 import { FormErrors } from '@/components/types/types';
@@ -14,8 +13,7 @@ import { Toast } from '@/components/ts/sweetalert';
 import { UpdatePassword } from '@/app/actions/updatepassword';
 
 export default function UpdatePasswordUserForm() {
-    const { pending } = useFormStatus();
-    const [state, action] = useActionState(UpdatePassword, undefined);
+    const [state, action, pending] = useActionState(UpdatePassword, undefined);
 
     const [isOldPasswordVisible, setIsOldPasswordVisible] = useState<boolean>(false);
     const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);

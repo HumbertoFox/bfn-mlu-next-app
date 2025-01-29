@@ -1,8 +1,6 @@
-'use client';
+import { TypeButtonProps } from '@/components/interfaces/interfaces';
 
-import { TypeButtonProps } from '../interfaces/interfaces';
-
-export default function TypetButton({
+export default function TypeButton({
     type = 'button',
     className = '',
     disabled = false, // Certifique-se de que 'disabled' tenha um valor padrão de false

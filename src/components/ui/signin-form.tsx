@@ -6,7 +6,6 @@ import {
     useEffect,
     useState
 } from 'react';
-import { useFormStatus } from 'react-dom';
 import Form from 'next/form';
 import { signin } from '@/app/actions/authin';
 import Icons from '@/components/icons/icons';
@@ -14,9 +13,8 @@ import { Toast } from '@/components/ts/sweetalert';
 import { useRouter } from 'next/navigation';
 
 export default function SignInForm() {
-    const { pending } = useFormStatus(); // Obter status pendente
     const router = useRouter();
-    const [state, action] = useActionState(signin, undefined);
+    const [state, action, pending] = useActionState(signin, undefined);
 
     const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
 

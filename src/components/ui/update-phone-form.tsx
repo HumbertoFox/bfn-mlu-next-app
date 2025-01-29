@@ -6,15 +6,13 @@ import {
     useEffect,
     useState
 } from 'react';
-import { useFormStatus } from 'react-dom';
 import Form from 'next/form';
 import { FormErrors } from '@/components/types/types';
 import { Toast } from '@/components/ts/sweetalert';
 import { UpdatePhone } from '@/app/actions/updatephone';
 
 export default function UpdatePhoneUserForm() {
-    const { pending } = useFormStatus();
-    const [state, action] = useActionState(UpdatePhone, undefined);
+    const [state, action, pending] = useActionState(UpdatePhone, undefined);
 
     // Estado para os valores dos campos
     const [formData, setFormData] = useState({

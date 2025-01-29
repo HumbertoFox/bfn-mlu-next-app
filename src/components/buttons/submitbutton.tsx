@@ -1,6 +1,5 @@
-'use client';
-
-import { SubmitButtonProps } from '../interfaces/interfaces';
+import { useFormStatus } from 'react-dom';
+import { SubmitButtonProps } from '@/components/interfaces/interfaces';
 
 export default function SubmitButton({
     className = '',
@@ -8,6 +7,7 @@ export default function SubmitButton({
     children,
     ...props
 }: SubmitButtonProps) {
+    const { pending } = useFormStatus(); // Obter status pendente
     return (
         <button
             {...props}
@@ -17,7 +17,7 @@ export default function SubmitButton({
                 focus:bg-blue-500 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:ring-offset-2 
                 active:bg-blue-700 mx-auto ${disabled ? 'opacity-50 cursor-not-allowed' : ''} 
                 ${className}`} // Adicionar condicionalmente estilos de opacidade e cursor quando desativado
-            disabled={disabled}  // Passe o objeto 'disabled' para o botão
+            disabled={pending}  // Passe o objeto 'disabled' para o botão
         >
             {children}
         </button>

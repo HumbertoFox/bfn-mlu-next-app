@@ -6,7 +6,6 @@ import {
     useEffect,
     useState
 } from 'react';
-import { useFormStatus } from 'react-dom';
 import Form from 'next/form';
 import Icons from '@/components/icons/icons';
 import { signup } from '@/app/actions/authup';
@@ -15,9 +14,8 @@ import { Toast } from '@/components/ts/sweetalert';
 import { useRouter } from 'next/navigation';
 
 export default function SignUpForm() {
-    const { pending } = useFormStatus();
     const router = useRouter();
-    const [state, action] = useActionState(signup, undefined);
+    const [state, action, pending] = useActionState(signup, undefined);
 
     const [isPasswordVisible, setIsPasswordVisible] = useState<boolean>(false);
     const [isConfirmPasswordVisible, setIsConfirmPasswordVisible] = useState<boolean>(false);
