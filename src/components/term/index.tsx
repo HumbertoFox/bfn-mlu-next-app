@@ -54,7 +54,7 @@ export default function TermComponent({ checked, handleTerm, handleChecked }: Te
             className='absolute top-0 min-w-full min-h-screen flex flex-col items-center text-xs opacity-0 z-50'
             ref={termRef}
         >
-            <div className='w-2/4 min-h-screen bg-white flex flex-col gap-5 p-8'>
+            <div className='w-full md:w-4/5 lg:w-3/5 min-h-screen bg-white flex flex-col gap-5 p-8'>
                 <div className='flex flex-col'>
                     <h1 className='text-center font-bold uppercase py-5'>
                         Termo de Doação para Lance em Criptomoeda
