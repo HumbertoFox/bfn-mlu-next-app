@@ -1,10 +1,7 @@
 'use server';
 
 import { isSessionValid } from '@/app/lib/isvalid';
-import {
-    NextRequest,
-    NextResponse
-} from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 
 export const config = {
     matcher: '/((?!api|_next/static|_next/image|.*\\.png$).*)'

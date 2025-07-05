@@ -1,8 +1,4 @@
-import {
-    ApiResponseProps,
-    BitcoinDataProps,
-    CryptosPricesProps
-} from '@/components/interfaces/interfaces';
+import { ApiResponseProps, BitcoinDataProps, CryptosPricesProps } from '@/components/interfaces/interfaces';
 
 export const getBitcoinData = async (): Promise<BitcoinDataProps[]> => {
     try {

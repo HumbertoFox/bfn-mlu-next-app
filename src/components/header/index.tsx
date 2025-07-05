@@ -1,14 +1,7 @@
 'use client'; // Indique que este componente é um componente cliente
 
-import {
-    useEffect,
-    useRef,
-    useState
-} from 'react';
-import {
-    usePathname,
-    useRouter
-} from 'next/navigation';
+import { useEffect, useRef, useState } from 'react';
+import { usePathname, useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { destroySession } from '@/app/lib/removecookies';
 import Icons from '@/components/icons/icons';
@@ -60,7 +53,7 @@ export default function HeaderComponents({ user }: UsernameProps) {
         const handleClickOutside = (event: MouseEvent) => {
             const dropDown = dropdownRef.current;
             const buttonIs = buttonRef.current;
-            
+
             if (dropDown && !dropDown.contains(event.target as Node) &&
                 buttonIs && !buttonIs.contains(event.target as Node)) {
                 setIsOpen(false);

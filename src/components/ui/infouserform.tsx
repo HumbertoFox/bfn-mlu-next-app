@@ -1,10 +1,7 @@
 'use client';
 
 import { UserData } from '@/app/actions/userdata';
-import {
-    useEffect,
-    useState
-} from 'react';
+import { useEffect, useState } from 'react';
 import { formatCPF } from '@/components/ts/formatcpf';
 
 export default function UserDataForm() {

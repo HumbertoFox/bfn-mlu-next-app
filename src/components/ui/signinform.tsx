@@ -1,16 +1,12 @@
 'use client';
 
 import SubmitButton from '@/components/buttons/submitbutton';
-import {
-    useActionState,
-    useEffect,
-    useState
-} from 'react';
+import { useActionState, useEffect, useState } from 'react';
 import Form from 'next/form';
 import { signin } from '@/app/actions/authin';
 import Icons from '@/components/icons/icons';
-import { Toast } from '@/components/ts/sweetalert';
 import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 
 export default function SignInForm() {
     const router = useRouter();
@@ -47,9 +43,9 @@ export default function SignInForm() {
 
     useEffect(() => {
         if (state?.message) {
-            Toast.fire({
-                icon: 'success',
-                title: state.message,
+            toast.success('Sucesso!', {
+                description: state.message,
+                style: { borderColor: 'green' },
             });
 
             resetForm(); // Resetando o formulário após sucesso
@@ -57,9 +53,9 @@ export default function SignInForm() {
         };
 
         if (state?.info) {
-            Toast.fire({
-                icon: 'info',
-                title: state.info
+            toast.warning('Atensão', {
+                description: state.info,
+                style: { borderColor: 'orange' },
             });
         };
     }, [router, state]);

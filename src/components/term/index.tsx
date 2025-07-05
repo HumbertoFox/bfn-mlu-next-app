@@ -4,11 +4,7 @@ import { UserData } from '@/app/actions/userdata';
 import DangerButton from '@/components/buttons/dangerbutton'
 import { TermComponentProps } from '@/components/interfaces/interfaces';
 import gsap from 'gsap';
-import {
-    useEffect,
-    useRef,
-    useState
-} from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { formatCPF } from '@/components/ts/formatcpf';
 
 const date = new Date();

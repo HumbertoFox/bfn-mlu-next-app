@@ -1,16 +1,12 @@
 'use client';
 
 import SubmitButton from '@/components/buttons/submitbutton';
-import {
-    useActionState,
-    useEffect,
-    useState
-} from 'react';
+import { useActionState, useEffect, useState } from 'react';
 import Form from 'next/form';
 import Icons from '@/components/icons/icons';
 import { FormErrors } from '@/components/types/types';
-import { Toast } from '@/components/ts/sweetalert';
 import { UpdatePassword } from '@/app/actions/updatepassword';
+import { toast } from 'sonner';
 
 export default function UpdatePasswordUserForm() {
     const [state, action, pending] = useActionState(UpdatePassword, undefined);
@@ -64,18 +60,18 @@ export default function UpdatePasswordUserForm() {
 
     useEffect(() => {
         if (state?.message) {
-            Toast.fire({
-                icon: 'success',
-                title: state.message,
+            toast.success('Sucesso!', {
+                description: state.message,
+                style: { borderColor: 'green' }
             });
 
             resetForm(); // Resetando o formulário após sucesso
         };
 
         if (state?.info) {
-            Toast.fire({
-                icon: 'info',
-                title: state.info
+            toast.warning('Atenção!', {
+                description: state.info,
+                style: { borderColor: 'orange' }
             });
         };
     }, [state]);

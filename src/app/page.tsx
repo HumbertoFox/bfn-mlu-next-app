@@ -1,33 +1,13 @@
 'use client'
 
-import {
-  useEffect,
-  useState
-} from 'react';
+import { useEffect, useState } from 'react';
 import { Line } from 'react-chartjs-2';
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend
-} from 'chart.js';
+import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
 import { getBitcoinData } from '@/app/api/bitcoindatas';
 import Head from 'next/head';
 import { BitcoinDataProps } from '@/components/interfaces/interfaces';
 
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  Title,
-  Tooltip,
-  Legend
-);
+ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 export default function Home() {
   const [bitcoinData, setBitcoinData] = useState<BitcoinDataProps[]>([]);
@@ -38,8 +18,8 @@ export default function Home() {
       data: [] as number[],
       borderColor: '#F7931A',
       backgroundColor: 'rgba(247, 147, 26, 0.2)',
-      borderWidth: 1,
-    },],
+      borderWidth: 1
+    }]
   });
   const [isLoading, setIsLoading] = useState(true);
 
@@ -84,7 +64,7 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Bitcoin Value in the Last 48 Hours - ${bitcoinData[bitcoinData.length - 1]?.price || 'Loading...'}</title>
+        <title>Valor do Bitcoin nas últimas 48 horas - ${bitcoinData[bitcoinData.length - 1]?.price || 'Loading...'}</title>
         <meta
           name='description'
           content={`Current Bitcoin price is ${bitcoinData[bitcoinData.length - 1]?.price || 'Loading...'} USD`}
@@ -96,7 +76,7 @@ export default function Home() {
 
           <div className='w-full h-[75vh] flex flex-col justify-center items-center p-2 gap-2'>
 
-            <h1 className='text-2xl font-bold cursor-default'>Bitcoin Value in the Last 24 Hours</h1>
+            <h1 className='text-2xl font-bold cursor-default'>Valor do Bitcoin nas últimas 48 horas</h1>
             {isLoading ? (
               <p>Loading data...</p>
             ) : (
@@ -126,7 +106,7 @@ export default function Home() {
           </div>
         </main>
 
-        <footer className='row-start-3 flex gap-6 flex-wrap items-center justify-center cursor-default'>
+        <footer className='row-start-3 flex gap-6 flex-wrap items-center justify-center cursor-default pt-4'>
           <p>&copy; BetoFoxNet_Info 2015 - {new Date().getFullYear()}</p>
         </footer>
       </div>

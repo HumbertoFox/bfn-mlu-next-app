@@ -1,31 +1,17 @@
 'use client';
 
-import {
-    startTransition,
-    useActionState,
-    useEffect,
-    useRef,
-    useState
-} from 'react';
+import { startTransition, useActionState, useEffect, useRef, useState } from 'react';
 import Form from 'next/form';
-import { Toast } from '@/components/ts/sweetalert';
 import { CreateBid } from '@/app/actions/createbid';
 import { CriptoUpFormProps } from '@/components/interfaces/interfaces';
 import Image from 'next/image';
 import DangerButton from '@/components/buttons/dangerbutton';
 import gsap from 'gsap';
-import {
-    PayPalButtons,
-    PayPalButtonsComponentProps,
-    PayPalScriptProvider,
-    ReactPayPalScriptOptions
-} from '@paypal/react-paypal-js';
+import { PayPalButtons, PayPalButtonsComponentProps, PayPalScriptProvider, ReactPayPalScriptOptions } from '@paypal/react-paypal-js';
 import TermComponent from '@/components/term';
+import { toast } from 'sonner';
 
-export default function CriptoUpForm({
-    cryptocurrency,
-    onClose,
-}: CriptoUpFormProps) {
+export default function CriptoUpForm({ cryptocurrency, onClose }: CriptoUpFormProps) {
     const [state, action] = useActionState(CreateBid, undefined);
     // Estado para os valores dos campos
     const [formData, setFormData] = useState({
@@ -115,9 +101,9 @@ export default function CriptoUpForm({
         startTransition(() => action(formDataToSubmit));
 
         // Mostre a notificação de sucesso
-        Toast.fire({
-            icon: 'success',
-            title: state?.message
+        toast.success('Sucesso!', {
+            description: state?.message,
+            style: { borderColor: 'green' },
         });
 
         handleClose();
@@ -133,9 +119,9 @@ export default function CriptoUpForm({
         };
 
         if (state?.message) {
-            Toast.fire({
-                icon: 'success',
-                title: state.message,
+            toast.success('Sucesso!', {
+                description: state.message,
+                style: { borderColor: 'green' }
             });
 
             // Função para resetar o formulário
@@ -146,9 +132,9 @@ export default function CriptoUpForm({
         };
 
         if (state?.info) {
-            Toast.fire({
-                icon: 'info',
-                title: state.info
+            toast.warning('Atensão', {
+                description: state.info,
+                style: { borderColor: 'orange' },
             });
         };
     }, [cryptocurrency, state]);
@@ -271,9 +257,9 @@ export default function CriptoUpForm({
                             onApprove={onApprove}
                             onError={(err) => {
                                 console.error('Erro no pagamento:', err);
-                                Toast.fire({
-                                    icon: 'error',
-                                    title: 'Ocorreu um erro no pagamento.',
+                                toast.error('Erro!', {
+                                    description: 'Ocorreu um erro no pagamento.',
+                                    style: { borderColor: 'red' },
                                 });
                             }}
 

@@ -1,18 +1,14 @@
 'use client';
 
 import SubmitButton from '@/components/buttons/submitbutton';
-import {
-    useActionState,
-    useEffect,
-    useState
-} from 'react';
+import { useActionState, useEffect, useState } from 'react';
 import Form from 'next/form';
 import Icons from '@/components/icons/icons';
 import { signup } from '@/app/actions/authup';
 import { FormErrors } from '@/components/types/types';
-import { Toast } from '@/components/ts/sweetalert';
 import { useRouter } from 'next/navigation';
 import { signin } from '@/app/actions/authin';
+import { toast } from 'sonner';
 
 export default function SignUpForm() {
     const router = useRouter();
@@ -82,9 +78,9 @@ export default function SignUpForm() {
 
     useEffect(() => {
         if (state?.message) {
-            Toast.fire({
-                icon: 'success',
-                title: state.message,
+            toast.success('Sucesso!', {
+                description: state.message,
+                style: { borderColor: 'green' }
             });
 
             // Cria um novo objeto FormData e anexe os dados do formulário
@@ -99,9 +95,9 @@ export default function SignUpForm() {
         };
 
         if (state?.info) {
-            Toast.fire({
-                icon: 'info',
-                title: state.info
+            toast.warning('Atenção!', {
+                description: state.info,
+                style: { borderColor: 'orange' }
             });
         };
     }, [router, state]);
