@@ -2,11 +2,7 @@
 
 import Image from 'next/image';
 import TypeButton from '@/components/buttons/typebutton';
-import {
-    useEffect,
-    useRef,
-    useState
-} from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { CryptoData } from '@/components/interfaces/interfaces';
 import { getCryptosPrice } from '@/app/api/bitcoindatas';
 import { CryptosData } from '@/app/actions/cryptosdata';
