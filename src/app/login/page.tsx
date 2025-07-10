@@ -1,8 +1,16 @@
 import SignInForm from '@/components/ui/signinform';
 import Image from 'next/image';
 import Link from 'next/link';
+import db from '@/app/lib/db';
+import { redirect } from 'next/navigation';
 
-export default function Login() {
+export default async function Login() {
+    // Verificando se existe informações do usuário role ADMIN no banco de dados
+    const isAdmin = await db.user.findFirst({
+        where: { role: 'ADMIN' },
+        select: { role: true }
+    });
+    if (!isAdmin) redirect('/signup');
     return (
         <div className='w-full h-[90svh] flex items-center justify-center'>
             <div className='w-96 flex flex-col items-center justify-center gap-5 rounded-lg shadow shadow-blue-400 p-3'>

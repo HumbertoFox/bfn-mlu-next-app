@@ -29,9 +29,10 @@ export interface IconsProps {
 };
 
 export interface SessionPayload {
+    user_id?: string;
     username: string;
     email?: string;
-    user_id?: string;
+    role?: string;
     [key: string]: unknown; // Caso precise de flexibilidade para adicionar mais propriedades no futuro
 };
 
@@ -55,6 +56,7 @@ export interface CriptoUpFormProps {
 
 export interface UsernameProps {
     user: string | null;
+    isadmin: boolean;
 };
 
 export interface TermComponentProps {

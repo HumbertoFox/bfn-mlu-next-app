@@ -7,9 +7,7 @@ import { SessionPayload } from '@/components/interfaces/interfaces';
 export async function createSessionToken(payload: SessionPayload) {
     try {
         // Verifica se a chave secreta para o token está definida
-        if (!process.env.SESSION_SECRET) {
-            throw new Error('SESSION_SECRET não está definido');
-        };
+        if (!process.env.SESSION_SECRET) throw new Error('SESSION_SECRET não está definido');
 
         const secret = new TextEncoder().encode(process.env.SESSION_SECRET);
 
@@ -24,9 +22,7 @@ export async function createSessionToken(payload: SessionPayload) {
         const tokenResponse = await openSessionToken(sessionAuthToken);
 
         const exp = tokenResponse?.exp;
-        if (!exp) {
-            throw new Error('Tempo de expiração não encontrado na resposta do token');
-        };
+        if (!exp) throw new Error('Tempo de expiração não encontrado na resposta do token');
 
         // Configura o cookie para armazenar o token de sessão
         const cookieStore = await cookies();

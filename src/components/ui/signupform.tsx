@@ -47,14 +47,10 @@ export default function SignUpForm() {
         const errors: FormErrors = {};
 
         // Verificação de email
-        if (formData.email !== formData.confirm_email) {
-            errors.email = 'Os e-mails não coincidem';
-        };
+        if (formData.email !== formData.confirm_email) errors.email = 'Os e-mails não coincidem';
 
         // Verificação de senha
-        if (formData.password !== formData.confirm_password) {
-            errors.password = 'As senhas não coincidem';
-        };
+        if (formData.password !== formData.confirm_password) errors.password = 'As senhas não coincidem';
 
         return errors;
     };
@@ -85,9 +81,7 @@ export default function SignUpForm() {
 
             // Cria um novo objeto FormData e anexe os dados do formulário
             const formDataInstance = new FormData();
-            for (const [key, value] of Object.entries(formData)) {
-                formDataInstance.append(key, value);
-            };
+            for (const [key, value] of Object.entries(formData)) formDataInstance.append(key, value);
 
             signin(state, formDataInstance); // Passa a instância FormData para signin
             resetForm(); // Resetando o formulário após sucesso
@@ -116,6 +110,7 @@ export default function SignUpForm() {
                     name='cpf'
                     placeholder='CPF'
                     type='text'
+                    tabIndex={1}
                     value={formData.cpf}  // Vinculando o valor ao estado
                     onChange={handleChange}  // Atualizando o estado ao digitar
                     required
@@ -140,6 +135,7 @@ export default function SignUpForm() {
                     name='dateofbirth'
                     placeholder='Data de Nascimento'
                     type='date'
+                    tabIndex={2}
                     value={formData.dateofbirth}  // Vinculando o valor ao estado
                     onChange={handleChange}  // Atualizando o estado ao digitar
                     required
@@ -164,6 +160,7 @@ export default function SignUpForm() {
                     name='name'
                     placeholder='Nome Completo'
                     type='text'
+                    tabIndex={3}
                     value={formData.name}  // Vinculando o valor ao estado
                     onChange={handleChange}  // Atualizando o estado ao digitar
                     required
@@ -188,6 +185,7 @@ export default function SignUpForm() {
                     name='username'
                     placeholder='Nome para Usuário'
                     type='text'
+                    tabIndex={4}
                     value={formData.username}  // Vinculando o valor ao estado
                     onChange={handleChange}  // Atualizando o estado ao digitar
                     required
@@ -212,6 +210,7 @@ export default function SignUpForm() {
                     name='phone'
                     placeholder='Telefone para Contato'
                     type='tel'
+                    tabIndex={5}
                     value={formData.phone}  // Vinculando o valor ao estado
                     onChange={handleChange}  // Atualizando o estado ao digitar
                     required
@@ -236,6 +235,7 @@ export default function SignUpForm() {
                     name='email'
                     placeholder='E-mail'
                     type='email'
+                    tabIndex={6}
                     value={formData.email}  // Vinculando o valor ao estado
                     onChange={handleChange}  // Atualizando o estado ao digitar
                     required
@@ -260,6 +260,7 @@ export default function SignUpForm() {
                     name='confirm_email'
                     placeholder='Confirmar E-mail'
                     type='email'
+                    tabIndex={7}
                     value={formData.confirm_email}  // Vinculando o valor ao estado
                     onChange={handleChange}  // Atualizando o estado ao digitar
                     required
@@ -286,6 +287,7 @@ export default function SignUpForm() {
                             ? 'text'
                             : 'password'
                         }
+                        tabIndex={8}
                         value={formData.password}  // Vinculando o valor ao estado
                         onChange={handleChange}  // Atualizando o estado ao digitar
                         required
@@ -339,6 +341,7 @@ export default function SignUpForm() {
                             ? 'text'
                             : 'password'
                         }
+                        tabIndex={9}
                         value={formData.confirm_password}  // Vinculando o valor ao estado
                         onChange={handleChange}  // Atualizando o estado ao digitar
                         required

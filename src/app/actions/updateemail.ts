@@ -8,16 +8,14 @@ import db from '@/app/lib/db';
 export async function UpdateEmail(state: FormStateIn, formData: FormData) {
     // 1. Obter o username do cookie
     const cookieStore = cookies();
-    const usernameCookie = (await cookieStore).get('username'); // Obtém o username do cookie
+    // Obtém o username do cookie
+    const usernameCookie = (await cookieStore).get('username');
 
     // 2. Verificar se o cookie existe e é uma string
-    if (!usernameCookie || typeof usernameCookie.value !== 'string') {
-        return {
-            info: 'Usuário não autenticado!',
-        };
-    };
+    if (!usernameCookie || typeof usernameCookie.value !== 'string') return { info: 'Usuário não autenticado!' };
 
-    const username = usernameCookie.value; // Agora temos a string do username
+    // Agora temos a string do username
+    const username = usernameCookie.value;
 
     // 3. Validar campos de formulário
     const validatedFields = UpdateEmailFormSchema.safeParse({
@@ -26,11 +24,7 @@ export async function UpdateEmail(state: FormStateIn, formData: FormData) {
     });
 
     // 4. Se algum campo de formulário for inválido, retorne antecipadamente
-    if (!validatedFields.success) {
-        return {
-            errors: validatedFields.error.flatten().fieldErrors,
-        };
-    };
+    if (!validatedFields.success) return { errors: validatedFields.error.flatten().fieldErrors };
 
     // 5. Preparar dados para inserção no banco de dados
     const { old_email, email } = validatedFields.data
@@ -44,31 +38,20 @@ export async function UpdateEmail(state: FormStateIn, formData: FormData) {
 
     if (existingUser) {
         // 6. Verificar se o email fornecido é o mesmo que está no banco de dados
-        if (existingUser.email !== old_email) {
-            return {
-                info: 'O e-mail informado não corresponde ao e-mail atual!',
-            };
-        };
+        if (existingUser.email !== old_email) return { info: 'O e-mail informado não corresponde ao e-mail atual!' };
 
         // 7. Verificar se o novo e-mail é diferente do antigo
-        if (existingUser.email === email) {
-            return {
-                info: 'O novo e-mail não pode ser o mesmo que o e-mail atual!',
-            };
-        };
+        if (existingUser.email === email) return { info: 'O novo e-mail não pode ser o mesmo que o e-mail atual!' };
 
         // 8. Verificar se o novo e-mail já está cadastrado no banco de dados
         const emailExists = await db.user.findFirst({
             where: {
-                email, // Verifica se já existe um usuário com esse e-mail
+                // Verifica se já existe um usuário com esse e-mail
+                email,
             },
         });
 
-        if (emailExists) {
-            return {
-                info: 'Este e-mail já está cadastrado!',
-            };
-        };
+        if (emailExists) return { info: 'Este e-mail já está cadastrado!' };
 
         // Atualizando E-mail no banco
         await db.user.update({
@@ -81,12 +64,8 @@ export async function UpdateEmail(state: FormStateIn, formData: FormData) {
         });
 
         // Mensagem de exito
-        return {
-            message: 'E-mail atualizado com sucesso!',
-        };
+        return { message: 'E-mail atualizado com sucesso!' };
     };
 
-    return {
-        info: 'Erro com o Banco de Dados!',
-    };
+    return { info: 'Erro com o Banco de Dados!' };
 };

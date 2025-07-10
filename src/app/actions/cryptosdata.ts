@@ -28,10 +28,12 @@ export async function CryptosData() {
             cryptocurrency: 'bitcoin',
         },
         orderBy: {
-            createdAt: 'desc', // Ordenando pela data de criação mais recente
+            // Ordenando pela data de criação mais recente
+            createdAt: 'desc',
         },
         select: {
-            createdAt: true, // Retornando apenas a data do último lance
+            // Retornando apenas a data do último lance
+            createdAt: true,
         },
     });
 
@@ -61,7 +63,8 @@ export async function CryptosData() {
 
     // Retorna os dados de lances como um objeto JSON
     return {
-        bitcoinBidCountData: bitcoinBidCount ? bitcoinBidCount : null, // Aqui retornamos apenas os campos que selecionamos
+        // Aqui retornamos apenas os campos que selecionamos
+        bitcoinBidCountData: bitcoinBidCount ? bitcoinBidCount : null,
         ethereumBidCountData: ethereumBidCount ? ethereumBidCount : null,
         bnbBidCountData: bnbBidCount ? bnbBidCount : null,
         bitcoinLastBidDate: bitcoinLastBid ? bitcoinLastBid.createdAt : null,

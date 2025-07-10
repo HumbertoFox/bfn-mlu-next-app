@@ -15,11 +15,7 @@ export async function signin(state: FormStateIn, formData: FormData) {
     });
 
     // Se algum campo de formulário for inválido, retorne antecipadamente
-    if (!validatedFields.success) {
-        return {
-            errors: validatedFields.error.flatten().fieldErrors,
-        };
-    };
+    if (!validatedFields.success) return { errors: validatedFields.error.flatten().fieldErrors };
 
     // 2. Preparar dados para inserção no banco de dados
     const { username, email, password } = validatedFields.data
@@ -36,25 +32,18 @@ export async function signin(state: FormStateIn, formData: FormData) {
         // Comparando senha criptografada
         const isPasswordValid = await bcrypt.compare(password, existingUser.password);
 
-        if (!isPasswordValid) {
-            return {
-                info: 'Dados informados inválido!',
-            };
-        };
+        if (!isPasswordValid) return { info: 'Dados informados inválido!' };
 
         // Se o nome de usuário, e-mail e senha forem válidos, ele gera um token de sessão com user_id e email
         await createSessionToken({
             sub: existingUser.id,
             username: existingUser.username,
-            email: existingUser.email
+            email: existingUser.email,
+            role: existingUser.role
         });
 
-        return {
-            message: 'Autenticado com Sucesso!',
-        };
+        return { message: 'Autenticado com Sucesso!' };
     };
 
-    return {
-        info: 'Dados informados inválido!',
-    };
+    return { info: 'Dados informados inválido!' };
 };

@@ -19,11 +19,7 @@ export async function signup(state: FormStateUp, formData: FormData) {
     });
 
     // Se algum campo de formulário for inválido, retorne antecipadamente
-    if (!validatedFields.success) {
-        return {
-            errors: validatedFields.error.flatten().fieldErrors,
-        };
-    };
+    if (!validatedFields.success) return { errors: validatedFields.error.flatten().fieldErrors };
 
     // 2. Preparar dados para inserção no banco de dados
     const { cpf, dateofbirth, name, username, phone, email, password } = validatedFields.data
@@ -32,11 +28,7 @@ export async function signup(state: FormStateUp, formData: FormData) {
     const checkedCpf = getCheckedCpf(cpf);
 
     // Messagem caso cpf inválido
-    if (!checkedCpf) {
-        return {
-            info: 'Números do CPF inválido!'
-        };
-    };
+    if (!checkedCpf) return { info: 'Números do CPF inválido!' };
 
     // faça o hash da senha do usuário antes de armazená-la
     const hashedPassword = await bcrypt.hash(password, 12);
@@ -53,25 +45,37 @@ export async function signup(state: FormStateUp, formData: FormData) {
         },
     });
 
-    if (existingUser) {
-        return {
-            info: 'Dados já Cadastrados',
-        };
+    if (existingUser) return { info: 'Dados já Cadastrados' };
+
+    // Verificando existencia de Dados Usuário ADMIN no Banco
+    const existingUserAdmin = await db.user.findFirst({ where: { role: 'ADMIN' } });
+
+    if (!existingUserAdmin) {
+        await db.user.create({
+            data: {
+                cpf,
+                dateofbirth,
+                name,
+                username,
+                phone,
+                email,
+                role: 'ADMIN',
+                password: hashedPassword,
+            },
+        });
+    } else {
+        await db.user.create({
+            data: {
+                cpf,
+                dateofbirth,
+                name,
+                username,
+                phone,
+                email,
+                password: hashedPassword,
+            },
+        });
     };
 
-    await db.user.create({
-        data: {
-            cpf,
-            dateofbirth,
-            name,
-            username,
-            phone,
-            email,
-            password: hashedPassword,
-        },
-    });
-
-    return {
-        message: 'Dados Cadastrados com Sucesso!',
-    };
+    return { message: 'Dados Cadastrados com Sucesso!' };
 };

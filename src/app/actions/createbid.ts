@@ -8,29 +8,25 @@ import db from '@/app/lib/db';
 export async function CreateBid(state: FormStateCriptoUp, formData: FormData) {
     // 1. Obter o username do cookie
     const cookieStore = cookies();
-    const usernameCookie = (await cookieStore).get('username'); // Obtém o username do cookie
+    // Obtém o username do cookie
+    const usernameCookie = (await cookieStore).get('username');
 
-    if (!usernameCookie || typeof usernameCookie.value !== 'string') {
-        return {
-            info: 'Usuário não autenticado!',
-        };
-    };
+    if (!usernameCookie || typeof usernameCookie.value !== 'string') return { info: 'Usuário não autenticado!' };
 
-    const username = usernameCookie.value; // Agora temos a string do username
+    // Agora temos a string do username
+    const username = usernameCookie.value;
 
     // 2. Validar campos de formulário
     const validatedFields = CreateBidFormSchema.safeParse({
-        amount: formData.get('amount') as string,  // Garantir que o valor de 'amount' seja tratado como string
-        paymentID: formData.get('paymentID') as string, // Pega o paymentID (orderID)
+        // Garantir que o valor de 'amount' seja tratado como string
+        amount: formData.get('amount') as string,
+        // Pega o paymentID (orderID)
+        paymentID: formData.get('paymentID') as string,
         cryptocurrency: formData.get('cryptocurrency') as string,
     });
 
     // 3. Se algum campo de formulário for inválido, retorne antecipadamente
-    if (!validatedFields.success) {
-        return {
-            errors: validatedFields.error.flatten().fieldErrors,
-        };
-    };
+    if (!validatedFields.success) return { errors: validatedFields.error.flatten().fieldErrors };
 
     // 4. Preparar dados para inserção no banco de dados
     const { amount, paymentID, cryptocurrency } = validatedFields.data
@@ -46,11 +42,7 @@ export async function CreateBid(state: FormStateCriptoUp, formData: FormData) {
     const allowedCryptos = ['bitcoin', 'ethereum', 'binancecoin'];
 
     // 5. Verificar se a criptomoeda é válida
-    if (!allowedCryptos.includes(cryptocurrency.toLowerCase())) {
-        return {
-            info: 'Criptomoeda não permitida. Apenas bitcoin, ethereum e binancecoin são aceitas.',
-        };
-    };
+    if (!allowedCryptos.includes(cryptocurrency.toLowerCase())) return { info: 'Criptomoeda não permitida. Apenas bitcoin, ethereum e binancecoin são aceitas.' };
 
     if (existingUser) {
         // Inserir o lance no banco, incluindo o paymentID
@@ -64,12 +56,8 @@ export async function CreateBid(state: FormStateCriptoUp, formData: FormData) {
         });
 
         // Mensagem de exito
-        return {
-            message: 'Lance cadastrado com Sucesso!',
-        };
+        return { message: 'Lance cadastrado com Sucesso!' };
     };
 
-    return {
-        info: 'Erro com o Banco de Dados!',
-    };
+    return { info: 'Erro com o Banco de Dados!' };
 };

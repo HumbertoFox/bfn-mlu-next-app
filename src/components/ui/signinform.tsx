@@ -74,9 +74,10 @@ export default function SignInForm() {
                     name='username'
                     placeholder='Nome do Usuário'
                     type='text'
-                    required
+                    tabIndex={1}
                     value={formData.username}  // Vinculando o valor ao estado
                     onChange={handleChange}  // Atualizando o estado ao digitar
+                    required
                 />
                 {state?.errors?.username && (
                     <p className='text-red-500 text-sm pl-2'>
@@ -98,9 +99,10 @@ export default function SignInForm() {
                     name='email'
                     placeholder='E-mail'
                     type='email'
-                    required
+                    tabIndex={2}
                     value={formData.email}  // Vinculando o valor ao estado
                     onChange={handleChange}  // Atualizando o estado ao digitar
+                    required
                 />
                 {state?.errors?.email && (
                     <p className='text-red-500 text-sm pl-2'>
@@ -126,9 +128,10 @@ export default function SignInForm() {
                             ? 'text'
                             : 'password'
                         }
-                        required
+                        tabIndex={3}
                         value={formData.password}  // Vinculando o valor ao estado
                         onChange={handleChange}  // Atualizando o estado ao digitar
+                        required
                     />
                     <button
                         className='absolute right-1 text-blue-400 hover:text-blue-600 duration-500'

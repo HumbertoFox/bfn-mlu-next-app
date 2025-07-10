@@ -8,7 +8,7 @@ import Icons from '@/components/icons/icons';
 import Link from 'next/link';
 import { UsernameProps } from '@/components/interfaces/interfaces';
 
-export default function HeaderComponents({ user }: UsernameProps) {
+export default function HeaderComponents({ user, isadmin }: UsernameProps) {
     const router = useRouter();
     const pathname = usePathname();
     const [username, setUsername] = useState<string | null>(null);
@@ -158,7 +158,7 @@ export default function HeaderComponents({ user }: UsernameProps) {
                     </div>
                 ) : (
                     <div className='flex gap-5'>
-                        {(pathname === '/signup' || pathname === '/') && (
+                        {isadmin && (pathname === '/signup' || pathname === '/') && (
                             <Link
                                 className='text-sm hover:text-blue-700 duration-500'
                                 href={'/login'}
