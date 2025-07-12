@@ -5,6 +5,7 @@ import { cookies } from 'next/headers';
 import HeaderComponents from '@/components/header';
 import { Toaster } from '@/components/ui/sonner';
 import db from './lib/db';
+import { openSessionToken } from './lib/opentoken';
 
 const geistSans = localFont({
   src: './fonts/GeistVF.woff',
@@ -27,11 +28,21 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // Verificando se existe informações do usuário role ADMIN no banco de dados
-  const isAdmin = await db.user.findFirst({
-    where: { role: 'ADMIN' },
-    select: { role: true }
-  });
+  // verifica no banco se existe um usuário com role ADMIN
+  const existingUserAdmin = await db.user.findFirst({ where: { role: 'ADMIN' } });
+  // Verifica se o cookies existe valor
+  const sessionCookie = (await cookies()).get('sessionAuthToken')?.value;
+  let isUserAdmin = false;
+  let existingAdmin = false;
+
+  if (sessionCookie) {
+    const payload = await openSessionToken(sessionCookie);
+
+    if (payload) isUserAdmin = payload.role === 'ADMIN';
+  };
+
+  if (existingUserAdmin) existingAdmin = true;
+
   // Acessa os cookies para pegar as informações do usuário
   // Verificando username no cookies
   const userCookie = (await cookies()).get('username');
@@ -43,7 +54,7 @@ export default async function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <HeaderComponents user={user} isadmin={isAdmin ? true : false} />
+        <HeaderComponents user={user} isuseradmin={isUserAdmin} existingadmin={existingAdmin} />
         {children}
         <Toaster />
       </body>

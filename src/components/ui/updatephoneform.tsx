@@ -81,6 +81,7 @@ export default function UpdatePhoneUserForm() {
                     name='old_phone'
                     placeholder='Telefone atual'
                     type='tel'
+                    tabIndex={1}
                     value={formData.old_phone}  // Vinculando o valor ao estado
                     onChange={handleChange}  // Atualizando o estado ao digitar
                     required
@@ -105,6 +106,7 @@ export default function UpdatePhoneUserForm() {
                     name='phone'
                     placeholder='Telefone novo'
                     type='tel'
+                    tabIndex={2}
                     value={formData.phone}  // Vinculando o valor ao estado
                     onChange={handleChange}  // Atualizando o estado ao digitar
                     required
@@ -129,6 +131,7 @@ export default function UpdatePhoneUserForm() {
                     name='confirm_phone'
                     placeholder='Confirmar Telefone novo'
                     type='tel'
+                    tabIndex={3}
                     value={formData.confirm_phone}  // Vinculando o valor ao estado
                     onChange={handleChange}  // Atualizando o estado ao digitar
                     required
@@ -138,9 +141,9 @@ export default function UpdatePhoneUserForm() {
                 )}
             </div>
 
-            <SubmitButton disabled={pending || Object.keys(errors).length > 0}>
+            <SubmitButton disabled={pending || Object.keys(errors).length > 0} tabIndex={4}>
                 Atualizar Telefone
             </SubmitButton>
         </Form>
     );
-};
+}

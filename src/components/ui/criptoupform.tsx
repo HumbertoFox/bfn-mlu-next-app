@@ -185,6 +185,7 @@ export default function CriptoUpForm({ cryptocurrency, onClose }: CriptoUpFormPr
                             name='amount'
                             placeholder='Seu lance'
                             type='text'
+                            tabIndex={1}
                             value={formData.amount}  // Vinculando o valor ao estado
                             onChange={handleChange}  // Atualizando o estado ao digitar
                             required
@@ -210,6 +211,7 @@ export default function CriptoUpForm({ cryptocurrency, onClose }: CriptoUpFormPr
                             name='cryptocurrency'
                             placeholder='Nome da Cripto'
                             type='text'
+                            tabIndex={2}
                             value={formData.cryptocurrency}  // Vinculando o valor ao estado
                             onChange={handleChange}  // Atualizando o estado ao digitar
                             required
@@ -281,4 +283,4 @@ export default function CriptoUpForm({ cryptocurrency, onClose }: CriptoUpFormPr
             )}
         </div >
     );
-};
+}

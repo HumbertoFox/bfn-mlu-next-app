@@ -8,7 +8,7 @@ import Icons from '@/components/icons/icons';
 import Link from 'next/link';
 import { UsernameProps } from '@/components/interfaces/interfaces';
 
-export default function HeaderComponents({ user, isadmin }: UsernameProps) {
+export default function HeaderComponents({ user, isuseradmin, existingadmin }: UsernameProps) {
     const router = useRouter();
     const pathname = usePathname();
     const [username, setUsername] = useState<string | null>(null);
@@ -111,7 +111,7 @@ export default function HeaderComponents({ user, isadmin }: UsernameProps) {
                         {isOpen && (
                             <div className='origin-top-right absolute right-0 mt-2 w-24 rounded-lg shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-10'>
                                 <div>
-                                    {pathname === '/edituser' && (
+                                    {(pathname === '/edituser' || pathname === '/bids') && (
                                         <div className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 hover:text-orange-400 duration-500'>
                                             <Link
                                                 href='/dashboard'
@@ -137,6 +137,18 @@ export default function HeaderComponents({ user, isadmin }: UsernameProps) {
                                             </Link>
                                         </div>
                                     )}
+                                    {isuseradmin && pathname !== '/bids' && (
+                                        <div className='block px-4 py-2 text-sm text-gray-700 rounded-t-lg hover:bg-gray-100 hover:text-orange-400 duration-500'>
+                                            <Link
+                                                href='/bids'
+                                                className='w-full flex items-center justify-center gap-2'
+                                                title='Lances'
+                                            >
+                                                <Icons icon='fa-solid fa-money-bill-trend-up' />
+                                                Lances
+                                            </Link>
+                                        </div>
+                                    )}
                                     <div className='block px-4 py-2 text-sm text-gray-700 rounded-b-lg hover:bg-gray-100 hover:text-red-600 duration-500 bg-white'>
                                         <button
                                             className='w-full flex items-center justify-center gap-2'
@@ -158,7 +170,7 @@ export default function HeaderComponents({ user, isadmin }: UsernameProps) {
                     </div>
                 ) : (
                     <div className='flex gap-5'>
-                        {isadmin && (pathname === '/signup' || pathname === '/') && (
+                        {existingadmin && (pathname === '/signup' || pathname === '/') && (
                             <Link
                                 className='text-sm hover:text-blue-700 duration-500'
                                 href={'/login'}

@@ -56,7 +56,8 @@ export interface CriptoUpFormProps {
 
 export interface UsernameProps {
     user: string | null;
-    isadmin: boolean;
+    isuseradmin: boolean;
+    existingadmin: boolean;
 };
 
 export interface TermComponentProps {

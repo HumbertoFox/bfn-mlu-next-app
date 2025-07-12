@@ -94,6 +94,7 @@ export default function UpdatePasswordUserForm() {
                             ? 'text'
                             : 'password'
                         }
+                        tabIndex={9}
                         value={formData.old_password}  // Vinculando o valor ao estado
                         onChange={handleChange}  // Atualizando o estado ao digitar
                         required
@@ -147,6 +148,7 @@ export default function UpdatePasswordUserForm() {
                             ? 'text'
                             : 'password'
                         }
+                        tabIndex={10}
                         value={formData.password}  // Vinculando o valor ao estado
                         onChange={handleChange}  // Atualizando o estado ao digitar
                         required
@@ -200,6 +202,7 @@ export default function UpdatePasswordUserForm() {
                             ? 'text'
                             : 'password'
                         }
+                        tabIndex={11}
                         value={formData.confirm_password}  // Vinculando o valor ao estado
                         onChange={handleChange}  // Atualizando o estado ao digitar
                         required
@@ -227,9 +230,9 @@ export default function UpdatePasswordUserForm() {
                 )}
             </div>
 
-            <SubmitButton disabled={pending || Object.keys(errors).length > 0}>
+            <SubmitButton disabled={pending || Object.keys(errors).length > 0} tabIndex={12}>
                 Atualizar Senha
             </SubmitButton>
         </Form>
     );
-};
+}

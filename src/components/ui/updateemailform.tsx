@@ -81,6 +81,7 @@ export default function UpdateEmailUserForm() {
                     name='old_email'
                     placeholder='E-mail atual'
                     type='email'
+                    tabIndex={5}
                     value={formData.old_email}  // Vinculando o valor ao estado
                     onChange={handleChange}  // Atualizando o estado ao digitar
                     required
@@ -105,6 +106,7 @@ export default function UpdateEmailUserForm() {
                     name='email'
                     placeholder='E-mail novo'
                     type='email'
+                    tabIndex={6}
                     value={formData.email}  // Vinculando o valor ao estado
                     onChange={handleChange}  // Atualizando o estado ao digitar
                     required
@@ -129,6 +131,7 @@ export default function UpdateEmailUserForm() {
                     name='confirm_email'
                     placeholder='Confirmar E-mail novo'
                     type='email'
+                    tabIndex={7}
                     value={formData.confirm_email}  // Vinculando o valor ao estado
                     onChange={handleChange}  // Atualizando o estado ao digitar
                     required
@@ -138,9 +141,9 @@ export default function UpdateEmailUserForm() {
                 )}
             </div>
 
-            <SubmitButton disabled={pending || Object.keys(errors).length > 0}>
+            <SubmitButton disabled={pending || Object.keys(errors).length > 0} tabIndex={8}>
                 Atualizar E-mail
             </SubmitButton>
         </Form>
     );
-};
+}
