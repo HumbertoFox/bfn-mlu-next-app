@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import './globals.css';
 import { cookies } from 'next/headers';
-import HeaderComponents from '@/components/header';
+import HeaderComponents from '@/components/headers';
 import { Toaster } from '@/components/ui/sonner';
 import db from './lib/db';
 import { openSessionToken } from './lib/opentoken';
