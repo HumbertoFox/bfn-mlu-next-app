@@ -47,7 +47,7 @@ export default function HeaderComponents({ user, isuseradmin, existingadmin }: U
 
     useEffect(() => {
         // Atualizando estado do Usuário
-        setUsername(user || null);
+        setUsername(user);
 
         // Função para fechar o dropdown se o clique fora do dropdown ou botão
         const handleClickOutside = (event: MouseEvent) => {

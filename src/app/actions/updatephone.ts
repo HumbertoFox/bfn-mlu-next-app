@@ -4,67 +4,70 @@ import { cookies } from 'next/headers'; // Para acessar os cookies
 import { UpdatePhoneFormSchema } from '@/app/lib/definitions';
 import { FormStateUp } from '@/components/types/types';
 import db from '@/app/lib/db';
+import { openSessionToken } from '@/app/lib/opentoken';
 
 export async function UpdatePhone(state: FormStateUp, formData: FormData) {
     // 1. Obter o username do cookie
-    const cookieStore = cookies();
-    // Obtém o username do cookie
-    const usernameCookie = (await cookieStore).get('username');
+    const sessionCookie = (await cookies()).get('sessionAuthToken')?.value;
 
-    // 2. Verificar se o cookie existe e é uma string
-    if (!usernameCookie || typeof usernameCookie.value !== 'string') return { info: 'Usuário não autenticado!' };
+    if (sessionCookie) {
+        const payload = await openSessionToken(sessionCookie);
 
-    // Agora temos a string do username
-    const username = usernameCookie.value;
+        // 2. Verificar se o cookie existe e é uma string
+        if (!payload || typeof payload.username !== 'string') return { info: 'Usuário não autenticado!' };
 
-    // 3. Validar campos de formulário
-    const validatedFields = UpdatePhoneFormSchema.safeParse({
-        old_phone: formData.get('old_phone') as string,
-        phone: formData.get('phone') as string,
-    });
+        // Agora temos a string do username
+        const username = payload.username;
 
-    // 4. Se algum campo de formulário for inválido, retorne antecipadamente
-    if (!validatedFields.success) return { errors: validatedFields.error.flatten().fieldErrors };
+        // 3. Validar campos de formulário
+        const validatedFields = UpdatePhoneFormSchema.safeParse({
+            old_phone: formData.get('old_phone') as string,
+            phone: formData.get('phone') as string,
+        });
 
-    // 5. Preparar dados para inserção no banco de dados
-    const { old_phone, phone } = validatedFields.data
+        // 4. Se algum campo de formulário for inválido, retorne antecipadamente
+        if (!validatedFields.success) return { errors: validatedFields.error.flatten().fieldErrors };
 
-    // Verificando existencia do usuário logado no Banco
-    const existingUser = await db.user.findFirst({
-        where: {
-            username,
-        },
-    });
+        // 5. Preparar dados para inserção no banco de dados
+        const { old_phone, phone } = validatedFields.data
 
-    if (existingUser) {
-        // 6. Verificar se o telefone fornecido é o mesmo que está no banco de dados
-        if (existingUser.phone !== old_phone) return { info: 'O telefone informado não corresponde ao telefone atual!' };
-
-        // 7. Verificar se o novo telefone é diferente do antigo
-        if (existingUser.phone === phone) return { info: 'O novo telefone não pode ser o mesmo que o telefone atual!' };
-
-        // 8. Verificar se o novo telefone já está cadastrado no banco de dados
-        const emailExists = await db.user.findFirst({
+        // Verificando existencia do usuário logado no Banco
+        const existingUser = await db.user.findFirst({
             where: {
-                phone, // Verifica se já existe um usuário com esse telefone
+                username,
             },
         });
 
-        if (emailExists) return { info: 'Este Telefone já está Cadastrado!' };
+        if (existingUser) {
+            // 6. Verificar se o telefone fornecido é o mesmo que está no banco de dados
+            if (existingUser.phone !== old_phone) return { info: 'O telefone informado não corresponde ao telefone atual!' };
 
-        // Atualizando Telefone no banco
-        await db.user.update({
-            where: {
-                id: existingUser.id,
-            },
-            data: {
-                phone,
-            },
-        });
+            // 7. Verificar se o novo telefone é diferente do antigo
+            if (existingUser.phone === phone) return { info: 'O novo telefone não pode ser o mesmo que o telefone atual!' };
 
-        // Mensagem de exito
-        return { message: 'Telefone atualizado com Sucesso!' };
-    };
+            // 8. Verificar se o novo telefone já está cadastrado no banco de dados
+            const emailExists = await db.user.findFirst({
+                where: {
+                    phone, // Verifica se já existe um usuário com esse telefone
+                },
+            });
+
+            if (emailExists) return { info: 'Este Telefone já está Cadastrado!' };
+
+            // Atualizando Telefone no banco
+            await db.user.update({
+                where: {
+                    id: existingUser.id,
+                },
+                data: {
+                    phone,
+                },
+            });
+
+            // Mensagem de exito
+            return { message: 'Telefone atualizado com Sucesso!' };
+        };
+    }
 
     return { info: 'Erro com o Banco de Dados!' };
 };

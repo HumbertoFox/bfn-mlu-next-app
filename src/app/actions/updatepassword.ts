@@ -5,65 +5,68 @@ import { UpdatePasswordFormSchema } from '@/app/lib/definitions';
 import { FormStateIn } from '@/components/types/types';
 import * as bcrypt from 'bcryptjs';
 import db from '@/app/lib/db';
+import { openSessionToken } from '@/app/lib/opentoken';
 
 export async function UpdatePassword(state: FormStateIn, formData: FormData) {
     // 1. Obter o username do cookie
-    const cookieStore = cookies();
-    // Obtém o username do cookie
-    const usernameCookie = (await cookieStore).get('username');
+    const sessionCookie = (await cookies()).get('sessionAuthToken')?.value;
 
-    // 2. Verificar se o cookie existe e é uma string
-    if (!usernameCookie || typeof usernameCookie.value !== 'string') return { info: 'Usuário não autenticado!' };
+    if (sessionCookie) {
+        const payload = await openSessionToken(sessionCookie);
 
-    // Agora temos a string do username
-    const username = usernameCookie.value;
+        // 2. Verificar se o cookie existe e é uma string
+        if (!payload || typeof payload.username !== 'string') return { info: 'Usuário não autenticado!' };
 
-    // 3. Validar campos de formulário
-    const validatedFields = UpdatePasswordFormSchema.safeParse({
-        old_password: formData.get('old_password') as string,
-        password: formData.get('password') as string,
-    });
+        // Agora temos a string do username
+        const username = payload.username;
 
-    // 4. Se algum campo de formulário for inválido, retorne antecipadamente
-    if (!validatedFields.success) return { errors: validatedFields.error.flatten().fieldErrors };
+        // 3. Validar campos de formulário
+        const validatedFields = UpdatePasswordFormSchema.safeParse({
+            old_password: formData.get('old_password') as string,
+            password: formData.get('password') as string,
+        });
 
-    // 5. Preparar dados para inserção no banco de dados
-    const { old_password, password } = validatedFields.data
+        // 4. Se algum campo de formulário for inválido, retorne antecipadamente
+        if (!validatedFields.success) return { errors: validatedFields.error.flatten().fieldErrors };
 
-    // 6. faça o hash da senha do usuário antes de armazená-la
-    const hashedPassword = await bcrypt.hash(password, 12);
+        // 5. Preparar dados para inserção no banco de dados
+        const { old_password, password } = validatedFields.data
 
-    // Verificando existencia do usuário logado no Banco
-    const existingUser = await db.user.findFirst({
-        where: {
-            username,
-        },
-    });
+        // 6. faça o hash da senha do usuário antes de armazená-la
+        const hashedPassword = await bcrypt.hash(password, 12);
 
-    if (existingUser) {
-        // Comparando senha criptografada cadastrada no banco
-        const isPasswordValid = await bcrypt.compare(old_password, existingUser.password);
-
-        if (!isPasswordValid) return { info: 'Senha antiga esta incorreta!' };
-
-        // Comparando senha criptografada cadastrada no banco com a senha nova
-        const isNewPasswordOld = await bcrypt.compare(password, existingUser.password);
-
-        if (isNewPasswordOld) return { info: 'A nova senha não pode ser a mesma que a atual!' };
-
-        // Atualizando senha no banco
-        await db.user.update({
+        // Verificando existencia do usuário logado no Banco
+        const existingUser = await db.user.findFirst({
             where: {
-                id: existingUser.id,
-            },
-            data: {
-                password: hashedPassword,
+                username,
             },
         });
 
-        // Mensagem de exito
-        return { message: 'Senha atualizada com Sucesso!' };
-    };
+        if (existingUser) {
+            // Comparando senha criptografada cadastrada no banco
+            const isPasswordValid = await bcrypt.compare(old_password, existingUser.password);
+
+            if (!isPasswordValid) return { info: 'Senha antiga esta incorreta!' };
+
+            // Comparando senha criptografada cadastrada no banco com a senha nova
+            const isNewPasswordOld = await bcrypt.compare(password, existingUser.password);
+
+            if (isNewPasswordOld) return { info: 'A nova senha não pode ser a mesma que a atual!' };
+
+            // Atualizando senha no banco
+            await db.user.update({
+                where: {
+                    id: existingUser.id,
+                },
+                data: {
+                    password: hashedPassword,
+                },
+            });
+
+            // Mensagem de exito
+            return { message: 'Senha atualizada com Sucesso!' };
+        };
+    }
 
     return { info: 'Erro com o Banco de Dados!', };
 };

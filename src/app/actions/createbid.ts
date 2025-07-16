@@ -4,60 +4,63 @@ import { cookies } from 'next/headers'; // Para acessar os cookies
 import { CreateBidFormSchema } from '@/app/lib/definitions';
 import { FormStateCriptoUp } from '@/components/types/types';
 import db from '@/app/lib/db';
+import { openSessionToken } from '@/app/lib/opentoken';
 
 export async function CreateBid(state: FormStateCriptoUp, formData: FormData) {
     // 1. Obter o username do cookie
-    const cookieStore = cookies();
-    // Obtém o username do cookie
-    const usernameCookie = (await cookieStore).get('username');
+    const sessionCookie = (await cookies()).get('sessionAuthToken')?.value;
 
-    if (!usernameCookie || typeof usernameCookie.value !== 'string') return { info: 'Usuário não autenticado!' };
+    if (sessionCookie) {
+        const payload = await openSessionToken(sessionCookie);
 
-    // Agora temos a string do username
-    const username = usernameCookie.value;
+        if (!payload || typeof payload.username !== 'string') return { info: 'Usuário não autenticado!' };
 
-    // 2. Validar campos de formulário
-    const validatedFields = CreateBidFormSchema.safeParse({
-        // Garantir que o valor de 'amount' seja tratado como string
-        amount: formData.get('amount') as string,
-        // Pega o paymentID (orderID)
-        paymentID: formData.get('paymentID') as string,
-        cryptocurrency: formData.get('cryptocurrency') as string,
-    });
+        // Agora temos a string do username
+        const username = payload.username;
 
-    // 3. Se algum campo de formulário for inválido, retorne antecipadamente
-    if (!validatedFields.success) return { errors: validatedFields.error.flatten().fieldErrors };
+        // 2. Validar campos de formulário
+        const validatedFields = CreateBidFormSchema.safeParse({
+            // Garantir que o valor de 'amount' seja tratado como string
+            amount: formData.get('amount') as string,
+            // Pega o paymentID (orderID)
+            paymentID: formData.get('paymentID') as string,
+            cryptocurrency: formData.get('cryptocurrency') as string,
+        });
 
-    // 4. Preparar dados para inserção no banco de dados
-    const { amount, paymentID, cryptocurrency } = validatedFields.data
+        // 3. Se algum campo de formulário for inválido, retorne antecipadamente
+        if (!validatedFields.success) return { errors: validatedFields.error.flatten().fieldErrors };
 
-    // Verificar existência do usuário no banco
-    const existingUser = await db.user.findFirst({
-        where: {
-            username,
-        },
-    });
+        // 4. Preparar dados para inserção no banco de dados
+        const { amount, paymentID, cryptocurrency } = validatedFields.data
 
-    // Definir criptomoedas permitidas
-    const allowedCryptos = ['bitcoin', 'ethereum', 'binancecoin'];
-
-    // 5. Verificar se a criptomoeda é válida
-    if (!allowedCryptos.includes(cryptocurrency.toLowerCase())) return { info: 'Criptomoeda não permitida. Apenas bitcoin, ethereum e binancecoin são aceitas.' };
-
-    if (existingUser) {
-        // Inserir o lance no banco, incluindo o paymentID
-        await db.bid.create({
-            data: {
-                amount,
-                paymentID,
-                cryptocurrency,
-                userId: existingUser.id,
+        // Verificar existência do usuário no banco
+        const existingUser = await db.user.findFirst({
+            where: {
+                username,
             },
         });
 
-        // Mensagem de exito
-        return { message: 'Lance cadastrado com Sucesso!' };
-    };
+        // Definir criptomoedas permitidas
+        const allowedCryptos = ['bitcoin', 'ethereum', 'binancecoin'];
+
+        // 5. Verificar se a criptomoeda é válida
+        if (!allowedCryptos.includes(cryptocurrency.toLowerCase())) return { info: 'Criptomoeda não permitida. Apenas bitcoin, ethereum e binancecoin são aceitas.' };
+
+        if (existingUser) {
+            // Inserir o lance no banco, incluindo o paymentID
+            await db.bid.create({
+                data: {
+                    amount,
+                    paymentID,
+                    cryptocurrency,
+                    userId: existingUser.id,
+                },
+            });
+
+            // Mensagem de exito
+            return { message: 'Lance cadastrado com Sucesso!' };
+        };
+    }
 
     return { info: 'Erro com o Banco de Dados!' };
 };

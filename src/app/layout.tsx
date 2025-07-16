@@ -34,20 +34,20 @@ export default async function RootLayout({
   const sessionCookie = (await cookies()).get('sessionAuthToken')?.value;
   let isUserAdmin = false;
   let existingAdmin = false;
+  let user: string | null = null;
 
   if (sessionCookie) {
     const payload = await openSessionToken(sessionCookie);
 
-    if (payload) isUserAdmin = payload.role === 'ADMIN';
+    if (payload) {
+      isUserAdmin = payload.role === 'ADMIN';
+      user = typeof payload?.username === 'string' ? payload.username : null;
+    }
+  } else {
+    user = null;
   };
 
   if (existingUserAdmin) existingAdmin = true;
-
-  // Acessa os cookies para pegar as informações do usuário
-  // Verificando username no cookies
-  const userCookie = (await cookies()).get('username');
-  // Se user estiver no cookies envia o nome para a contante "user" se não envia "null"
-  const user = userCookie ? userCookie.value : null;
 
   return (
     <html lang='pt-BR'>
