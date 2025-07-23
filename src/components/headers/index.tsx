@@ -137,10 +137,34 @@ export default function HeaderComponents({ user, isuseradmin, existingadmin }: U
                                             </Link>
                                         </div>
                                     )}
-                                    {isuseradmin && pathname !== '/bids' && (
+                                    {isuseradmin && (
                                         <div className='block px-4 py-2 text-sm text-gray-700 rounded-t-lg hover:bg-gray-100 hover:text-orange-400 duration-500'>
                                             <Link
-                                                href='/bids'
+                                                href='/dashboard/admins'
+                                                className='w-full flex items-center justify-center gap-2'
+                                                title='Administradores'
+                                            >
+                                                <Icons icon='fa-solid fa-user-group' />
+                                                Admins
+                                            </Link>
+                                        </div>
+                                    )}
+                                    {isuseradmin && (
+                                        <div className='block px-4 py-2 text-sm text-gray-700 rounded-t-lg hover:bg-gray-100 hover:text-orange-400 duration-500'>
+                                            <Link
+                                                href='/dashboard/users'
+                                                className='w-full flex items-center justify-center gap-2'
+                                                title='Usuários'
+                                            >
+                                                <Icons icon='fa-solid fa-users' />
+                                                Users
+                                            </Link>
+                                        </div>
+                                    )}
+                                    {isuseradmin && pathname !== '/dashboard/bids' && (
+                                        <div className='block px-4 py-2 text-sm text-gray-700 rounded-t-lg hover:bg-gray-100 hover:text-orange-400 duration-500'>
+                                            <Link
+                                                href='/dashboard/bids'
                                                 className='w-full flex items-center justify-center gap-2'
                                                 title='Lances'
                                             >
