@@ -29,7 +29,7 @@ export default function ShowAdminsClients({ admins }: AdminsProps) {
                             <TableCell colSpan={4}>Nenhum Usuário encontrado</TableCell>
                         </TableRow>
                     )}
-                    {admins.map((admin, index) => (
+                    {admins.map(admin => (
                         <TableRow key={admin.id}>
                             <TableCell>{admin.id}</TableCell>
                             <TableCell>{admin.cpf}</TableCell>

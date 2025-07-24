@@ -29,7 +29,7 @@ export default function ShowUsersClients({ users }: UsersProps) {
                             <TableCell colSpan={4}>Nenhum Usuário encontrado</TableCell>
                         </TableRow>
                     )}
-                    {users.map((user, index) => (
+                    {users.map(user => (
                         <TableRow key={user.id}>
                             <TableCell>{user.id}</TableCell>
                             <TableCell>{user.cpf}</TableCell>
