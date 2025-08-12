@@ -8,15 +8,19 @@ import { getTranslations } from 'next-intl/server';
 interface UserProps {
     readonly id: string;
     readonly name: string;
+    readonly cpf: string;
+    readonly dateofbirth: string;
+    readonly username: string;
     readonly email: string;
+    readonly phone: string;
     readonly role: string;
 }
 
 export const generateMetadata = async (): Promise<Metadata> => {
-  const t = await getTranslations('Update.Metadata');
-  return {
-    title: t('Title')
-  };
+    const t = await getTranslations('Update.Metadata');
+    return {
+        title: t('Title')
+    };
 };
 
 export default async function Update({ params }: { params: Promise<{ id: string }> }) {
