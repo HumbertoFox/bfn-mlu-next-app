@@ -25,7 +25,7 @@ export const generateMetadata = async (): Promise<Metadata> => {
 
 export default async function Update({ params }: { params: Promise<{ id: string }> }) {
     const { id } = await params;
-    const user = await prisma.user.findUnique({ where: { id, deletedAt: null }, select: { id: true, name: true, email: true, role: true } });
+    const user = await prisma.user.findUnique({ where: { id, deletedAt: null }, select: { id: true, name: true, cpf: true, dateofbirth: true, username: true, email: true, phone: true, role: true } });
     const t = await getTranslations('Update');
     return (
         <>

@@ -5,6 +5,7 @@ export interface User {
     id: string;
     name: string;
     cpf: string;
+    dateofbirth: string;
     username: string;
     email: string;
     phone: string;

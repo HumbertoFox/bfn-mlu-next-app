@@ -44,12 +44,12 @@ export default function RegisterUserForm({ user, isEdit, valueButton }: Register
     const [data, setData] = useState<RegisterForm>({
         id: user?.id ?? '',
         name: user?.name ?? '',
-        cpf: '',
-        dateofbirth: '',
-        username: '',
+        cpf: user?.cpf ?? '',
+        dateofbirth: user?.dateofbirth ?? '',
+        username: user?.username ?? '',
         email: user?.email ?? '',
         confirm_email: '',
-        phone: '',
+        phone: user?.phone ??'',
         role: user?.role ?? 'USER',
         password: '',
         password_confirmation: ''
