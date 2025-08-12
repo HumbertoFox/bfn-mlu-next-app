@@ -1,37 +1,31 @@
-'use server';
-
-import { isSessionValid } from '@/app/lib/isvalid';
 import { NextRequest, NextResponse } from 'next/server';
+import { updateSession } from './lib/session';
+
+const protectedRoutes = ['/dashboard'];
+const publicRoutes = ['/', '/login', '/register'];
+
+export default async function middleware(req: NextRequest) {
+  const path = req.nextUrl.pathname;
+  const isProtectedRoute = protectedRoutes.includes(path);
+  const isPublicRoute = publicRoutes.includes(path);
+
+  const session = await updateSession();
+
+  if (isProtectedRoute && !session?.userId) {
+    return NextResponse.redirect(new URL('/login', req.nextUrl));
+  }
+
+  if (isPublicRoute && session?.userId && !req.nextUrl.pathname.startsWith('/dashboard')) {
+    return NextResponse.redirect(new URL('/dashboard', req.nextUrl));
+  }
+
+  if (path.startsWith('/dashboard/admins') && session?.role !== 'ADMIN') {
+    return NextResponse.redirect(new URL('/dashboard', req.nextUrl));
+  }
+
+  return NextResponse.next();
+}
 
 export const config = {
-    matcher: '/((?!api|_next/static|_next/image|.*\\.png$).*)'
-};
-
-const publicRoutes = ['/login', '/signup', '/'];
-
-export async function middleware(req: NextRequest) {
-    const pathname = req.nextUrl.pathname;
-
-    const session = await isSessionValid();
-
-    // Se o usuário já está logado e está tentando acessar uma página pública, redireciona
-    if (session && publicRoutes.includes(pathname)) {
-        return NextResponse.redirect(new URL('/dashboard', req.url)); // Redireciona para a página inicial ou dashboard
-    };
-
-    // Se o usuário não está logado e está tentando acessar uma página restrita, redireciona para login
-    if (!session && !publicRoutes.includes(pathname)) {
-        const isAPIRoute = pathname.startsWith('/api');
-
-        if (isAPIRoute) {
-            return {
-                message: 'Não autorizado',
-                status: 401,
-            };
-        };
-        return NextResponse.redirect(new URL('/login', req.url)); // Redireciona para a página de login
-    };
-
-    // Se a sessão for válida ou a rota for pública, continua com a requisição
-    return NextResponse.next();
-};
+  matcher: ['/((?!api|_next/static|_next/image|favicon.ico|sitemap.xml|robots.txt|videos/).*)']
+}

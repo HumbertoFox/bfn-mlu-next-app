@@ -1,62 +1,41 @@
 import type { Metadata } from 'next';
-import localFont from 'next/font/local';
+import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
-import { cookies } from 'next/headers';
-import HeaderComponents from '@/components/headers';
-import { Toaster } from '@/components/ui/sonner';
-import db from './lib/db';
-import { openSessionToken } from './lib/opentoken';
+import { ThemeProvider } from '@/components/theme-provider';
+import { BreadcrumbProvider } from '@/context/breadcrumb-context';
+import { NextIntlClientProvider } from 'next-intl';
+import { getLocale, getMessages, getTranslations } from 'next-intl/server';
 
-const geistSans = localFont({
-  src: './fonts/GeistVF.woff',
-  variable: '--font-geist-sans',
-  weight: '100 900',
-});
-const geistMono = localFont({
-  src: './fonts/GeistMonoVF.woff',
-  variable: '--font-geist-mono',
-  weight: '100 900',
-});
+const geistSans = Geist({ variable: '--font-geist-sans', subsets: ['latin'] });
 
-export const metadata: Metadata = {
-  title: 'Menor Lance Único',
-  description: 'Criptos Coins Agents',
+const geistMono = Geist_Mono({ variable: '--font-geist-mono', subsets: ['latin'] });
+
+export const generateMetadata = async (): Promise<Metadata> => {
+  const t = await getTranslations('Layout.Metadata');
+  return {
+    title: t('Title'),
+    description: t('Description'),
+  };
 };
 
-export default async function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
-  // verifica no banco se existe um usuário com role ADMIN
-  const existingUserAdmin = await db.user.findFirst({ where: { role: 'ADMIN' } });
-  // Verifica se o cookies existe valor
-  const sessionCookie = (await cookies()).get('sessionAuthToken')?.value;
-  let isUserAdmin = false;
-  let existingAdmin = false;
-  let user: string | null = null;
-
-  if (sessionCookie) {
-    const payload = await openSessionToken(sessionCookie);
-
-    if (payload) {
-      isUserAdmin = payload.role === 'ADMIN';
-      user = typeof payload?.username === 'string' ? payload.username : null;
-    }
-  } else {
-    user = null;
-  };
-
-  if (existingUserAdmin) existingAdmin = true;
-
+export default async function RootLayout({ children, }: Readonly<{ children: React.ReactNode }>) {
+  const locale = await getLocale();
+  const messages = await getMessages();
   return (
-    <html lang='pt-BR'>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <HeaderComponents user={user} isuseradmin={isUserAdmin} existingadmin={existingAdmin} />
-        {children}
-        <Toaster />
+    <html lang={locale} suppressHydrationWarning>
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <NextIntlClientProvider locale={locale} messages={messages}>
+            <BreadcrumbProvider>
+              {children}
+            </BreadcrumbProvider>
+          </NextIntlClientProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

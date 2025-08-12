@@ -1,115 +1,51 @@
-'use client'
+import HomeFooterComponent from '@/components/home-footer';
+import HomeMainComponent from '@/components/home-main';
+import { getSession } from '@/lib/session';
+import { Metadata } from 'next';
+import { getTranslations } from 'next-intl/server';
+import Link from 'next/link';
 
-import { useEffect, useState } from 'react';
-import { Line } from 'react-chartjs-2';
-import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
-import { getBitcoinData } from '@/app/api/bitcoindatas';
-import Head from 'next/head';
-import { BitcoinDataProps } from '@/components/interfaces/interfaces';
-
-ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
-
-export default function Home() {
-  const [bitcoinData, setBitcoinData] = useState<BitcoinDataProps[]>([]);
-  const [chartData, setChartData] = useState({
-    labels: [] as string[],
-    datasets: [{
-      label: 'Preço do Bitcoin (USD)',
-      data: [] as number[],
-      borderColor: '#F7931A',
-      backgroundColor: 'rgba(247, 147, 26, 0.2)',
-      borderWidth: 1
-    }]
-  });
-  const [isLoading, setIsLoading] = useState(true);
-
-  // Função para atualizar o estado do gráfico
-  const updateChartData = (labels: string[], data: number[]) => {
-    setChartData((prevChartData) => ({
-      ...prevChartData,
-      labels,
-      datasets: [
-        {
-          ...prevChartData.datasets[0],
-          data,
-        },
-      ],
-    }));
+export const generateMetadata = async (): Promise<Metadata> => {
+  const t = await getTranslations('Welcome.Metadata');
+  return {
+    title: t('Title')
   };
-
-  // Efeito para buscar os dados do Bitcoin
-  useEffect(() => {
-    const fetchBitcoinData = async () => {
-      setIsLoading(true);
-      const data = await getBitcoinData(); // Retorne uma matriz de BitcoinData
-      setBitcoinData(data);
-      setIsLoading(false);
-    };
-
-    fetchBitcoinData();
-    const interval = setInterval(fetchBitcoinData, 60000); // Atualiza a cada 1 minuto
-
-    return () => clearInterval(interval); // Limpa o intervalo quando o componente desmonta
-  }, []);
-
-  // Efeito para atualizar o gráfico quando os dados do Bitcoin são recebidos
-  useEffect(() => {
-    if (bitcoinData.length > 0) {
-      const labels = bitcoinData.map(data => new Date(data.timestamp).toLocaleTimeString());
-      const data = bitcoinData.map(data => data.price);
-
-      updateChartData(labels, data);
-    }
-  }, [bitcoinData]);
-  return (
-    <>
-      <Head>
-        <title>Valor do Bitcoin nas últimas 48 horas - ${bitcoinData[bitcoinData.length - 1]?.price || 'Loading...'}</title>
-        <meta
-          name='description'
-          content={`Current Bitcoin price is ${bitcoinData[bitcoinData.length - 1]?.price || 'Loading...'} USD`}
-        />
-      </Head>
-
-      <div className='w-full min-h-[90svh] flex flex-col items-center justify-between p-5'>
-        <main className='w-full h-full max-w-2xl flex flex-col gap-8 items-center lg:max-w-7xl'>
-
-          <div className='w-full h-[75vh] flex flex-col justify-center items-center p-2 gap-2'>
-
-            <h1 className='text-2xl font-bold cursor-default'>Valor do Bitcoin nas últimas 48 horas</h1>
-            {isLoading ? (
-              <p>Loading data...</p>
-            ) : (
-              <Line
-                data={chartData}
-                options={{
-                  responsive: true,
-                  maintainAspectRatio: false,
-                  scales: {
-                    x: {
-                      type: 'category',
-                      title: {
-                        display: true,
-                        text: 'Hora',
-                      },
-                    },
-                    y: {
-                      title: {
-                        display: true,
-                        text: 'Preço (USD)',
-                      },
-                    },
-                  },
-                }}
-              />
-            )}
-          </div>
-        </main>
-
-        <footer className='row-start-3 flex gap-6 flex-wrap items-center justify-center cursor-default pt-4'>
-          <p>&copy; BetoFoxNet_Info 2015 - {new Date().getFullYear()}</p>
-        </footer>
-      </div>
-    </>
-  );
 };
+
+export default async function Welcome() {
+  const t = await getTranslations('Welcome');
+  const session = await getSession();
+  return (
+    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 font-[family-name:var(--font-geist-sans)]">
+      <header className="mb-6 w-full max-w-[335px] text-sm not-has-[nav]:hidden lg:max-w-[1440px]">
+        <nav className="flex items-center justify-end gap-4">
+          {session ? (
+            <Link
+              href="dashboard"
+              className="inline-block rounded-sm border border-[#19140035] px-5 py-1.5 text-sm leading-normal text-[#1b1b18] hover:border-[#1915014a] dark:border-[#3E3E3A] dark:text-[#EDEDEC] dark:hover:border-[#62605b]"
+            >
+              {t('Dashboard')}
+            </Link>
+          ) : (
+            <>
+              <Link
+                href="/login"
+                className="inline-block rounded-sm border border-transparent px-5 py-1.5 text-sm leading-normal text-[#1b1b18] hover:border-[#19140035] dark:text-[#EDEDEC] dark:hover:border-[#3E3E3A]"
+              >
+                {t('Login')}
+              </Link>
+              <Link
+                href="register"
+                className="inline-block rounded-sm border border-[#19140035] px-5 py-1.5 text-sm leading-normal text-[#1b1b18] hover:border-[#1915014a] dark:border-[#3E3E3A] dark:text-[#EDEDEC] dark:hover:border-[#62605b]"
+              >
+                {t('Register')}
+              </Link>
+            </>
+          )}
+        </nav>
+      </header>
+      <HomeMainComponent />
+      <HomeFooterComponent />
+    </div>
+  );
+}
