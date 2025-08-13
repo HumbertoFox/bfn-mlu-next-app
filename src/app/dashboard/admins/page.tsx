@@ -33,8 +33,8 @@ export default async function Admins() {
                             <TableRow className="cursor-default">
                                 <TableHead className="text-center">{t('Index')}</TableHead>
                                 <TableHead className="text-center">{t('IdAdmin')}</TableHead>
-                                <TableHead className="text-center">{t('Name')}</TableHead>
-                                <TableHead className="text-center">{t('Email')}</TableHead>
+                                <TableHead className="hidden lg:table-cell text-center">{t('Name')}</TableHead>
+                                <TableHead className="hidden lg:table-cell text-center">{t('Email')}</TableHead>
                                 <TableHead className="text-center">{t('Actions')}</TableHead>
                             </TableRow>
                         </TableHeader>
@@ -46,12 +46,10 @@ export default async function Admins() {
                             )}
                             {admins.map((admin, index) => (
                                 <TableRow key={index} className="cursor-default">
-                                    <TableCell>
-                                        {index + 1}
-                                    </TableCell>
+                                    <TableCell>{index + 1}</TableCell>
                                     <TableCell>{admin.id}</TableCell>
-                                    <TableCell>{admin.name}</TableCell>
-                                    <TableCell>{admin.email}</TableCell>
+                                    <TableCell className="hidden lg:table-cell">{admin.name}</TableCell>
+                                    <TableCell className="hidden lg:table-cell">{admin.email}</TableCell>
                                     <TableCell className="flex justify-evenly items-center my-1">
                                         <Link
                                             href={admin.id === loggedAdmin ? '/dashboard/settings/profile' : `/dashboard/admins/${admin.id}/update`}

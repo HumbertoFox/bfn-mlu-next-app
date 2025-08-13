@@ -12,10 +12,10 @@ import { getTranslations } from 'next-intl/server';
 import Link from 'next/link';
 
 export const generateMetadata = async (): Promise<Metadata> => {
-  const t = await getTranslations('Users.Metadata');
-  return {
-    title: t('Title')
-  };
+    const t = await getTranslations('Users.Metadata');
+    return {
+        title: t('Title')
+    };
 };
 
 const pageSize = 10;
@@ -74,8 +74,8 @@ export default async function Users(props: { searchParams?: Promise<{ page?: num
                             <TableRow className="cursor-default">
                                 <TableHead className="text-center">{t('Index')}</TableHead>
                                 <TableHead className="text-center">{t('IdUser')}</TableHead>
-                                <TableHead className="text-center">{t('Name')}</TableHead>
-                                <TableHead className="text-center">{t('Email')}</TableHead>
+                                <TableHead className="hidden lg:table-cell text-center">{t('Name')}</TableHead>
+                                <TableHead className="hidden lg:table-cell text-center">{t('Email')}</TableHead>
                                 <TableHead className="text-center">{t('Actions')}</TableHead>
                             </TableRow>
                         </TableHeader>
@@ -89,8 +89,8 @@ export default async function Users(props: { searchParams?: Promise<{ page?: num
                                 <TableRow key={user.id} className="cursor-default">
                                     <TableCell>{(currentPage - 1) * 10 + index + 1}</TableCell>
                                     <TableCell>{user.id}</TableCell>
-                                    <TableCell>{user.name}</TableCell>
-                                    <TableCell>{user.email}</TableCell>
+                                    <TableCell className="hidden lg:table-cell">{user.name}</TableCell>
+                                    <TableCell className="hidden lg:table-cell">{user.email}</TableCell>
                                     <TableCell className="flex justify-evenly items-center my-1">
                                         <Link
                                             href={`/dashboard/admins/${user.id}/update`}

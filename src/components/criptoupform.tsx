@@ -143,7 +143,7 @@ export default function CriptoUpForm({ cryptocurrency, onClose }: CriptoUpFormPr
         >
             <PayPalScriptProvider options={initialOptions}>
                 <Form
-                    className='absolute w-full max-w-96 lg:top-12 flex flex-col gap-5 bg-white p-5 border border-blue-500 rounded-lg shadow-md shadow-blue-500'
+                    className='absolute w-full max-w-96 top-12 flex flex-col gap-5 bg-white p-5 border border-blue-500 rounded-lg shadow-md shadow-blue-500'
                     id='crypto-form'
                     action={action}
                 >
