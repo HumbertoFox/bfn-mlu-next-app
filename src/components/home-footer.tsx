@@ -27,7 +27,7 @@ export default function HomeFooterComponent() {
         return () => ctx.revert();
     }, []);
     return (
-        <footer ref={containerRef} className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
+        <footer ref={containerRef} className="text-xs lg:text-sm row-start-3 flex gap-6 flex-wrap items-center justify-center">
             <div className="flex gap-1">
                 <p className="link-item">&copy;</p>
                 <p className="link-item">BetoFoxNet_Info 2015</p>

@@ -62,9 +62,9 @@ export default function HomeMainComponent() {
     return (
         <main className='w-full h-full max-w-2xl flex flex-col gap-8 items-center lg:max-w-7xl'>
 
-            <div className='w-full h-[75vh] flex flex-col justify-center items-center p-2 gap-2'>
+            <div className='w-full h-[65vh] lg:h-[75vh] flex flex-col justify-center items-center p-2 gap-2'>
 
-                <h1 className='text-2xl font-bold cursor-default'>{t('TextH1')}</h1>
+                <h1 className='lg:text-2xl font-bold cursor-default'>{t('TextH1')}</h1>
                 {isLoading ? (
                     <p>Loading data...</p>
                 ) : (
@@ -78,7 +78,7 @@ export default function HomeMainComponent() {
                                     type: 'category',
                                     title: {
                                         display: true,
-                                        text: 'Hora',
+                                        text: `${t('TextTime')}`,
                                     },
                                 },
                                 y: {

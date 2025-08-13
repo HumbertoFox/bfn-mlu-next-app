@@ -11,6 +11,7 @@
         "Register": "Register",
         "TextH1": "Bitcoin value in the last 48 hours",
         "TextPriceBitcoin": "Bitcoin Price",
+        "TextTime": "Time",
         "TextPrice": "Price",
         "Metadata": {
             "Title": "Welcome Create Next App"
