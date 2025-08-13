@@ -11,6 +11,7 @@ import { Icon } from '@/components/ui/icon';
 import { createAdmin } from '@/app/api/actions/createadmin';
 import { useTranslations } from 'next-intl';
 import TextLink from '@/components/text-link';
+import { useRouter } from 'next/navigation';
 
 type RegisterForm = {
     name: string;
@@ -27,6 +28,7 @@ type RegisterForm = {
 export default function RegisterAdmin() {
     const t = useTranslations('RegisterAdmin');
     const emailRef = useRef<HTMLInputElement>(null);
+    const router = useRouter();
     const [state, action, pending] = useActionState(createAdmin, undefined);
     const [showPassword, setShowPassword] = useState<boolean>(false);
     const [showPasswordConfirm, setShowPasswordConfirm] = useState<boolean>(false);
@@ -67,8 +69,10 @@ export default function RegisterAdmin() {
                 password: '',
                 password_confirmation: ''
             });
+
+            router.push('/dashboard');
         };
-    }, [state]);
+    }, [state, router]);
     return (
         <AuthLayout title={t('Title')} description={t('Description')}>
             <form className="flex flex-col gap-6" onSubmit={submit}>
@@ -266,6 +270,7 @@ export default function RegisterAdmin() {
             </form>
 
             {state?.warning && <div className="mb-4 text-center text-sm font-medium text-orange-400">{t(state.warning)}</div>}
+            {state?.message && <div className="mb-4 text-center text-sm font-medium text-blue-400">{t('RegisterSuccess')}</div>}
         </AuthLayout>
     );
 }

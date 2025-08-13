@@ -45,6 +45,7 @@
         "LinkLogin": "Conecte-se",
         "Warning": "Algo deu errado. Tente novamente mais tarde.",
         "WarningUserExisting": "Dados já Cadastrados",
+        "RegisterSuccess": "Conta criada com Sucesso! Redirecionando para o Painel, aguarde...",
         "ErrorsZod": {
             "NameRequired": "Nome é obrigatório",
             "CpfRequired": "O CPF deve ter 11 números.",

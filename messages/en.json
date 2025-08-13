@@ -45,6 +45,7 @@
         "LinkLogin": "Log in",
         "Warning": "Something went wrong. Please try again later.",
         "WarningUserExisting": "Data already registered",
+        "RegisterSuccess": "Account created successfully! Redirecting to the Dashboard, please wait...",
         "ErrorsZod": {
             "NameRequired": "Name is required",
             "CpfRequired": "The CPF must have 11 numbers.",
