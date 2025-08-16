@@ -1,5 +1,3 @@
-import { getTranslations } from 'next-intl/server';
-
 export interface CryptosPricesProps {
     bitcoin: { brl: number, usd: number };
     ethereum: { brl: number, usd: number };
@@ -16,7 +14,6 @@ interface BitcoinDataProps {
 };
 
 export const getBitcoinData = async (): Promise<BitcoinDataProps[]> => {
-    const t = await getTranslations('PriceData');
     try {
         const response = await fetch('https://api.coingecko.com/api/v3/coins/bitcoin/market_chart?vs_currency=usd&days=2');
         const data: ApiResponseProps = await response.json();
@@ -27,10 +24,10 @@ export const getBitcoinData = async (): Promise<BitcoinDataProps[]> => {
                 price,
             }));
         } else {
-            throw new Error(t('ErrorfetchingData'));
+            throw new Error('ErrorfetchingData');
         }
     } catch (error) {
-        console.error(t('ErrorTryCatch'), error);
+        console.error('ErrorTryCatch', error);
         return [];
     };
 };
