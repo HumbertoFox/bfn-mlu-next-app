@@ -24,21 +24,14 @@ export async function CreateBid(state: FormStateCriptoUp, formData: FormData) {
 
         const allowedCryptos = ['bitcoin', 'ethereum', 'binancecoin'];
 
-        if (!allowedCryptos.includes(cryptocurrency.toLowerCase())) return { info: 'Criptomoeda não permitida. Apenas bitcoin, ethereum e binancecoin são aceitas.' };
+        if (!allowedCryptos.includes(cryptocurrency.toLowerCase())) return { info: 'Info' };
 
         if (existingUser) {
-            await prisma.bid.create({
-                data: {
-                    amount,
-                    paymentID,
-                    cryptocurrency,
-                    userId: existingUser.id,
-                },
-            });
+            await prisma.bid.create({ data: { amount, paymentID, cryptocurrency, userId: existingUser.id } });
 
-            return { message: 'Lance cadastrado com Sucesso!' };
+            return { message: 'Message' };
         };
     }
 
-    return { info: 'Erro com o Banco de Dados!' };
+    return { info: 'InfoError' };
 };

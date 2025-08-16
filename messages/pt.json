@@ -96,6 +96,35 @@
         }
     },
     "Dashboard": {
+        "NoBid": "Sem Lances",
+        "TextPriceCurrent": "Valor Atual",
+        "TextBids": "Lances",
+        "TextBid": "Lance",
+        "ButtonText": "Participar",
+        "StateSuccess": "Sucesso!",
+        "StateWarning": "Atensão",
+        "LabelLance": "Lance",
+        "PlaceholderLanceAmount": "Seu lance",
+        "LabelNameCrypto": "Nome da Cripto",
+        "PlaceholderNameCrypto": "Nome da Cripto",
+        "TextButtonTitle": "Termo de Doação",
+        "IsChecked": "Termo de Doação Assinado",
+        "NotChecked": "Leia o termo de doação para liberar o Lance",
+        "PayPalButtonsError": "Erro no pagamento:",
+        "ReturnError": "Erro!",
+        "ReturnErrorDescription": "Ocorreu um erro no pagamento.",
+        "ButtonCancel": "Cancelar",
+        "Info": "Criptomoeda não permitida. Apenas bitcoin, ethereum e binancecoin são aceitas.",
+        "Message": "Lance cadastrado com Sucesso!",
+        "InfoError": "Erro com o Banco de Dados!",
+        "ErrorsZod": {
+            "AmountRequest": "O valor do lance deve ter pelo menos 4 dígitos.",
+            "AmountMaxt": "O valor do lance não pode ser maior que 999.999.999.",
+            "FormatMessage": "O valor deve ser um número válido, como 0,00 ou 1.000,00.",
+            "FormatNegative": "O valor deve ser um número válido e não pode ser negativo.",
+            "Paymentid": "Campo Obrigatório.",
+            "Cryptocurrency": "Campo Obrigatório."
+        },
         "Metadata": {
             "Title": "Painel"
         }
@@ -415,6 +444,10 @@
     "UserMenuContent": {
         "LinkSettings": "Configurações",
         "Logout": "Sair"
+    },
+    "PriceData": {
+        "ErrorfetchingData": "A resposta da API não contém dados de preços válidos",
+        "ErrorTryCatch": "Erro ao buscar os dados do Bitcoin:"
     },
     "NotFound": {
         "TextTitle": "Página não encontrada",

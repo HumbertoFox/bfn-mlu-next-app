@@ -9,6 +9,8 @@ import { useBreadcrumbs } from '@/context/breadcrumb-context';
 import { useTranslations } from 'next-intl';
 import CriptoUpForm from '@/components/criptoupform';
 import gsap from 'gsap';
+import { Skeleton } from '@/components/ui/skeleton';
+import { AlertDialog, AlertDialogContent, AlertDialogTitle } from '@/components/ui/alert-dialog';
 
 interface CryptoData {
     valueBRL: number;
@@ -20,14 +22,15 @@ interface CryptoData {
 export default function DashboardPageClient() {
     const { setBreadcrumbs } = useBreadcrumbs();
     const tb = useTranslations('Breadcrumb');
+    const t = useTranslations('Dashboard');
     const [isFormVisible, setIsFormVisible] = useState(false);
     const [selectedCryptocurrency, setSelectedCryptocurrency] = useState<string | null>(null);
     const [bitcoin, setBitcoin] = useState<CryptoData | null>(null);
     const [ethereum, setEthereum] = useState<CryptoData | null>(null);
     const [bnb, setBnb] = useState<CryptoData | null>(null);
-    const leftRef = useRef(null);
-    const centerRef = useRef(null);
-    const rightRef = useRef(null);
+    const leftRef = useRef<HTMLDivElement>(null);
+    const centerRef = useRef<HTMLDivElement>(null);
+    const rightRef = useRef<HTMLDivElement>(null);
 
     const handleParticiparClick = (cryptocurrency: string) => {
         setSelectedCryptocurrency(cryptocurrency);
@@ -39,11 +42,7 @@ export default function DashboardPageClient() {
         fetchCryptoData();
     };
 
-    const formatCurrency = (
-        value: number,
-        locale: string,
-        currency: string
-    ) => {
+    const formatCurrency = (value: number, locale: string, currency: string) => {
         return new Intl.NumberFormat(locale, {
             style: 'currency',
             currency: currency,
@@ -68,21 +67,21 @@ export default function DashboardPageClient() {
                 valueBRL: data?.bitcoin?.brl,
                 valueUSD: data?.bitcoin?.usd,
                 bids: bitcoinBidCountData ? bitcoinBidCountData : 0,
-                date: bitcoinLastBidDate ? new Date(bitcoinLastBidDate).toLocaleDateString() : 'Sem Lance',
+                date: bitcoinLastBidDate ? new Date(bitcoinLastBidDate).toLocaleDateString() : t('NoBid'),
             });
 
             setEthereum({
                 valueBRL: data?.ethereum?.brl,
                 valueUSD: data?.ethereum?.usd,
                 bids: ethereumBidCountData ? ethereumBidCountData : 0,
-                date: ethereumLastBidDate ? new Date(ethereumLastBidDate).toLocaleDateString() : 'Sem Lance',
+                date: ethereumLastBidDate ? new Date(ethereumLastBidDate).toLocaleDateString() : t('NoBid'),
             });
 
             setBnb({
                 valueBRL: data?.binancecoin?.brl,
                 valueUSD: data?.binancecoin?.usd,
                 bids: bnbBidCountData ? bnbBidCountData : 0,
-                date: bnbLastBidDate ? new Date(bnbLastBidDate).toLocaleDateString() : 'Sem Lance',
+                date: bnbLastBidDate ? new Date(bnbLastBidDate).toLocaleDateString() : t('NoBid'),
             });
         } catch (error) {
             console.error('Erro ao buscar os dados:', error);
@@ -91,6 +90,7 @@ export default function DashboardPageClient() {
 
     useEffect(() => {
         fetchCryptoData();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     useEffect(() => {
@@ -162,7 +162,7 @@ export default function DashboardPageClient() {
                         <>
                             <div className='w-full flex font-semibold text-base text-blue-400 py-2'>
                                 <div className='w-full p-1 border-r-[1px]'>
-                                    <h1 className=''>Valor Atual</h1>
+                                    <h1>{t('TextPriceCurrent')}</h1>
                                 </div>
                                 <div className='w-full p-1 border-l-[1px]'>
                                     <p>{formatCurrency(bitcoin?.valueBRL, 'pt-BR', 'BRL')}</p>
@@ -171,7 +171,7 @@ export default function DashboardPageClient() {
 
                             <div className='w-full flex font-semibold text-sm text-red-400 py-2 border-t-[1px]'>
                                 <div className='w-full p-1 border-r-[1px]'>
-                                    <h2>Valor Atual</h2>
+                                    <h2>{t('TextPriceCurrent')}</h2>
                                 </div>
                                 <div className='w-full p-1 border-l-[1px]'>
                                     <p>{formatCurrency(bitcoin?.valueUSD, 'en-US', 'USD')}</p>
@@ -183,12 +183,39 @@ export default function DashboardPageClient() {
                                     <span>{bitcoin?.date}</span>
                                 </div>
                                 <div className='w-full p-1 border-l-[1px]'>
-                                    <span>{bitcoin?.bids} {bitcoin?.bids > 1 ? 'Lances' : 'Lance'}</span>
+                                    <span>{bitcoin?.bids} {bitcoin?.bids > 1 ? t('TextBids') : t('TextBid')}</span>
                                 </div>
                             </div>
                         </>
                     ) : (
-                        <p>Carregando dados...</p>
+                        <>
+                            <div className='w-full flex font-semibold text-base text-blue-400 py-2'>
+                                <div className='w-full p-1 border-r-[1px]'>
+                                    <h1 className=''>{t('TextPriceCurrent')}</h1>
+                                </div>
+                                <div className='w-full p-1 border-l-[1px]'>
+                                    <Skeleton className="size-full" />
+                                </div>
+                            </div>
+
+                            <div className='w-full flex font-semibold text-sm text-red-400 py-2 border-t-[1px]'>
+                                <div className='w-full p-1 border-r-[1px]'>
+                                    <h2>{t('TextPriceCurrent')}</h2>
+                                </div>
+                                <div className='w-full p-1 border-l-[1px]'>
+                                    <Skeleton className="size-full" />
+                                </div>
+                            </div>
+
+                            <div className='w-full flex font-semibold text-xs text-green-600 py-2 border-t-[1px]'>
+                                <div className='w-full p-1 border-r-[1px]'>
+                                    <Skeleton className="size-full" />
+                                </div>
+                                <div className='w-full p-1 border-l-[1px]'>
+                                    <Skeleton className="size-full" />
+                                </div>
+                            </div>
+                        </>
                     )}
                 </div>
 
@@ -197,7 +224,7 @@ export default function DashboardPageClient() {
                     onClick={() => handleParticiparClick('bitcoin')}
                     className='bg-orange-500 hover:bg-orange-400'
                 >
-                    Participar
+                    {t('ButtonText')}
                 </Button>
             </div>
 
@@ -221,7 +248,7 @@ export default function DashboardPageClient() {
                         <>
                             <div className='w-full flex font-semibold text-base text-blue-400 py-2'>
                                 <div className='w-full p-1 border-r-[1px]'>
-                                    <h1 className=''>Valor Atual</h1>
+                                    <h1>{t('TextPriceCurrent')}</h1>
                                 </div>
                                 <div className='w-full p-1 border-l-[1px]'>
                                     <p>{formatCurrency(ethereum?.valueBRL, 'pt-BR', 'BRL')}</p>
@@ -230,7 +257,7 @@ export default function DashboardPageClient() {
 
                             <div className='w-full flex font-semibold text-sm text-red-400 py-2 border-t-[1px]'>
                                 <div className='w-full p-1 border-r-[1px]'>
-                                    <h2>Valor Atual</h2>
+                                    <h2>{t('TextPriceCurrent')}</h2>
                                 </div>
                                 <div className='w-full p-1 border-l-[1px]'>
                                     <p>{formatCurrency(ethereum?.valueUSD, 'en-US', 'USD')}</p>
@@ -242,12 +269,39 @@ export default function DashboardPageClient() {
                                     <span>{ethereum?.date}</span>
                                 </div>
                                 <div className='w-full p-1 border-l-[1px]'>
-                                    <span>{ethereum?.bids} {ethereum?.bids > 1 ? 'Lances' : 'Lance'}</span>
+                                    <span>{ethereum?.bids} {ethereum?.bids > 1 ? t('TextBids') : t('TextBid')}</span>
                                 </div>
                             </div>
                         </>
                     ) : (
-                        <p>Carregando dados...</p>
+                        <>
+                            <div className='w-full flex font-semibold text-base text-blue-400 py-2'>
+                                <div className='w-full p-1 border-r-[1px]'>
+                                    <h1>{t('TextPriceCurrent')}</h1>
+                                </div>
+                                <div className='w-full p-1 border-l-[1px]'>
+                                    <Skeleton className="size-full" />
+                                </div>
+                            </div>
+
+                            <div className='w-full flex font-semibold text-sm text-red-400 py-2 border-t-[1px]'>
+                                <div className='w-full p-1 border-r-[1px]'>
+                                    <h2>{t('TextPriceCurrent')}</h2>
+                                </div>
+                                <div className='w-full p-1 border-l-[1px]'>
+                                    <Skeleton className="size-full" />
+                                </div>
+                            </div>
+
+                            <div className='w-full flex font-semibold text-xs text-green-600 py-2 border-t-[1px]'>
+                                <div className='w-full p-1 border-r-[1px]'>
+                                    <Skeleton className="size-full" />
+                                </div>
+                                <div className='w-full p-1 border-l-[1px]'>
+                                    <Skeleton className="size-full" />
+                                </div>
+                            </div>
+                        </>
                     )}
                 </div>
 
@@ -256,7 +310,7 @@ export default function DashboardPageClient() {
                     onClick={() => handleParticiparClick('ethereum')}
                     className='bg-blue-500 hover:bg-blue-400'
                 >
-                    Participar
+                    {t('ButtonText')}
                 </Button>
             </div>
 
@@ -280,7 +334,7 @@ export default function DashboardPageClient() {
                         <>
                             <div className='w-full flex font-semibold text-base text-blue-400 py-2'>
                                 <div className='w-full p-1 border-r-[1px]'>
-                                    <h1 className=''>Valor Atual</h1>
+                                    <h1>{t('TextPriceCurrent')}</h1>
                                 </div>
                                 <div className='w-full p-1 border-l-[1px]'>
                                     <p>{formatCurrency(bnb?.valueBRL, 'pt-BR', 'BRL')}</p>
@@ -289,7 +343,7 @@ export default function DashboardPageClient() {
 
                             <div className='w-full flex font-semibold text-sm text-red-400 py-2 border-t-[1px]'>
                                 <div className='w-full p-1 border-r-[1px]'>
-                                    <h2>Valor Atual</h2>
+                                    <h2>{t('TextPriceCurrent')}</h2>
                                 </div>
                                 <div className='w-full p-1 border-l-[1px]'>
                                     <p>{formatCurrency(bnb?.valueUSD, 'en-US', 'USD')}</p>
@@ -301,30 +355,62 @@ export default function DashboardPageClient() {
                                     <span>{bnb?.date}</span>
                                 </div>
                                 <div className='w-full p-1 border-l-[1px]'>
-                                    <span>{bnb?.bids} {bnb?.bids > 1 ? 'Lances' : 'Lance'}</span>
+                                    <span>{bnb?.bids} {bnb?.bids > 1 ? t('TextBids') : t('TextBid')}</span>
                                 </div>
                             </div>
                         </>
                     ) : (
-                        <p>Carregando dados...</p>
+                        <>
+                            <div className='w-full flex font-semibold text-base text-blue-400 py-2'>
+                                <div className='w-full p-1 border-r-[1px]'>
+                                    <h1 className=''>{t('TextPriceCurrent')}</h1>
+                                </div>
+                                <div className='w-full p-1 border-l-[1px]'>
+                                    <Skeleton className="size-full" />
+                                </div>
+                            </div>
+
+                            <div className='w-full flex font-semibold text-sm text-red-400 py-2 border-t-[1px]'>
+                                <div className='w-full p-1 border-r-[1px]'>
+                                    <h2>{t('TextPriceCurrent')}</h2>
+                                </div>
+                                <div className='w-full p-1 border-l-[1px]'>
+                                    <Skeleton className="size-full" />
+                                </div>
+                            </div>
+
+                            <div className='w-full flex font-semibold text-xs text-green-600 py-2 border-t-[1px]'>
+                                <div className='w-full p-1 border-r-[1px]'>
+                                    <Skeleton className="size-full" />
+                                </div>
+                                <div className='w-full p-1 border-l-[1px]'>
+                                    <Skeleton className="size-full" />
+                                </div>
+                            </div>
+                        </>
                     )}
                 </div>
 
                 <Button
-                    type='button'
+                    type="button"
                     onClick={() => handleParticiparClick('binancecoin')}
-                    className='bg-yellow-500 hover:bg-yellow-400'
+                    className="bg-yellow-500 hover:bg-yellow-400"
                 >
-                    Participar
+                    {t('ButtonText')}
                 </Button>
             </div>
 
-            {isFormVisible && selectedCryptocurrency && (
-                <CriptoUpForm
-                    cryptocurrency={selectedCryptocurrency}
-                    onClose={() => handleCloseCrypto()}
-                />
-            )}
+            <AlertDialog open={isFormVisible}>
+                <AlertDialogContent className='w-fit max-h-[770px] p-0 border-0 overflow-y-auto'>
+                    <AlertDialogTitle className="hidden" />
+                    {selectedCryptocurrency && (
+                        <CriptoUpForm
+                            cryptocurrency={selectedCryptocurrency}
+                            onClose={handleCloseCrypto}
+                        />
+                    )}
+                </AlertDialogContent>
+            </AlertDialog>
         </main>
     );
 }

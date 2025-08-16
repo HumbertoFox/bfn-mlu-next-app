@@ -166,19 +166,19 @@ export const passwordForgotSchema = object({
 
 export const CreateBidFormSchema = object({
     amount: string()
-        .min(4, { message: 'O valor do lance deve ter pelo menos 4 dígitos. ' })
-        .max(999999999, { message: 'O valor do lance não pode ser maior que 999.999.999. ' })
-        .regex(/^\d{1,3}(\.\d{3})*(,\d{2})?$/, { message: 'O valor deve ser um número válido, como 0,00 ou 1.000,00. ' })
+        .min(4, { message: 'ErrorsZod.AmountRequest ' })
+        .max(999999999, { message: 'ErrorsZod.AmountMaxt ' })
+        .regex(/^\d{1,3}(\.\d{3})*(,\d{2})?$/, { message: 'ErrorsZod.FormatMessage ' })
         .refine((value) => {
             const parsedValue = value.replace(',', '.');
             const isValidNumber = !isNaN(parseFloat(parsedValue)) && parseFloat(parsedValue) >= 0;
             return isValidNumber;
-        }, { message: 'O valor deve ser um número válido e não pode ser negativo.' }),
+        }, { message: '' }),
     paymentID: string()
-        .min(1, { message: 'Campo Obrigatório.' })
+        .min(1, { message: 'ErrorsZod.Paymentid' })
         .trim(),
     cryptocurrency: string()
-        .min(1, { message: 'Campo Obrigatório.' })
+        .min(1, { message: 'ErrorsZod.Cryptocurrency' })
         .trim(),
 });
 

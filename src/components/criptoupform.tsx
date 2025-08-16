@@ -1,17 +1,21 @@
 'use client';
 
-import { startTransition, useActionState, useEffect, useRef, useState } from 'react';
+import { startTransition, useActionState, useEffect, useState } from 'react';
 import Form from 'next/form';
 import { CreateBid } from '@/app/api/actions/createbid';
 import Image from 'next/image';
-import gsap from 'gsap';
 import { PayPalButtons, PayPalButtonsComponentProps, PayPalScriptProvider, ReactPayPalScriptOptions } from '@paypal/react-paypal-js';
 import TermComponent from '@/components/term';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { CriptoUpFormProps } from '@/types';
+import { AlertDialog, AlertDialogContent, AlertDialogDescription, AlertDialogHeader, AlertDialogTitle } from '@/components/ui/alert-dialog';
+import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
+import { useTranslations } from 'next-intl';
 
 export default function CriptoUpForm({ cryptocurrency, onClose }: CriptoUpFormProps) {
+    const t = useTranslations('Dashboard');
     const [state, action] = useActionState(CreateBid, undefined);
     const [formData, setFormData] = useState({
         amount: '',
@@ -20,7 +24,6 @@ export default function CriptoUpForm({ cryptocurrency, onClose }: CriptoUpFormPr
     });
     const [isTerm, setIsTerm] = useState<boolean>(false);
     const [isChecked, setIsChecked] = useState<boolean>(false);
-    const formRef = useRef(null);
 
     const isValidateAmount = (value: string) => {
         const regex = (/^\d{1,3}(\.\d{3})*(,\d{2})?$/);
@@ -41,17 +44,6 @@ export default function CriptoUpForm({ cryptocurrency, onClose }: CriptoUpFormPr
         setFormData({
             ...formData,
             [name]: value,
-        });
-    };
-    const handleClose = () => {
-        gsap.to(formRef.current, {
-            opacity: 0,
-            y: -500,
-            scale: 0.5,
-            duration: 1,
-            onComplete: () => {
-                onClose();
-            },
         });
     };
 
@@ -91,8 +83,6 @@ export default function CriptoUpForm({ cryptocurrency, onClose }: CriptoUpFormPr
             description: state?.message,
             style: { borderColor: 'green' },
         });
-
-        handleClose();
     };
 
     useEffect(() => {
@@ -104,7 +94,7 @@ export default function CriptoUpForm({ cryptocurrency, onClose }: CriptoUpFormPr
         };
 
         if (state?.message) {
-            toast.success('Sucesso!', {
+            toast.success(t('StateSuccess'), {
                 description: state.message,
                 style: { borderColor: 'green' }
             });
@@ -116,83 +106,62 @@ export default function CriptoUpForm({ cryptocurrency, onClose }: CriptoUpFormPr
         };
 
         if (state?.info) {
-            toast.warning('Atensão', {
+            toast.warning(t('StateWarning'), {
                 description: state.info,
                 style: { borderColor: 'orange' },
             });
         };
-    }, [cryptocurrency, state]);
-    useEffect(() => {
-        const formDown = formRef.current;
-
-        gsap.fromTo(formDown, {
-            opacity: 0,
-            y: -500,
-            scale: 0.5
-        }, {
-            opacity: 1,
-            y: 0,
-            duration: 1,
-            scale: 1
-        });
-    }, []);
+    }, [cryptocurrency, state, t]);
     return (
-        <div
-            className='absolute w-full h-screen top-0 flex justify-center items-center backdrop-blur-sm'
-            ref={formRef}
-        >
+        <>
             <PayPalScriptProvider options={initialOptions}>
                 <Form
-                    className='absolute w-full max-w-96 top-12 flex flex-col gap-5 bg-white p-5 border border-blue-500 rounded-lg shadow-md shadow-blue-500'
-                    id='crypto-form'
+                    className="w-full max-w-96 flex flex-col gap-5 bg-white p-5 border border-blue-500 rounded-lg shadow-md shadow-blue-500"
+                    id="crypto-form"
                     action={action}
                 >
                     <Image
-                        className='rounded-xl'
+                        className="rounded-xl"
                         src={`/images/${cryptocurrency}.png`}
                         alt={`Image cripto ${cryptocurrency}`}
                         width={512}
                         height={512}
                     />
 
-                    <div className='min-w-full flex flex-col'>
-                        <label
-                            className='text-sm'
-                            htmlFor='amount'
+                    <div className="min-w-full flex flex-col">
+                        <Label
+                            className="text-sm"
+                            htmlFor="amount"
                         >
-                            Lance
-                        </label>
-                        <input
+                            {t('LabelLance')}
+                        </Label>
+                        <Input
                             className={`w-full rounded p-2 border ${isChecked ? 'cursor-default' : 'cursor-not-allowed'}`}
-                            id='amount'
-                            name='amount'
-                            placeholder='Seu lance'
-                            type='text'
+                            id="amount"
+                            name="amount"
+                            placeholder={t('PlaceholderLanceAmount')}
+                            type="text"
                             tabIndex={1}
                             value={formData.amount}
                             onChange={handleChange}
                             required
                             disabled={!isChecked}
                         />
-                        {state?.errors?.amount && (
-                            <p className='text-red-500 text-sm pl-2'>
-                                {state.errors.amount}
-                            </p>
-                        )}
+                        {state?.errors?.amount && <p className='text-red-500 text-sm pl-2'>{t(state.errors.amount[0])}</p>}
                     </div>
 
                     <div className='min-w-full flex flex-col'>
-                        <label
+                        <Label
                             className='text-sm'
                             htmlFor='cryptocurrency'
                         >
-                            Nome da Cripto
-                        </label>
-                        <input
+                            {t('LabelNameCrypto')}
+                        </Label>
+                        <Input
                             className='w-full rounded p-2 border cursor-not-allowed'
                             id='cryptocurrency'
                             name='cryptocurrency'
-                            placeholder='Nome da Cripto'
+                            placeholder={t('PlaceholderNameCrypto')}
                             type='text'
                             tabIndex={2}
                             value={formData.cryptocurrency}
@@ -200,11 +169,7 @@ export default function CriptoUpForm({ cryptocurrency, onClose }: CriptoUpFormPr
                             required
                             readOnly
                         />
-                        {state?.errors?.cryptocurrency && (
-                            <p className='text-red-500 text-sm pl-2'>
-                                {state.errors.cryptocurrency}
-                            </p>
-                        )}
+                        {state?.errors?.cryptocurrency && <p className="text-red-500 text-sm pl-2">{t(state.errors.cryptocurrency[0])}</p>}
                     </div>
 
                     <div className='min-w-full flex items-center gap-2'>
@@ -213,15 +178,15 @@ export default function CriptoUpForm({ cryptocurrency, onClose }: CriptoUpFormPr
                             htmlFor='donation'
                         >
                             <button
-                                className='underline decoration-solid'
+                                className='underline decoration-solid cursor-pointer'
                                 type='button'
-                                title='Termo de Doação'
+                                title={t('TextButtonTitle')}
                                 onClick={handleTerm}
                             >
                                 {
                                     isChecked
-                                        ? 'Termo de Doação Assinado'
-                                        : 'Leia o termo de doação para liberar o Lance'
+                                        ? t('IsChecked')
+                                        : t('NotChecked')
                                 }
                             </button>
                         </label>
@@ -241,33 +206,42 @@ export default function CriptoUpForm({ cryptocurrency, onClose }: CriptoUpFormPr
                             createOrder={createOrder}
                             onApprove={onApprove}
                             onError={(err) => {
-                                console.error('Erro no pagamento:', err);
-                                toast.error('Erro!', {
-                                    description: 'Ocorreu um erro no pagamento.',
+                                console.error(t('PayPalButtonsError'), err);
+                                toast.error(t('ReturnError'), {
+                                    description: t('ReturnErrorDescription'),
                                     style: { borderColor: 'red' },
                                 });
                             }}
-
                             disabled={!isValidateAmount(formData.amount)}
                         />
 
                         <Button
                             type='button'
-                            onClick={handleClose}
                             className='bg-red-500 hover:bg-red-400'
+                            onClick={onClose}
                         >
-                            Cancelar
+                            {t('ButtonCancel')}
                         </Button>
                     </div>
                 </Form>
             </PayPalScriptProvider>
-            {isTerm && (
-                <TermComponent
-                    handleChecked={handleChecked}
-                    checked={isChecked}
-                    handleTerm={handleTerm}
-                />
-            )}
-        </div >
+            <AlertDialog open={isTerm} onOpenChange={setIsTerm}>
+                <AlertDialogContent className='!max-w-3xl max-h-11/12 overflow-y-auto'>
+                    <AlertDialogHeader>
+                        <AlertDialogTitle className="hidden" />
+                        <AlertDialogDescription asChild>
+                            <div>
+                                <TermComponent
+                                    handleChecked={handleChecked}
+                                    checked={isChecked}
+                                    handleTerm={() => setIsTerm(false)}
+                                />
+                            </div>
+                        </AlertDialogDescription>
+                    </AlertDialogHeader>
+                </AlertDialogContent>
+            </AlertDialog>
+
+        </>
     );
 }

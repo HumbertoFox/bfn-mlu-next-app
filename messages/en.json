@@ -96,6 +96,35 @@
         }
     },
     "Dashboard": {
+        "NoBid": "No Bids",
+        "TextPriceCurrent": "Current Value",
+        "TextBids": "Bids",
+        "TextBid": "Lance",
+        "ButtonText": "To participate",
+        "StateSuccess": "Success!",
+        "StateWarning": "Attention",
+        "LabelLance": "Lance",
+        "PlaceholderLanceAmount": "Your bid",
+        "LabelNameCrypto": "Crypto Name",
+        "PlaceholderNameCrypto": "Crypto Name",
+        "TextButtonTitle": "Donation Term",
+        "IsChecked": "Signed Donation Term",
+        "NotChecked": "Read the donation terms to release the Bid",
+        "PayPalButtonsError": "Payment error:",
+        "ReturnError": "Error!",
+        "ReturnErrorDescription": "A payment error occurred.",
+        "ButtonCancel": "Cancel",
+        "Info": "Cryptocurrency not allowed. Only Bitcoin, Ethereum, and Binance Coin are accepted.",
+        "Message": "Bid successfully registered!",
+        "InfoError": "Database Error!",
+        "ErrorsZod": {
+            "AmountRequest": "Bid amount must be at least 4 digits.",
+            "AmountMaxt": "The bid amount cannot be greater than 999,999,999.",
+            "FormatMessage": "The value must be a valid number, such as 0.00 or 1000.00.",
+            "FormatNegative": "The value must be a valid number and cannot be negative.",
+            "Paymentid": "Required Field.",
+            "Cryptocurrency": "Required Field."
+        },
         "Metadata": {
             "Title": "Dashboard"
         }
@@ -416,6 +445,10 @@
     "UserMenuContent": {
         "LinkSettings": "Settings",
         "Logout": "Log out"
+    },
+    "PriceData": {
+        "ErrorfetchingData": "The API response does not contain valid pricing data.",
+        "ErrorTryCatch": "Error fetching Bitcoin data:"
     },
     "NotFound": {
         "TextTitle": "Page not found",

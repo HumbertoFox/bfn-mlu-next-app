@@ -50,7 +50,7 @@ export interface TermComponentProps {
 
 export interface CriptoUpFormProps {
     cryptocurrency: string;
-    onClose: () => void;
+    onClose?: () => void;
 }
 
 export type CryptoData = {

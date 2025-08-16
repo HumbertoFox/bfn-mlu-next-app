@@ -28,7 +28,7 @@ export default async function Welcome() {
               fill="#FFFFFF" />
           </svg>
         </Link>
-        
+
         <nav className="flex items-center justify-end gap-4">
           {session ? (
             <Link
