@@ -98,14 +98,14 @@ export function getSignUpUpdateSchema(formData: FormData) {
                 ctx.addIssue({
                     path: ['password_confirmation'],
                     code: 'custom',
-                    message: "ErrorsZod.PasswordMatch",
+                    message: 'ErrorsZod.PasswordMatch',
                 });
             }
             if (data.email && data.email !== data.confirm_email) {
                 ctx.addIssue({
                     path: ['confirm_email'],
                     code: 'custom',
-                    message: "ErrorsZod.EmaildMatch",
+                    message: 'ErrorsZod.EmaildMatch',
                 });
             }
         });
@@ -142,7 +142,7 @@ export const passwordUpdateSchema = object({
         .min(8, 'ErrorsZod.PasswordConfirmRequired')
 })
     .refine((data) => data.password === data.password_confirmation, {
-        message: "ErrorsZod.PasswordMatch",
+        message: 'ErrorsZod.PasswordMatch',
         path: ['password_confirmation']
     });
 
