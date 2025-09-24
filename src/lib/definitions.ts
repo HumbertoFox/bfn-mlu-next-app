@@ -32,7 +32,9 @@ export const createAdminSchema = object({
         .min(8, { message: 'ErrorsZod.PhoneRequired' })
         .regex(/^\d+$/, { message: 'ErrorsZod.PhoneVerifiqued' })
         .trim(),
-    email: email('ErrorsZod.EmailInvalid'),
+    email: email('ErrorsZod.EmailInvalid')
+        .trim()
+        .toLowerCase(),
     confirm_email: email('ErrorsZod.EmailInvalid'),
     password: string()
         .min(8, 'ErrorsZod.PasswordMin'),
@@ -81,7 +83,9 @@ export function getSignUpUpdateSchema(formData: FormData) {
             .min(8, { message: 'ErrorsZod.PhoneRequired' })
             .regex(/^\d+$/, { message: 'ErrorsZod.PhoneVerifiqued' })
             .trim(),
-        email: email('ErrorsZod.EmailInvalid'),
+        email: email('ErrorsZod.EmailInvalid')
+            .trim()
+            .toLowerCase(),
         confirm_email: email('ErrorsZod.EmailInvalid'),
         password: isEdit
             ? string().optional()
@@ -112,7 +116,9 @@ export function getSignUpUpdateSchema(formData: FormData) {
 }
 
 export const signInSchema = object({
-    email: email('ErrorsZod.EmailInvalid'),
+    email: email('ErrorsZod.EmailInvalid')
+        .trim()
+        .toLowerCase(),
     username: string()
         .min(1, 'ErrorsZod.UsernameRequired'),
     password: string()
@@ -126,6 +132,8 @@ export const updateUserSchema = object({
     username: string()
         .min(1, 'ErrorsZod.UsernameRequired'),
     email: email('ErrorsZod.EmailInvalid')
+        .trim()
+        .toLowerCase()
 })
 
 export const deleteUserSchema = object({
@@ -147,7 +155,9 @@ export const passwordUpdateSchema = object({
     });
 
 export const passwordResetSchema = object({
-    email: email('ErrorsZod.EmailInvalid'),
+    email: email('ErrorsZod.EmailInvalid')
+        .trim()
+        .toLowerCase(),
     token: string()
         .min(1, 'ErrorsZod.TokenRequired'),
     password: string()
@@ -162,6 +172,8 @@ export const passwordResetSchema = object({
 
 export const passwordForgotSchema = object({
     email: email('ErrorsZod.EmailInvalid')
+        .trim()
+        .toLowerCase()
 });
 
 export const CreateBidFormSchema = object({
