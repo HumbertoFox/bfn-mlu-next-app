@@ -1,12 +1,14 @@
 import { deleteUserById } from '@/app/api/actions/deleteadminuser';
+import { reactivateAdminUserById } from '@/app/api/actions/reactivateadminuser';
 import UsersBreadcrumb from '@/components/breadcrumbs/users-breadcrumb';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Icon } from '@/components/ui/icon';
 import { Pagination, PaginationContent, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '@/components/ui/pagination';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import getVisiblePagination from '@/lib/getvisiblepagination';
 import prisma from '@/lib/prisma';
-import { UserPen, UserX } from 'lucide-react';
+import { UserLock, UserPen, UserX } from 'lucide-react';
 import { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
 import Link from 'next/link';
@@ -20,47 +22,20 @@ export const generateMetadata = async (): Promise<Metadata> => {
 
 const pageSize = 10;
 
-function getVisiblePages(current: number, total: number): (number | string)[] {
-    const delta = 2;
-    const range: (number | string)[] = [];
-
-    const start = Math.max(2, current - delta);
-    const end = Math.min(total - 1, current + delta);
-
-    range.push(1);
-
-    if (start > 2) {
-        range.push('...');
-    }
-
-    for (let i = start; i <= end; i++) {
-        range.push(i);
-    }
-
-    if (end < total - 1) {
-        range.push('...');
-    }
-
-    if (total > 1) {
-        range.push(total);
-    }
-
-    return range;
-}
-
 export default async function Users(props: { searchParams?: Promise<{ page?: number; }>; }) {
-    const searchParams = await props.searchParams;
-    const currentPage = searchParams?.page || 1;
+    const params = await props.searchParams;
+    const rawPage = parseInt(String(params?.page ?? '1'), 10);
+    const currentPage = Number.isNaN(rawPage) ? 1 : Math.max(1, rawPage);
     const t = await getTranslations('Users');
     const [users, totalUsers] = await Promise.all([
         prisma.user.findMany({
-            where: { role: 'USER', deletedAt: null },
-            select: { id: true, name: true, email: true },
+            where: { role: 'USER', },
+            select: { id: true, name: true, email: true, deletedAt: true, },
             skip: (currentPage - 1) * pageSize,
             take: pageSize,
         }),
         prisma.user.count({
-            where: { role: 'USER', deletedAt: null },
+            where: { role: 'USER', },
         }),
     ]);
     const totalPages = Math.ceil(totalUsers / pageSize);
@@ -92,55 +67,74 @@ export default async function Users(props: { searchParams?: Promise<{ page?: num
                                     <TableCell className="hidden lg:table-cell">{user.name}</TableCell>
                                     <TableCell className="hidden lg:table-cell">{user.email}</TableCell>
                                     <TableCell className="flex justify-evenly items-center my-1">
-                                        <Link
-                                            href={`/dashboard/admins/${user.id}/update`}
-                                            title={`${t('LinkTitle')} ${user.name}`}
-                                        >
-                                            <Icon
-                                                iconNode={UserPen}
-                                                aria-label={`${t('AriaLabelIcon')} ${user.name}`}
-                                                className="size-6 text-yellow-600 hover:text-yellow-500 duration-300"
-                                            />
-                                        </Link>
-
-                                        <Dialog>
-                                            <DialogTrigger asChild>
-                                                <button
-                                                    type="button"
-                                                    title={`${t('DialogButtonTitle')} ${user.name}`}
+                                        {!user.deletedAt ? (
+                                            <>
+                                                <Link
+                                                    href={`/dashboard/admins/${user.id}/update`}
+                                                    title={`${t('LinkTitle')} ${user.name}`}
                                                 >
                                                     <Icon
-                                                        iconNode={UserX}
-                                                        aria-label={`${t('DialogButtonAreaLabel')} ${user.name}`}
-                                                        className="size-6 text-red-600 cursor-pointer hover:text-red-500 duration-300"
+                                                        iconNode={UserPen}
+                                                        aria-label={`${t('AriaLabelIcon')} ${user.name}`}
+                                                        className="size-6 text-yellow-600 hover:text-yellow-500 duration-300"
+                                                    />
+                                                </Link>
+
+                                                <Dialog key={user.id}>
+                                                    <DialogTrigger asChild>
+                                                        <button
+                                                            type="button"
+                                                            title={`${t('DialogButtonTitle')} ${user.name}`}
+                                                        >
+                                                            <Icon
+                                                                iconNode={UserX}
+                                                                aria-label={`${t('DialogButtonAreaLabel')} ${user.name}`}
+                                                                className="size-6 text-red-600 cursor-pointer hover:text-red-500 duration-300"
+                                                            />
+                                                        </button>
+                                                    </DialogTrigger>
+                                                    <DialogContent>
+                                                        <DialogTitle>
+                                                            {t('DialogTitle')}
+                                                        </DialogTitle>
+                                                        <DialogDescription>
+                                                            {t('DialogDescription')}
+                                                        </DialogDescription>
+                                                        <DialogFooter>
+                                                            <DialogClose asChild>
+                                                                <Button type="button" variant="secondary">
+                                                                    {t('DialogButtonCancel')}
+                                                                </Button>
+                                                            </DialogClose>
+                                                            <form action={deleteUserById}>
+                                                                <input type="hidden" name="userId" value={user.id} />
+                                                                <Button
+                                                                    type="submit"
+                                                                    variant="destructive"
+                                                                >
+                                                                    {t('DialogButtonSubmit')}
+                                                                </Button>
+                                                            </form>
+                                                        </DialogFooter>
+                                                    </DialogContent>
+                                                </Dialog>
+                                            </>
+                                        ) : (
+                                            <form action={reactivateAdminUserById}>
+                                                <input type="hidden" name="userId" value={user.id} />
+                                                <button
+                                                    type="submit"
+                                                    title={`Ativar ${user.name}`}
+                                                    className="cursor-pointer"
+                                                >
+                                                    <Icon
+                                                        iconNode={UserLock}
+                                                        aria-label={`Arivar ${user.name}`}
+                                                        className="size-6 text-red-600 hover:text-green-500 duration-300"
                                                     />
                                                 </button>
-                                            </DialogTrigger>
-                                            <DialogContent>
-                                                <DialogTitle>
-                                                    {t('DialogTitle')}
-                                                </DialogTitle>
-                                                <DialogDescription>
-                                                    {t('DialogDescription')}
-                                                </DialogDescription>
-                                                <DialogFooter>
-                                                    <DialogClose asChild>
-                                                        <Button type="button" variant="secondary">
-                                                            {t('DialogButtonCancel')}
-                                                        </Button>
-                                                    </DialogClose>
-                                                    <form action={deleteUserById}>
-                                                        <input type="hidden" name="userId" value={user.id} />
-                                                        <Button
-                                                            type="submit"
-                                                            variant="destructive"
-                                                        >
-                                                            {t('DialogButtonSubmit')}
-                                                        </Button>
-                                                    </form>
-                                                </DialogFooter>
-                                            </DialogContent>
-                                        </Dialog>
+                                            </form>
+                                        )}
                                     </TableCell>
                                 </TableRow>
                             ))}
@@ -157,7 +151,7 @@ export default async function Users(props: { searchParams?: Promise<{ page?: num
                             className={currentPage <= 1 ? 'pointer-events-none opacity-50' : ''}
                         />
                     </PaginationItem>
-                    {getVisiblePages(currentPage, totalPages).map((page, index) => (
+                    {getVisiblePagination(currentPage, totalPages).map((page, index) => (
                         <PaginationItem key={index}>
                             {page === '...' ? (
                                 <PaginationLink
