@@ -1,9 +1,9 @@
 {
-    "name": "nextjs-kit-starter",
-    "description": "Adapter nextjs-kit-starter.",
+    "name": "Menor lance Unico",
+    "description": "Faça o seu lance em uma Cripto.",
     "author": "BetoFoxNet",
     "quote": {
-        "message": "Build things that matter BetoFoxNet.",
+        "message": "Desenvolvido por BetoFoxNet.",
         "author": "BetoFoxNet"
     }
 }
