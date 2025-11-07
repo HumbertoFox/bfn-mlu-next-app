@@ -3,6 +3,7 @@
 import { CreateBidFormSchema, FormStateCriptoUp } from '@/lib/definitions';
 import prisma from '@/lib/prisma';
 import { getUser } from '@/lib/dal';
+import z from 'zod';
 
 export async function CreateBid(state: FormStateCriptoUp, formData: FormData) {
     const sessionUser = await getUser();
@@ -16,7 +17,7 @@ export async function CreateBid(state: FormStateCriptoUp, formData: FormData) {
             cryptocurrency: formData.get('cryptocurrency') as string,
         });
 
-        if (!validatedFields.success) return { errors: validatedFields.error.flatten().fieldErrors };
+        if (!validatedFields.success) return { errors: z.flattenError(validatedFields.error).fieldErrors };
 
         const { amount, paymentID, cryptocurrency } = validatedFields.data
 
