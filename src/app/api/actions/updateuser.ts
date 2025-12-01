@@ -9,12 +9,13 @@ import z from 'zod';
 export async function updateUser(state: FormStateUserUpdate, formData: FormData): Promise<FormStateUserUpdate> {
     const validatedFields = updateUserSchema.safeParse({
         name: formData.get('name') as string,
+        username: formData.get('username') as string,
         email: formData.get('email') as string,
     });
 
     if (!validatedFields.success) return { errors: z.flattenError(validatedFields.error).fieldErrors };
 
-    const { name, email } = validatedFields.data;
+    const { name, email, username } = validatedFields.data;
     const sessionUser = await getUser();
 
     if (!sessionUser?.id) return redirect('/');
@@ -23,8 +24,9 @@ export async function updateUser(state: FormStateUserUpdate, formData: FormData)
 
     if (emailInUse && emailInUse.id !== sessionUser.id) return { errors: { email: ['ErrorsZod.EmailAlreadyUse'] } };
 
-    const dataToUpdate: { name?: string; email?: string } = {};
+    const dataToUpdate: { name?: string; email?: string, username?: string } = {};
     if (sessionUser.name !== name) dataToUpdate.name = name;
+    if (sessionUser.username !== username) dataToUpdate.username = username;
     if (sessionUser.email !== email) dataToUpdate.email = email;
 
     if (Object.keys(dataToUpdate).length === 0) return { message: 'No changes made.' };

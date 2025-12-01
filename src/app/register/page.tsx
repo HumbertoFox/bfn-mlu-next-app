@@ -1,13 +1,18 @@
+import { getIsAdmin } from '@/lib/getisadmin';
 import RegisterAdmin from './form-register-admin-user';
 import { Metadata } from 'next';
 import { getTranslations } from 'next-intl/server';
 
 export const generateMetadata = async (): Promise<Metadata> => {
+  const isAdmin = await getIsAdmin();
   const t = await getTranslations('RegisterAdmin.Metadata');
   return {
-    title: t('Title')
+    title: isAdmin ? t('TitleUser') : t('TitleAdmin')
   };
 };
+
 export default async function Register() {
-    return <RegisterAdmin />;
+  const isAdmin = await getIsAdmin();
+  const Title = isAdmin ? 'TitleUser' : 'TitleAdmin';
+  return <RegisterAdmin TitleIntl={Title} />;
 }

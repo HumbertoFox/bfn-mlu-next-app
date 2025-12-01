@@ -262,6 +262,7 @@ export type FormStateUserUpdate =
         errors?: {
             name?: string[];
             email?: string[];
+            username?: string[];
         };
         message?: string;
         success?: boolean;

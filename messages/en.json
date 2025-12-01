@@ -18,7 +18,8 @@
         }
     },
     "RegisterAdmin": {
-        "Title": "Create an account",
+        "TitleAdmin": "Create an Administrator account",
+        "TitleUser": "Create a User Account",
         "Description": "Enter your details below to create your account",
         "NameLabel": "Name",
         "NamePlaceholder": "Full name",
@@ -65,7 +66,8 @@
             "PasswordMatch": "Passwords don't match"
         },
         "Metadata": {
-            "Title": "Register Admin"
+            "TitleAdmin": "Register Admin",
+            "TitleUser": "Register User"
         }
     },
     "Login": {
@@ -369,6 +371,8 @@
         "Description": "Update your name and email address",
         "NameLabel": "Name",
         "NamePlaceholder": "Full name",
+        "UserNameLabel": "UserName",
+        "UserNamePlaceholder": "UserName",
         "EmailLabel": "Email address",
         "EmailPlaceholder": "email@example.com",
         "TextParagrafPrimary": "Your email address is unverified.",

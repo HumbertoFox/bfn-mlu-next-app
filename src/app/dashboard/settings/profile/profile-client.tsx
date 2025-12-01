@@ -17,13 +17,14 @@ import { useTranslations } from 'next-intl';
 type ProfileForm = {
     name: string;
     email: string;
+    username: string;
 };
 
 type Props = ProfileForm & {
     mustVerifyEmail: boolean;
 };
 
-export default function ProfilePageClient({ name, email, mustVerifyEmail }: Props) {
+export default function ProfilePageClient({ name, email, username, mustVerifyEmail }: Props) {
     const router = useRouter();
     const t = useTranslations('ProfilePageClient');
     const tb = useTranslations('Breadcrumb');
@@ -31,7 +32,11 @@ export default function ProfilePageClient({ name, email, mustVerifyEmail }: Prop
     const [state, action, pending] = useActionState(updateUser, undefined);
     const [status, setStatus] = useState<string | null>(null);
     const [recentlySuccessful, setRecentlySuccessful] = useState<boolean>(false);
-    const [data, setData] = useState<ProfileForm>({ name: name, email: email });
+    const [data, setData] = useState<ProfileForm>({
+        name: name,
+        email: email,
+        username: username,
+    });
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { id, value } = e.target;
@@ -83,6 +88,21 @@ export default function ProfilePageClient({ name, email, mustVerifyEmail }: Prop
                             placeholder={t('NamePlaceholder')}
                         />
                         {state?.errors?.name && <InputError message={t(state.errors.name[0])} />}
+                    </div>
+
+                    <div className="grid gap-2">
+                        <Label htmlFor="username">{t('UserNameLabel')}</Label>
+                        <Input
+                            id="username"
+                            name="username"
+                            className="mt-1 block w-full"
+                            value={data.username}
+                            onChange={handleChange}
+                            required
+                            autoComplete="username"
+                            placeholder={t('UserNamePlaceholder')}
+                        />
+                        {state?.errors?.username && <InputError message={t(state.errors.username[0])} />}
                     </div>
 
                     <div className="grid gap-2">

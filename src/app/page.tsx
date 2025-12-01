@@ -16,7 +16,7 @@ export default async function Welcome() {
   const t = await getTranslations('Welcome');
   const session = await getSession();
   return (
-    <div className="flex flex-col items-center justify-between min-h-screen p-4 gap-6 font-[family-name:var(--font-geist-sans)]">
+    <div className="flex flex-col items-center justify-between min-h-screen p-4 gap-6 font-family-name:var(--font-geist-sans)">
       <header className="w-full not-has-[nav]:hidden lg:max-w-[1440px] flex justify-between">
         <Link href="/">
           <svg width="57px" height="57px" viewBox="0.004 0 64 64" xmlns="http://www.w3.org/2000/svg">
