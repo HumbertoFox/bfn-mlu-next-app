@@ -251,7 +251,7 @@ export default function RegisterUserForm({ user, isEdit, valueButton }: Register
                         />
                         <button
                             type="button"
-                            className='absolute right-2 top-[6px] opacity-30 hover:opacity-100 duration-300 cursor-pointer'
+                            className='absolute right-2 top-1.5 opacity-30 hover:opacity-100 duration-300 cursor-pointer'
                             onClick={toggleShowPassword}
                         >
                             {showPassword ? <Icon iconNode={Eye} /> : <Icon iconNode={EyeClosed} />}
@@ -276,7 +276,7 @@ export default function RegisterUserForm({ user, isEdit, valueButton }: Register
                         />
                         <button
                             type="button"
-                            className='absolute right-2 top-[6px] opacity-30 hover:opacity-100 duration-300 cursor-pointer'
+                            className='absolute right-2 top-1.5 opacity-30 hover:opacity-100 duration-300 cursor-pointer'
                             onClick={toggleShowPasswordConfirm}
                         >
                             {showPasswordConfirm ? <Icon iconNode={Eye} /> : <Icon iconNode={EyeClosed} />}

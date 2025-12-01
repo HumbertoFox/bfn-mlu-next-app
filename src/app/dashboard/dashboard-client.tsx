@@ -161,28 +161,28 @@ export default function DashboardPageClient() {
                     {bitcoin ? (
                         <>
                             <div className='w-full flex font-semibold text-base text-blue-400 py-2'>
-                                <div className='w-full p-1 border-r-[1px]'>
+                                <div className='w-full p-1 border-r'>
                                     <h1>{t('TextPriceCurrent')}</h1>
                                 </div>
-                                <div className='w-full p-1 border-l-[1px]'>
+                                <div className='w-full p-1 border-l'>
                                     <p>{formatCurrency(bitcoin?.valueBRL, 'pt-BR', 'BRL')}</p>
                                 </div>
                             </div>
 
-                            <div className='w-full flex font-semibold text-sm text-red-400 py-2 border-t-[1px]'>
-                                <div className='w-full p-1 border-r-[1px]'>
+                            <div className='w-full flex font-semibold text-sm text-red-400 py-2 border-t'>
+                                <div className='w-full p-1 border-r'>
                                     <h2>{t('TextPriceCurrent')}</h2>
                                 </div>
-                                <div className='w-full p-1 border-l-[1px]'>
+                                <div className='w-full p-1 border-l'>
                                     <p>{formatCurrency(bitcoin?.valueUSD, 'en-US', 'USD')}</p>
                                 </div>
                             </div>
 
-                            <div className='w-full flex font-semibold text-xs text-green-600 py-2 border-t-[1px]'>
-                                <div className='w-full p-1 border-r-[1px]'>
+                            <div className='w-full flex font-semibold text-xs text-green-600 py-2 border-t'>
+                                <div className='w-full p-1 border-r'>
                                     <span>{bitcoin?.date}</span>
                                 </div>
-                                <div className='w-full p-1 border-l-[1px]'>
+                                <div className='w-full p-1 border-l'>
                                     <span>{bitcoin?.bids} {bitcoin?.bids > 1 ? t('TextBids') : t('TextBid')}</span>
                                 </div>
                             </div>
@@ -190,28 +190,28 @@ export default function DashboardPageClient() {
                     ) : (
                         <>
                             <div className='w-full flex font-semibold text-base text-blue-400 py-2'>
-                                <div className='w-full p-1 border-r-[1px]'>
+                                <div className='w-full p-1 border-r'>
                                     <h1 className=''>{t('TextPriceCurrent')}</h1>
                                 </div>
-                                <div className='w-full p-1 border-l-[1px]'>
+                                <div className='w-full p-1 border-l'>
                                     <Skeleton className="size-full" />
                                 </div>
                             </div>
 
-                            <div className='w-full flex font-semibold text-sm text-red-400 py-2 border-t-[1px]'>
-                                <div className='w-full p-1 border-r-[1px]'>
+                            <div className='w-full flex font-semibold text-sm text-red-400 py-2 border-t'>
+                                <div className='w-full p-1 border-r'>
                                     <h2>{t('TextPriceCurrent')}</h2>
                                 </div>
-                                <div className='w-full p-1 border-l-[1px]'>
+                                <div className='w-full p-1 border-l'>
                                     <Skeleton className="size-full" />
                                 </div>
                             </div>
 
-                            <div className='w-full flex font-semibold text-xs text-green-600 py-2 border-t-[1px]'>
-                                <div className='w-full p-1 border-r-[1px]'>
+                            <div className='w-full flex font-semibold text-xs text-green-600 py-2 border-t'>
+                                <div className='w-full p-1 border-r'>
                                     <Skeleton className="size-full" />
                                 </div>
-                                <div className='w-full p-1 border-l-[1px]'>
+                                <div className='w-full p-1 border-l'>
                                     <Skeleton className="size-full" />
                                 </div>
                             </div>
@@ -247,28 +247,28 @@ export default function DashboardPageClient() {
                     {ethereum ? (
                         <>
                             <div className='w-full flex font-semibold text-base text-blue-400 py-2'>
-                                <div className='w-full p-1 border-r-[1px]'>
+                                <div className='w-full p-1 border-r'>
                                     <h1>{t('TextPriceCurrent')}</h1>
                                 </div>
-                                <div className='w-full p-1 border-l-[1px]'>
+                                <div className='w-full p-1 border-l'>
                                     <p>{formatCurrency(ethereum?.valueBRL, 'pt-BR', 'BRL')}</p>
                                 </div>
                             </div>
 
-                            <div className='w-full flex font-semibold text-sm text-red-400 py-2 border-t-[1px]'>
-                                <div className='w-full p-1 border-r-[1px]'>
+                            <div className='w-full flex font-semibold text-sm text-red-400 py-2 border-t'>
+                                <div className='w-full p-1 border-r'>
                                     <h2>{t('TextPriceCurrent')}</h2>
                                 </div>
-                                <div className='w-full p-1 border-l-[1px]'>
+                                <div className='w-full p-1 border-l'>
                                     <p>{formatCurrency(ethereum?.valueUSD, 'en-US', 'USD')}</p>
                                 </div>
                             </div>
 
-                            <div className='w-full flex font-semibold text-xs text-green-600 py-2 border-t-[1px]'>
-                                <div className='w-full p-1 border-r-[1px]'>
+                            <div className='w-full flex font-semibold text-xs text-green-600 py-2 border-t'>
+                                <div className='w-full p-1 border-r'>
                                     <span>{ethereum?.date}</span>
                                 </div>
-                                <div className='w-full p-1 border-l-[1px]'>
+                                <div className='w-full p-1 border-l'>
                                     <span>{ethereum?.bids} {ethereum?.bids > 1 ? t('TextBids') : t('TextBid')}</span>
                                 </div>
                             </div>
@@ -276,28 +276,28 @@ export default function DashboardPageClient() {
                     ) : (
                         <>
                             <div className='w-full flex font-semibold text-base text-blue-400 py-2'>
-                                <div className='w-full p-1 border-r-[1px]'>
+                                <div className='w-full p-1 border-r'>
                                     <h1>{t('TextPriceCurrent')}</h1>
                                 </div>
-                                <div className='w-full p-1 border-l-[1px]'>
+                                <div className='w-full p-1 border-l'>
                                     <Skeleton className="size-full" />
                                 </div>
                             </div>
 
-                            <div className='w-full flex font-semibold text-sm text-red-400 py-2 border-t-[1px]'>
-                                <div className='w-full p-1 border-r-[1px]'>
+                            <div className='w-full flex font-semibold text-sm text-red-400 py-2 border-t'>
+                                <div className='w-full p-1 border-r'>
                                     <h2>{t('TextPriceCurrent')}</h2>
                                 </div>
-                                <div className='w-full p-1 border-l-[1px]'>
+                                <div className='w-full p-1 border-l'>
                                     <Skeleton className="size-full" />
                                 </div>
                             </div>
 
-                            <div className='w-full flex font-semibold text-xs text-green-600 py-2 border-t-[1px]'>
-                                <div className='w-full p-1 border-r-[1px]'>
+                            <div className='w-full flex font-semibold text-xs text-green-600 py-2 border-t'>
+                                <div className='w-full p-1 border-r'>
                                     <Skeleton className="size-full" />
                                 </div>
-                                <div className='w-full p-1 border-l-[1px]'>
+                                <div className='w-full p-1 border-l'>
                                     <Skeleton className="size-full" />
                                 </div>
                             </div>
@@ -333,28 +333,28 @@ export default function DashboardPageClient() {
                     {bnb ? (
                         <>
                             <div className='w-full flex font-semibold text-base text-blue-400 py-2'>
-                                <div className='w-full p-1 border-r-[1px]'>
+                                <div className='w-full p-1 border-r'>
                                     <h1>{t('TextPriceCurrent')}</h1>
                                 </div>
-                                <div className='w-full p-1 border-l-[1px]'>
+                                <div className='w-full p-1 border-l'>
                                     <p>{formatCurrency(bnb?.valueBRL, 'pt-BR', 'BRL')}</p>
                                 </div>
                             </div>
 
-                            <div className='w-full flex font-semibold text-sm text-red-400 py-2 border-t-[1px]'>
-                                <div className='w-full p-1 border-r-[1px]'>
+                            <div className='w-full flex font-semibold text-sm text-red-400 py-2 border-t'>
+                                <div className='w-full p-1 border-r'>
                                     <h2>{t('TextPriceCurrent')}</h2>
                                 </div>
-                                <div className='w-full p-1 border-l-[1px]'>
+                                <div className='w-full p-1 border-l'>
                                     <p>{formatCurrency(bnb?.valueUSD, 'en-US', 'USD')}</p>
                                 </div>
                             </div>
 
-                            <div className='w-full flex font-semibold text-xs text-green-600 py-2 border-t-[1px]'>
-                                <div className='w-full p-1 border-r-[1px]'>
+                            <div className='w-full flex font-semibold text-xs text-green-600 py-2 border-t'>
+                                <div className='w-full p-1 border-r'>
                                     <span>{bnb?.date}</span>
                                 </div>
-                                <div className='w-full p-1 border-l-[1px]'>
+                                <div className='w-full p-1 border-l'>
                                     <span>{bnb?.bids} {bnb?.bids > 1 ? t('TextBids') : t('TextBid')}</span>
                                 </div>
                             </div>
@@ -362,28 +362,28 @@ export default function DashboardPageClient() {
                     ) : (
                         <>
                             <div className='w-full flex font-semibold text-base text-blue-400 py-2'>
-                                <div className='w-full p-1 border-r-[1px]'>
+                                <div className='w-full p-1 border-r'>
                                     <h1 className=''>{t('TextPriceCurrent')}</h1>
                                 </div>
-                                <div className='w-full p-1 border-l-[1px]'>
+                                <div className='w-full p-1 border-l'>
                                     <Skeleton className="size-full" />
                                 </div>
                             </div>
 
-                            <div className='w-full flex font-semibold text-sm text-red-400 py-2 border-t-[1px]'>
-                                <div className='w-full p-1 border-r-[1px]'>
+                            <div className='w-full flex font-semibold text-sm text-red-400 py-2 border-t'>
+                                <div className='w-full p-1 border-r'>
                                     <h2>{t('TextPriceCurrent')}</h2>
                                 </div>
-                                <div className='w-full p-1 border-l-[1px]'>
+                                <div className='w-full p-1 border-l'>
                                     <Skeleton className="size-full" />
                                 </div>
                             </div>
 
-                            <div className='w-full flex font-semibold text-xs text-green-600 py-2 border-t-[1px]'>
-                                <div className='w-full p-1 border-r-[1px]'>
+                            <div className='w-full flex font-semibold text-xs text-green-600 py-2 border-t'>
+                                <div className='w-full p-1 border-r'>
                                     <Skeleton className="size-full" />
                                 </div>
-                                <div className='w-full p-1 border-l-[1px]'>
+                                <div className='w-full p-1 border-l'>
                                     <Skeleton className="size-full" />
                                 </div>
                             </div>

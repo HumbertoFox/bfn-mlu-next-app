@@ -119,7 +119,7 @@ export default function Login() {
                             {canResetPassword && (
                                 <TextLink
                                     href="/auth/forgot-password"
-                                    tabIndex={3}
+                                    tabIndex={5}
                                     className="ml-auto text-sm"
                                 >
                                     {t('Forgot')}
@@ -134,7 +134,7 @@ export default function Login() {
                                 type={isVisibledPassword ? "text" : "password"}
                                 ref={passwordRef}
                                 required
-                                tabIndex={4}
+                                tabIndex={3}
                                 autoComplete="current-password"
                                 value={data.password}
                                 onChange={handleChange}
@@ -151,7 +151,7 @@ export default function Login() {
                         {state?.errors?.password && <InputError message={t(state.errors.password[0])} />}
                     </div>
 
-                    <Button type="submit" className="mt-4 w-full" tabIndex={5} disabled={pending}>
+                    <Button type="submit" className="mt-4 w-full" tabIndex={4} disabled={pending}>
                         {pending && <LoaderCircle className="h-4 w-4 animate-spin" />}
                         {t('Submit')}
                     </Button>

@@ -28,9 +28,11 @@ export async function createAdmin(state: FormStateCreateAdmin, formData: FormDat
 
         if (existingUser) return { warning: 'WarningUserExisting' };
 
-        const existingUserAdmin = await prisma.user.findFirst({ where: { role: 'ADMIN' } });
+        const existingUserAdmin = await prisma.user.count({ where: { role: 'ADMIN' } });
 
-        const role = existingUserAdmin ? 'USER' : 'ADMIN';
+        const hasAdmin = existingUserAdmin > 0;
+
+        const role = hasAdmin ? 'USER' : 'ADMIN';
 
         const hashedPassword = await bcrypt.hash(password, 12);
 
