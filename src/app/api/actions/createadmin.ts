@@ -31,9 +31,10 @@ export async function createAdmin(state: FormStateCreateAdmin, formData: FormDat
     const { name, cpf, dateofbirth, username, phone, email, password } = validatedFields.data;
 
     try {
-        const existingUser = await prisma.user.findFirst({ where: { OR: [{ cpf }, { username }, { phone }, { email }] } });
+        const existingUser = await prisma.user.count({ where: { OR: [{ cpf }, { username }, { phone }, { email }] } });
+        const hasUser = existingUser > 0;
 
-        if (existingUser) return { warning: 'WarningUserExisting' };
+        if (hasUser) return { warning: 'WarningUserExisting' };
 
         const existingUserAdmin = await prisma.user.count({ where: { role: 'ADMIN' } });
 
