@@ -206,9 +206,14 @@ export type FormStateCreateAdmin =
             phone?: string[];
             password?: string[];
             password_confirmation?: string[];
+            image?: string[];
         }
         message?: boolean;
         warning?: string;
+        meta?: {
+            width?: number;
+            height?: number;
+        };
     } | undefined;
 
 export type FormStateCreateUpdateAdminUser =
@@ -224,8 +229,13 @@ export type FormStateCreateUpdateAdminUser =
             role?: string[];
             password?: string[];
             password_confirmation?: string[];
+            image?: string[];
         }
         message?: boolean;
+        meta?: {
+            width?: number;
+            height?: number;
+        };
     } | undefined;
 
 export type FormStateLoginUser =
@@ -263,9 +273,14 @@ export type FormStateUserUpdate =
             name?: string[];
             email?: string[];
             username?: string[];
+            image?: string[];
         };
         message?: string;
         success?: boolean;
+        meta?: {
+            width?: number;
+            height?: number;
+        };
     } | undefined;
 
 export type FormStatePasswordForgot =

@@ -21,6 +21,12 @@
         "TitleAdmin": "Create an Administrator account",
         "TitleUser": "Create a User Account",
         "Description": "Enter your details below to create your account",
+        "ProfilePictureLabel": "Profile picture (optional)",
+        "ImageAlt": "Preview image Profile",
+        "NoImage": "No image",
+        "ImageLabel": "Select image",
+        "TitleSelectImageError": "Click on Select image and then Cancel.",
+        "TitleSelectImage": "Select profile picture",
         "NameLabel": "Name",
         "NamePlaceholder": "Full name",
         "CpfLabel": "CPF",
@@ -48,6 +54,10 @@
         "Warning": "Something went wrong. Please try again later.",
         "WarningUserExisting": "Data already registered",
         "RegisterSuccess": "Account created successfully! Redirecting to the Dashboard, please wait...",
+        "TypeImage": "Only JPEG, PNG, or WebP formats are allowed.",
+        "SizeImage": "The image cannot exceed 512 KB.",
+        "DimensionImage": "The image cannot exceed 512x512px (current: {width}x{height})",
+        "UplodeImageError": "Failed to read the image.",
         "ErrorsZod": {
             "NameRequired": "Name is required",
             "CpfRequired": "The CPF must have 11 numbers.",
@@ -304,6 +314,12 @@
         }
     },
     "RegisterUserForm": {
+        "ProfilePictureLabel": "Profile picture (optional)",
+        "ImageAlt": "Preview image Profile",
+        "NoImage": "No image",
+        "ImageLabel": "Select image",
+        "TitleSelectImageError": "Click on Select image and then Cancel.",
+        "TitleSelectImage": "Select profile picture",
         "IdLabel": "ID",
         "IdPlaceholder": "ID",
         "NameLabel": "Name",
@@ -328,6 +344,10 @@
         "RolePlaceholder": "Account Type",
         "RoleItemUser": "User",
         "RoleItemAdmin": "Administrator",
+        "TypeImage": "Only JPEG, PNG, or WebP formats are allowed.",
+        "SizeImage": "The image cannot exceed 512 KB.",
+        "DimensionImage": "The image cannot exceed 512x512px (current: {width}x{height})",
+        "UplodeImageError": "Failed to read the image.",
         "ErrorsZod": {
             "NameRequired": "Name is required",
             "EmailInvalid": "Invalid email address",
@@ -378,6 +398,16 @@
         "TextParagrafPrimary": "Your email address is unverified.",
         "Submit": "Click here to resend the verification email.",
         "TextParagrafSecond": "A new verification link has been sent to your email address.",
+        "ProfilePictureLabel": "Profile picture (optional)",
+        "ImageAlt": "Preview image Profile",
+        "NoImage": "No image",
+        "ImageLabel": "Select image",
+        "TitleSelectImageError": "Click on Select image and then Cancel.",
+        "TitleSelectImage": "Select profile picture",
+        "TypeImage": "Only JPEG, PNG, or WebP formats are allowed.",
+        "SizeImage": "The image cannot exceed 512 KB.",
+        "DimensionImage": "The image cannot exceed 512x512px (current: {width}x{height})",
+        "UplodeImageError": "Failed to read the image.",
         "ButtonSave": "Save",
         "Saved": "Saved",
         "ErrorsZod": {
@@ -453,6 +483,9 @@
     "PriceData": {
         "ErrorfetchingData": "The API response does not contain valid pricing data.",
         "ErrorTryCatch": "Error fetching Bitcoin data:"
+    },
+    "AppLogo": {
+        "NameMlu": "Lowest Unique Bid"
     },
     "NotFound": {
         "TextTitle": "Page not found",

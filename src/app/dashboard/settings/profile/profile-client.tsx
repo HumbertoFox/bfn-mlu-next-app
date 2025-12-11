@@ -13,38 +13,60 @@ import { emailVerifiedChecked } from '@/app/api/actions/emailverified';
 import { useRouter } from 'next/navigation';
 import { useBreadcrumbs } from '@/context/breadcrumb-context';
 import { useTranslations } from 'next-intl';
+import { handleImageChange } from '@/lib/handleimagechange';
+import Image from 'next/image';
 
 type ProfileForm = {
     name: string;
     email: string;
     username: string;
+    image?: string | null;
 };
 
 type Props = ProfileForm & {
     mustVerifyEmail: boolean;
 };
 
-export default function ProfilePageClient({ name, email, username, mustVerifyEmail }: Props) {
+export default function ProfilePageClient({ name, email, username, image, mustVerifyEmail }: Props) {
     const router = useRouter();
     const t = useTranslations('ProfilePageClient');
     const tb = useTranslations('Breadcrumb');
     const { setBreadcrumbs } = useBreadcrumbs();
     const [state, action, pending] = useActionState(updateUser, undefined);
     const [status, setStatus] = useState<string | null>(null);
+    const [imageMeta, setImageMeta] = useState<{ width?: number; height?: number } | null>(null);
+    const [imagePreview, setImagePreview] = useState<string | null | undefined>(image ?? null);
+    const [imageFile, setImageFile] = useState<File | null>(null);
+    const [imageError, setImageError] = useState<string | null>(null);
     const [recentlySuccessful, setRecentlySuccessful] = useState<boolean>(false);
     const [data, setData] = useState<ProfileForm>({
         name: name,
         email: email,
         username: username,
+        image: image,
     });
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { id, value } = e.target;
         setData({ ...data, [id]: value });
     };
+    const onImageChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const { file, preview, error, meta } = await handleImageChange(e);
+        setImageFile(file);
+        setImagePreview(preview || image);
+        setImageError(error);
+        setImageMeta(meta || null);
+    };
+    useEffect(() => {
+        return () => {
+            if (imagePreview && imagePreview.startsWith('blob:')) URL.revokeObjectURL(imagePreview);
+        };
+    }, [imagePreview]);
     const submit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        if (imageError) return;
         const formData = new FormData(e.currentTarget);
+        if (imageFile) formData.append('file', imageFile);
         startTransition(() => action(formData));
     };
     const handleVerifildEmail = async () => {
@@ -73,77 +95,143 @@ export default function ProfilePageClient({ name, email, username, mustVerifyEma
         <>
             <div className="space-y-6">
                 <HeadingSmall title={t('Title')} description={t('Description')} />
-
                 <form onSubmit={submit} className="space-y-6">
-                    <div className="grid gap-2">
-                        <Label htmlFor="name">{t('NameLabel')}</Label>
-                        <Input
-                            id="name"
-                            name="name"
-                            className="mt-1 block w-full"
-                            value={data.name}
-                            onChange={handleChange}
-                            required
-                            autoComplete="name"
-                            placeholder={t('NamePlaceholder')}
-                        />
-                        {state?.errors?.name && <InputError message={t(state.errors.name[0])} />}
-                    </div>
+                    <div className="flex flex-col-reverse justify-between lg:flex-row gap-6">
+                        <div className="min-w-2/3 flex flex-col flex-1 gap-6">
+                            <div className="grid gap-2">
+                                <Label htmlFor="name">{t('NameLabel')}</Label>
+                                <Input
+                                    id="name"
+                                    name="name"
+                                    className="mt-1 block w-full"
+                                    value={data.name}
+                                    onChange={handleChange}
+                                    required
+                                    autoComplete="name"
+                                    placeholder={t('NamePlaceholder')}
+                                />
+                                {state?.errors?.name && <InputError message={t(state.errors.name[0])} />}
+                            </div>
 
-                    <div className="grid gap-2">
-                        <Label htmlFor="username">{t('UserNameLabel')}</Label>
-                        <Input
-                            id="username"
-                            name="username"
-                            className="mt-1 block w-full"
-                            value={data.username}
-                            onChange={handleChange}
-                            required
-                            autoComplete="username"
-                            placeholder={t('UserNamePlaceholder')}
-                        />
-                        {state?.errors?.username && <InputError message={t(state.errors.username[0])} />}
-                    </div>
+                            <div className="grid gap-2">
+                                <Label htmlFor="username">{t('UserNameLabel')}</Label>
+                                <Input
+                                    id="username"
+                                    name="username"
+                                    className="mt-1 block w-full"
+                                    value={data.username}
+                                    onChange={handleChange}
+                                    required
+                                    autoComplete="username"
+                                    placeholder={t('UserNamePlaceholder')}
+                                />
+                                {state?.errors?.username && <InputError message={t(state.errors.username[0])} />}
+                            </div>
 
-                    <div className="grid gap-2">
-                        <Label htmlFor="email">{t('EmailLabel')}</Label>
-                        <Input
-                            id="email"
-                            name="email"
-                            type="email"
-                            className="mt-1 block w-full"
-                            value={data.email ?? ""}
-                            onChange={handleChange}
-                            required
-                            autoComplete="email"
-                            placeholder={t('EmailPlaceholder')}
-                        />
-                        {state?.errors?.email && <InputError message={t(state.errors.email[0])} />}
-                    </div>
+                            <div className="grid gap-2">
+                                <Label htmlFor="email">{t('EmailLabel')}</Label>
+                                <Input
+                                    id="email"
+                                    name="email"
+                                    type="email"
+                                    className="mt-1 block w-full"
+                                    value={data.email ?? ""}
+                                    onChange={handleChange}
+                                    required
+                                    autoComplete="email"
+                                    placeholder={t('EmailPlaceholder')}
+                                />
+                                {state?.errors?.email && <InputError message={t(state.errors.email[0])} />}
+                            </div>
 
-                    {mustVerifyEmail && (
-                        <div>
-                            <p className="text-muted-foreground -mt-4 text-sm">
-                                {t('TextParagrafPrimary')}&nbsp;&nbsp;
-                                <button
-                                    type="button"
-                                    onClick={handleVerifildEmail}
-                                    className="text-foreground underline decoration-neutral-300 cursor-pointer underline-offset-4 transition-colors duration-300 ease-out hover:decoration-current! dark:decoration-neutral-500"
-                                >
-                                    {t('Submit')}
-                                </button>
-                            </p>
+                            {mustVerifyEmail && (
+                                <div>
+                                    <p className="text-muted-foreground -mt-4 text-sm">
+                                        {t('TextParagrafPrimary')}&nbsp;&nbsp;
+                                        <button
+                                            type="button"
+                                            onClick={handleVerifildEmail}
+                                            className="text-foreground underline decoration-neutral-300 cursor-pointer underline-offset-4 transition-colors duration-300 ease-out hover:decoration-current! dark:decoration-neutral-500"
+                                        >
+                                            {t('Submit')}
+                                        </button>
+                                    </p>
 
-                            {status === 'verification-link-sent' && (
-                                <div className="mt-2 text-sm font-medium text-green-600">
-                                    {t('TextParagrafSecond')}
+                                    {status === 'verification-link-sent' && (
+                                        <div className="mt-2 text-sm font-medium text-green-600">
+                                            {t('TextParagrafSecond')}
+                                        </div>
+                                    )}
                                 </div>
                             )}
                         </div>
-                    )}
+
+                        <div className="grid gap-2 text-center">
+                            <Label htmlFor="file">{t('ProfilePictureLabel')}</Label>
+                            <div className="flex flex-col items-center gap-3">
+                                <div className="relative size-40 rounded-full overflow-hidden border border-gray-300">
+                                    {imagePreview ? (
+                                        <Image
+                                            src={imagePreview}
+                                            alt={t('ImageAlt')}
+                                            width={512}
+                                            height={512}
+                                            className="object-cover w-full h-full"
+                                        />
+                                    ) : (
+                                        <div className="w-full h-full flex items-center justify-center text-sm text-gray-400 bg-gray-50">
+                                            {t('NoImage')}
+                                        </div>
+                                    )}
+                                </div>
+
+                                <Label
+                                    htmlFor="file"
+                                    title={imageError ? t('TitleSelectImageError') : t('TitleSelectImage')}
+                                    className="cursor-pointer px-3 py-1 text-sm border rounded-md hover:bg-gray-50"
+                                >
+                                    {t('ImageLabel')}
+                                </Label>
+                                <Input
+                                    id="file"
+                                    name="file"
+                                    type="file"
+                                    tabIndex={1}
+                                    accept="image/jpeg, image/png, image/webp"
+                                    onChange={onImageChange}
+                                    disabled={pending}
+                                    className="hidden"
+                                />
+                                {imageError && (
+                                    <InputError
+                                        message={
+                                            imageError === 'DimensionImage'
+                                                ? t(imageError, {
+                                                    width: imageMeta?.width ?? 0,
+                                                    height: imageMeta?.height ?? 0,
+                                                })
+                                                : t(imageError)
+                                        }
+                                    />
+                                )}
+                                {state?.errors?.image?.[0] && (
+                                    <InputError
+                                        message={
+                                            state.errors.image[0] === 'DimensionImage'
+                                                ? t(state.errors.image[0], {
+                                                    width: state.meta?.width ?? 0,
+                                                    height: state.meta?.height ?? 0,
+                                                })
+                                                : t(state.errors.image[0])
+                                        }
+                                    />
+                                )}
+                            </div>
+                        </div>
+                    </div>
 
                     <div className="flex items-center gap-4">
-                        <Button disabled={pending}>{t('ButtonSave')}</Button>
+                        <Button disabled={pending || Boolean(imageError)}>{t('ButtonSave')}</Button>
 
                         <Transition
                             show={recentlySuccessful}

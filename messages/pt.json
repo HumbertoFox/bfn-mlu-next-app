@@ -21,6 +21,12 @@
         "TitleAdmin": "Criar uma conta de Administrador(a)",
         "TitleUser": "Criar uma conta de Usuário",
         "Description": "Insira seus dados abaixo para criar sua conta",
+        "ProfilePictureLabel": "Foto de perfil (opcional)",
+        "ImageAlt": "Pré-visualização da imagem de perfil",
+        "NoImage": "Sem imagem",
+        "ImageLabel": "Selecionar imagem",
+        "TitleSelectImageError": "Click em Selecionar imagem e em Cancelar",
+        "TitleSelectImage": "Selecionar imagem de perfil",
         "NameLabel": "Nome",
         "NamePlaceholder": "Nome completo",
         "CpfLabel": "CPF",
@@ -48,6 +54,10 @@
         "Warning": "Algo deu errado. Tente novamente mais tarde.",
         "WarningUserExisting": "Dados já Cadastrados",
         "RegisterSuccess": "Conta criada com Sucesso! Redirecionando para o Painel, aguarde...",
+        "TypeImage": "Apenas JPEG, PNG ou WebP são permitidas.",
+        "SizeImage": "A imagem não pode ultrapassar 512 KB.",
+        "DimensionImage": "A imagem não pode exceder 512x512px (atual: {width}x{height})",
+        "UplodeImageError": "Falha ao ler a imagem.",
         "ErrorsZod": {
             "NameRequired": "Nome é obrigatório",
             "CpfRequired": "O CPF deve ter 11 números.",
@@ -304,6 +314,12 @@
         }
     },
     "RegisterUserForm": {
+        "ProfilePictureLabel": "Foto de perfil (opcional)",
+        "ImageAlt": "Pré-visualização da imagem de perfil",
+        "NoImage": "Sem imagem",
+        "ImageLabel": "Selecionar imagem",
+        "TitleSelectImageError": "Click em Selecionar imagem e em Cancelar",
+        "TitleSelectImage": "Selecionar imagem de perfil",
         "IdLabel": "Cód.",
         "IdPlaceholder": "Cód.",
         "NameLabel": "Nome",
@@ -328,6 +344,10 @@
         "RolePlaceholder": "Tipo de conta",
         "RoleItemUser": "usuário",
         "RoleItemAdmin": "Administrador",
+        "TypeImage": "Apenas JPEG, PNG ou WebP são permitidas.",
+        "SizeImage": "A imagem não pode ultrapassar 512 KB.",
+        "DimensionImage": "A imagem não pode exceder 512x512px (atual: {width}x{height})",
+        "UplodeImageError": "Falha ao ler a imagem.",
         "ErrorsZod": {
             "EmailInvalid": "Endereço de e-mail inválido",
             "EmailAlreadyUse": "Este e-mail já está em uso",
@@ -377,6 +397,16 @@
         "TextParagrafPrimary": "Seu endereço de e-mail não foi verificado.",
         "Submit": "Clique aqui para reenviar o e-mail de verificação.",
         "TextParagrafSecond": "Um novo link de verificação foi enviado para seu endereço de e-mail.",
+        "ProfilePictureLabel": "Foto de perfil (opcional)",
+        "ImageAlt": "Pré-visualização da imagem de perfil",
+        "NoImage": "Sem imagem",
+        "ImageLabel": "Selecionar imagem",
+        "TitleSelectImageError": "Click em Selecionar imagem e em Cancelar",
+        "TitleSelectImage": "Selecionar imagem de perfil",
+        "TypeImage": "Apenas JPEG, PNG ou WebP são permitidas.",
+        "SizeImage": "A imagem não pode ultrapassar 512 KB.",
+        "DimensionImage": "A imagem não pode exceder 512x512px (atual: {width}x{height})",
+        "UplodeImageError": "Falha ao ler a imagem.",
         "ButtonSave": "Salvar",
         "Saved": "Salvo",
         "ErrorsZod": {
@@ -452,6 +482,9 @@
     "PriceData": {
         "ErrorfetchingData": "A resposta da API não contém dados de preços válidos",
         "ErrorTryCatch": "Erro ao buscar os dados do Bitcoin:"
+    },
+    "AppLogo": {
+        "NameMlu": "Menor Lance Único"
     },
     "NotFound": {
         "TextTitle": "Página não encontrada",
